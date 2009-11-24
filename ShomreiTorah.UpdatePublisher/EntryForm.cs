@@ -18,7 +18,7 @@ using System.Globalization;
 namespace ShomreiTorah.UpdatePublisher {
 	partial class EntryForm : XtraForm {
 		const string DefaultDescription = @"This update provides the following features:
-  • TBA
+  â€¢ TBA
 ";
 		public static XElement Show(string baseDir) {
 			var product = Directory.GetFiles(baseDir, "*.exe")
@@ -44,7 +44,7 @@ namespace ShomreiTorah.UpdatePublisher {
 				} catch (TargetInvocationException) { }
 
 				using (var form = new EntryForm()) {
-					if (oldUpdate == null) {
+					if (oldUpdate == null || String.IsNullOrEmpty(oldFilesPath)) {
 						form.ClientSize = new Size(form.splitContainerControl1.Panel2.Width, form.ClientSize.Height);
 						form.splitContainerControl1.PanelVisibility = SplitPanelVisibility.Panel2;
 					} else {
@@ -57,7 +57,7 @@ namespace ShomreiTorah.UpdatePublisher {
 					return new XElement("Update",
 						new XAttribute("Name", product.ProductName),
 						new XAttribute("NewVersion", product.CurrentVersion.ToString()),
-						new XAttribute("PublishDate", DateTime.Today.ToString("D", CultureInfo.InvariantCulture)),
+						new XAttribute("PublishDate", DateTime.Now.ToString("F", CultureInfo.InvariantCulture)),
 						new XElement("Description", form.newUpdate.Description)
 					);
 				}
