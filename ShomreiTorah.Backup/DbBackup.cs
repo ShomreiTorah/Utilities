@@ -41,13 +41,11 @@ namespace ShomreiTorah.Backup {
 						dataSet.WriteXml(stream, XmlWriteMode.WriteSchema);
 					}
 				}
-				var duplicates = Directory.GetFiles(Path.GetDirectoryName(backupPath))
-										  .Except(new[] { backupPath })
-										  .OrderByDescending<string, DateTime>(File.GetLastWriteTimeUtc)
-										  .Where(p => Program.AreEqual(backupPath, p));
-				foreach (var dup in duplicates) {
-					File.Delete(dup);
-				}
+
+				if (Directory.GetFiles(Path.GetDirectoryName(backupPath))
+										   .Except(new[] { backupPath })
+										   .Any(p => Program.AreEqual(backupPath, p)))
+					File.Delete(backupPath);
 			}
 		}
 	}
