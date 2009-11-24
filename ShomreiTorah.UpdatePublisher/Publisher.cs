@@ -50,6 +50,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			using (var encryptingStream = new CryptoStream(hashingStream, transform, CryptoStreamMode.Write))
 			using (var zipper = new GZipStream(encryptingStream, CompressionMode.Compress)) {
 				UpdateStreamer.WriteArchive(zipper, basePath, ui);
+				zipper.Flush();
 				encryptingStream.FlushFinalBlock();
 
 				updateHash = hasher.Hash;
