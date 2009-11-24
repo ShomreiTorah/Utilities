@@ -30,9 +30,10 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.files = new DevExpress.XtraTreeList.TreeList();
 			this.colName = new DevExpress.XtraTreeList.Columns.TreeListColumn();
 			this.colSize = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+			this.colExt = new DevExpress.XtraTreeList.Columns.TreeListColumn();
 			this.icons = new DevExpress.Utils.ImageCollection(this.components);
 			this.caption = new DevExpress.XtraEditors.LabelControl();
-			this.colExt = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+			this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
 			((System.ComponentModel.ISupportInitialize)(this.descriptionText.Properties)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.files)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.icons)).BeginInit();
@@ -65,10 +66,16 @@ namespace ShomreiTorah.UpdatePublisher {
             this.colSize,
             this.colExt});
 			this.files.KeyFieldName = "FullPath";
-			this.files.Location = new System.Drawing.Point(12, 159);
+			this.files.Location = new System.Drawing.Point(12, 179);
 			this.files.Name = "files";
+			this.files.OptionsBehavior.Editable = false;
+			this.files.OptionsBehavior.ResizeNodes = false;
+			this.files.OptionsView.ShowColumns = false;
+			this.files.OptionsView.ShowHorzLines = false;
+			this.files.OptionsView.ShowIndicator = false;
+			this.files.OptionsView.ShowVertLines = false;
 			this.files.ParentFieldName = "ParentDirectory";
-			this.files.Size = new System.Drawing.Size(262, 378);
+			this.files.Size = new System.Drawing.Size(262, 358);
 			this.files.StateImageList = this.icons;
 			this.files.TabIndex = 6;
 			this.files.GetStateImage += new DevExpress.XtraTreeList.GetStateImageEventHandler(this.files_GetStateImage);
@@ -80,6 +87,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.colName.FieldName = "Name";
 			this.colName.Name = "colName";
 			this.colName.OptionsColumn.AllowEdit = false;
+			this.colName.OptionsColumn.AllowFocus = false;
 			this.colName.OptionsColumn.ReadOnly = true;
 			this.colName.Visible = true;
 			this.colName.VisibleIndex = 0;
@@ -89,12 +97,24 @@ namespace ShomreiTorah.UpdatePublisher {
 			// 
 			this.colSize.Caption = "Size";
 			this.colSize.FieldName = "Size";
+			this.colSize.MinWidth = 65;
 			this.colSize.Name = "colSize";
 			this.colSize.OptionsColumn.AllowEdit = false;
+			this.colSize.OptionsColumn.AllowFocus = false;
 			this.colSize.OptionsColumn.ReadOnly = true;
 			this.colSize.Visible = true;
 			this.colSize.VisibleIndex = 1;
 			this.colSize.Width = 67;
+			// 
+			// colExt
+			// 
+			this.colExt.Caption = "Extension";
+			this.colExt.FieldName = "Extension";
+			this.colExt.Name = "colExt";
+			this.colExt.OptionsColumn.AllowEdit = false;
+			this.colExt.OptionsColumn.AllowFocus = false;
+			this.colExt.OptionsColumn.ReadOnly = true;
+			this.colExt.SortOrder = System.Windows.Forms.SortOrder.Ascending;
 			// 
 			// icons
 			// 
@@ -117,17 +137,19 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.caption.TabIndex = 5;
 			this.caption.Text = "labelControl1";
 			// 
-			// colExt
+			// labelControl2
 			// 
-			this.colExt.Caption = "Extension";
-			this.colExt.FieldName = "Extension";
-			this.colExt.Name = "colExt";
-			this.colExt.SortOrder = System.Windows.Forms.SortOrder.Ascending;
+			this.labelControl2.Location = new System.Drawing.Point(12, 160);
+			this.labelControl2.Name = "labelControl2";
+			this.labelControl2.Size = new System.Drawing.Size(25, 13);
+			this.labelControl2.TabIndex = 9;
+			this.labelControl2.Text = "Files:";
 			// 
 			// UpdateDetails
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.labelControl2);
 			this.Controls.Add(this.descriptionText);
 			this.Controls.Add(this.labelControl1);
 			this.Controls.Add(this.files);
@@ -152,5 +174,6 @@ namespace ShomreiTorah.UpdatePublisher {
 		private DevExpress.XtraTreeList.Columns.TreeListColumn colName;
 		private DevExpress.XtraTreeList.Columns.TreeListColumn colSize;
 		private DevExpress.XtraTreeList.Columns.TreeListColumn colExt;
+		private DevExpress.XtraEditors.LabelControl labelControl2;
 	}
 }
