@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using System.ComponentModel;
+using System.IO;
 
 namespace ShomreiTorah.UpdatePublisher {
 	/// <summary>
@@ -32,45 +33,13 @@ namespace ShomreiTorah.UpdatePublisher {
 
 
 			NativeMethods.SHGetFileInfo(name,
-				NativeMethods.FILE_ATTRIBUTE_NORMAL,
+				Directory.Exists(name) ? NativeMethods.FILE_ATTRIBUTE_DIRECTORY : NativeMethods.FILE_ATTRIBUTE_NORMAL,
 				ref shfi,
 				(uint)Marshal.SizeOf(shfi),
 				flags);
 
 			// Copy (clone) the returned icon to a new object, thus allowing us to clean-up properly
 			Icon icon = (Icon)Icon.FromHandle(shfi.hIcon).Clone();
-			if (NativeMethods.DestroyIcon(shfi.hIcon) == 0)		// Cleanup
-				throw new Win32Exception();
-			return icon;
-		}
-
-		/// <summary>
-		/// Used to access system folder icons.
-		/// </summary>
-		/// <param name="size">Specify large or small icons.</param>
-		/// <param name="folderType">Specify open or closed FolderType.</param>
-		/// <returns>System.Drawing.Icon</returns>
-		public static Icon GetFolderIcon(IconSize size, FolderType folderType) {
-			// Need to add size check, although errors generated at present!
-			uint flags = NativeMethods.SHGFI_ICON | NativeMethods.SHGFI_USEFILEATTRIBUTES;
-
-			if (folderType == FolderType.Open)
-				flags += NativeMethods.SHGFI_OPENICON;
-
-			flags += size == IconSize.Small ? NativeMethods.SHGFI_SMALLICON : NativeMethods.SHGFI_LARGEICON;
-
-			// Get the folder icon
-			NativeMethods.SHFILEINFO shfi = new NativeMethods.SHFILEINFO();
-			NativeMethods.SHGetFileInfo(null,
-				NativeMethods.FILE_ATTRIBUTE_DIRECTORY,
-				ref shfi,
-				(uint)System.Runtime.InteropServices.Marshal.SizeOf(shfi),
-				flags);
-
-
-			// Now clone the icon, so that it can be successfully stored in an ImageList
-			var icon =  (Icon)Icon.FromHandle(shfi.hIcon).Clone();
-
 			if (NativeMethods.DestroyIcon(shfi.hIcon) == 0)		// Cleanup
 				throw new Win32Exception();
 			return icon;
