@@ -56,9 +56,9 @@ namespace ShomreiTorah.UpdatePublisher {
 						return null;
 					return new XElement("Update",
 						new XAttribute("Name", product.ProductName),
-						new XAttribute("Version", product.CurrentVersion.ToString()),
+						new XAttribute("NewVersion", product.CurrentVersion.ToString()),
 						new XAttribute("PublishDate", DateTime.Today.ToString("D", CultureInfo.InvariantCulture)),
-						new XAttribute("Description", form.newUpdate.Description)
+						new XElement("Description", form.newUpdate.Description)
 					);
 				}
 			} finally {
