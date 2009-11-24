@@ -66,6 +66,7 @@
       <DependentUpon>EntryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="IconReader.cs" />
+    <Compile Include="PrivateKey.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EntryForm.resx">

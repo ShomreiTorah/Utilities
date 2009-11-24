@@ -9,6 +9,8 @@ using ShomreiTorah.Common.Updates;
 using System.Net;
 using ShomreiTorah.WinForms.Forms;
 using DevExpress.XtraEditors;
+using System.Xml.Linq;
+using System.IO;
 
 namespace ShomreiTorah.UpdatePublisher {
 	static class Program {
@@ -35,11 +37,13 @@ namespace ShomreiTorah.UpdatePublisher {
 			var element = EntryForm.Show(baseDir);
 			if (element == null) return;
 			if (ProgressWorker.Execute(ui => {
-				var encryptor = new RijndaelManaged { BlockSize = 256, KeySize = 256 };
+				var encryptor = new RijndaelManaged { BlockSize = UpdateChecker.UpdateBlockSize, KeySize = UpdateChecker.UpdateKeySize };
 				byte[] hash;
 
 				var fullUri = new Uri(UpdateChecker.BaseUri, new Uri(element.Attribute("Name").Value + ".Update", UriKind.Relative));
-				var ftpRequest = FtpClient.Default.CreateRequest(new Uri(UpdateChecker.BaseUri.GetLeftPart(UriPartial.Authority), UriKind.Absolute).MakeRelativeUri(fullUri));
+				var relativeUri = new Uri(UpdateChecker.BaseUri.GetLeftPart(UriPartial.Authority), UriKind.Absolute).MakeRelativeUri(fullUri);
+
+				var ftpRequest = FtpClient.Default.CreateRequest(relativeUri);
 				ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
 				if (ui.WasCanceled) return;
 
@@ -62,7 +66,32 @@ namespace ShomreiTorah.UpdatePublisher {
 				ui.Maximum = -1;
 				ftpRequest.GetResponse().Close();
 
-				//TODO: Blob
+				ui.Caption = "Encrypting blob...";
+				byte[] signature;
+				using (var rsa = PrivateKey.CreateRSA())
+					signature = rsa.SignHash(hash, CryptoConfig.MapNameToOID("SHA512"));
+
+				var key = encryptor.Key;
+				var iv = encryptor.IV;
+				byte[] blob = new byte[key.Length + iv.Length + signature.Length];
+
+				Buffer.BlockCopy(key, 0, blob, 0, key.Length);
+				Buffer.BlockCopy(iv, 0, blob, key.Length, iv.Length);
+				Buffer.BlockCopy(signature, 0, blob, key.Length + iv.Length, signature.Length);
+
+				element.Add(new XElement("Blob", Convert.ToBase64String(UpdateChecker.CreateBlobEncryptor().TransformBytes(blob))));
+
+				ui.Caption = "Uploading XML...";
+				fullUri = new Uri(UpdateChecker.BaseUri, new Uri(element.Attribute("Name").Value + ".xml", UriKind.Relative));
+				relativeUri = new Uri(UpdateChecker.BaseUri.GetLeftPart(UriPartial.Authority), UriKind.Absolute).MakeRelativeUri(fullUri);
+
+				using (var stream = new MemoryStream())
+				using (var writer = new StreamWriter(stream)) {
+					element.Save(writer);
+					writer.Flush();
+					stream.Position = 0;
+					FtpClient.Default.UploadFile(relativeUri, stream, ui);
+				}
 			}, true))
 				XtraMessageBox.Show("The update has been uploaded to the server.",
 									"Shomrei Torah Update Publisher", MessageBoxButtons.OK, MessageBoxIcon.Information);
