@@ -47,10 +47,10 @@ namespace ShomreiTorah.UpdatePublisher {
 
 			using (var requestStream = ftpRequest.GetRequestStream())
 			using (var hashingStream = new CryptoStream(requestStream, hasher, CryptoStreamMode.Write))
-			using (var encryptingStream = new CryptoStream(hashingStream, transform, CryptoStreamMode.Write))
-			using (var zipper = new GZipStream(encryptingStream, CompressionMode.Compress)) {
-				UpdateStreamer.WriteArchive(zipper, basePath, ui);
-				zipper.Flush();
+			using (var encryptingStream = new CryptoStream(hashingStream, transform, CryptoStreamMode.Write)) {
+				using (var zipper = new GZipStream(encryptingStream, CompressionMode.Compress, true)) {
+					UpdateStreamer.WriteArchive(zipper, basePath, ui);
+				} //Close the GZipStream now, forcing it to write the end of the data.
 				encryptingStream.FlushFinalBlock();
 
 				updateHash = hasher.Hash;
