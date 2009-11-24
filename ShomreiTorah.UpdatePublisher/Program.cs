@@ -52,10 +52,10 @@ namespace ShomreiTorah.UpdatePublisher {
 				using (var hasher = new SHA512CryptoServiceProvider())
 
 				using (var requestStream = ftpRequest.GetRequestStream())
-				using (var zipper = new GZipStream(requestStream, CompressionMode.Compress))
-				using (var hashingStream = new CryptoStream(zipper, hasher, CryptoStreamMode.Write))
-				using (var encryptingStream = new CryptoStream(hashingStream, transform, CryptoStreamMode.Write)) {
-					UpdateStreamer.WriteArchive(encryptingStream, baseDir, ui);
+				using (var hashingStream = new CryptoStream(requestStream, hasher, CryptoStreamMode.Write))
+				using (var encryptingStream = new CryptoStream(hashingStream, transform, CryptoStreamMode.Write))
+				using (var zipper = new GZipStream(encryptingStream, CompressionMode.Compress)) {
+					UpdateStreamer.WriteArchive(zipper, baseDir, ui);
 					encryptingStream.FlushFinalBlock();
 
 					hash = hasher.Hash;
