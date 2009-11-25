@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ShomreiTorah.Backup")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Performs scheduled backups")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Congregation Shomrei Torah")]
 [assembly: AssemblyProduct("ShomreiTorah.Backup")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2009")]
+[assembly: AssemblyCopyright("Copyright © Congregation Shomrei Torah 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

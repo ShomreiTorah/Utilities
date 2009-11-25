@@ -7,11 +7,11 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ShomreiTorah.UpdatePublisher")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Publishes updates to the web server")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Congregation Shomrei Torah")]
 [assembly: AssemblyProduct("ShomreiTorah.UpdatePublisher")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2009")]
+[assembly: AssemblyCopyright("Copyright © Congregation Shomrei Torah 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
