@@ -34,13 +34,12 @@ namespace ShomreiTorah.UpdatePublisher {
 			string oldFilesPath = null;
 			try {
 				try {
-					if (!ProgressWorker.Execute(ui => {
+					ProgressWorker.Execute(ui => {
 						ui.Caption = "Searching for existing updates...";
 						oldUpdate = new UpdateChecker(product.ProductName, new Version()).FindUpdate();	//We want to find the last update, so I search for an update for version 0.
 						if (ui.WasCanceled || oldUpdate == null) return;
 						oldFilesPath = oldUpdate.ExtractFiles(ui);
-					}, true))
-						return null;
+					}, true);
 				} catch (TargetInvocationException) { }
 
 				using (var form = new EntryForm()) {
