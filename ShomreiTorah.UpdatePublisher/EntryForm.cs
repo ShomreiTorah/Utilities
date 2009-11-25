@@ -52,6 +52,8 @@ namespace ShomreiTorah.UpdatePublisher {
 					}
 					form.newUpdate.SetData(UpdateKind.New, product.CurrentVersion, DefaultDescription, baseDir);
 
+					form.Text = "Update " + product.ProductName;
+
 					if (form.ShowDialog() == DialogResult.Cancel)
 						return null;
 					return new XElement("Update",

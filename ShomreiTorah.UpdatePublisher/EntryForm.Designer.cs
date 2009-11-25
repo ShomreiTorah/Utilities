@@ -23,12 +23,13 @@ namespace ShomreiTorah.UpdatePublisher {
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntryForm));
 			this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
-			this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-			this.cancel = new DevExpress.XtraEditors.SimpleButton();
-			this.ok = new DevExpress.XtraEditors.SimpleButton();
 			this.oldUpdate = new ShomreiTorah.UpdatePublisher.UpdateDetails();
 			this.newUpdate = new ShomreiTorah.UpdatePublisher.UpdateDetails();
+			this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+			this.ok = new DevExpress.XtraEditors.SimpleButton();
+			this.cancel = new DevExpress.XtraEditors.SimpleButton();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).BeginInit();
 			this.splitContainerControl1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -51,37 +52,6 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.splitContainerControl1.TabIndex = 0;
 			this.splitContainerControl1.Text = "splitContainerControl1";
 			// 
-			// panelControl1
-			// 
-			this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-			this.panelControl1.Controls.Add(this.ok);
-			this.panelControl1.Controls.Add(this.cancel);
-			this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panelControl1.Location = new System.Drawing.Point(0, 511);
-			this.panelControl1.Name = "panelControl1";
-			this.panelControl1.Size = new System.Drawing.Size(333, 40);
-			this.panelControl1.TabIndex = 0;
-			// 
-			// cancel
-			// 
-			this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancel.Location = new System.Drawing.Point(246, 5);
-			this.cancel.Name = "cancel";
-			this.cancel.Size = new System.Drawing.Size(75, 23);
-			this.cancel.TabIndex = 0;
-			this.cancel.Text = "Quit";
-			// 
-			// ok
-			// 
-			this.ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ok.Location = new System.Drawing.Point(152, 5);
-			this.ok.Name = "ok";
-			this.ok.Size = new System.Drawing.Size(88, 23);
-			this.ok.TabIndex = 1;
-			this.ok.Text = "Publish Update";
-			this.ok.Click += new System.EventHandler(this.ok_Click);
-			// 
 			// oldUpdate
 			// 
 			this.oldUpdate.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -98,6 +68,37 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.newUpdate.Size = new System.Drawing.Size(333, 511);
 			this.newUpdate.TabIndex = 1;
 			// 
+			// panelControl1
+			// 
+			this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+			this.panelControl1.Controls.Add(this.ok);
+			this.panelControl1.Controls.Add(this.cancel);
+			this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.panelControl1.Location = new System.Drawing.Point(0, 511);
+			this.panelControl1.Name = "panelControl1";
+			this.panelControl1.Size = new System.Drawing.Size(333, 40);
+			this.panelControl1.TabIndex = 0;
+			// 
+			// ok
+			// 
+			this.ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ok.Location = new System.Drawing.Point(152, 5);
+			this.ok.Name = "ok";
+			this.ok.Size = new System.Drawing.Size(88, 23);
+			this.ok.TabIndex = 1;
+			this.ok.Text = "Publish Update";
+			this.ok.Click += new System.EventHandler(this.ok_Click);
+			// 
+			// cancel
+			// 
+			this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.cancel.Location = new System.Drawing.Point(246, 5);
+			this.cancel.Name = "cancel";
+			this.cancel.Size = new System.Drawing.Size(75, 23);
+			this.cancel.TabIndex = 0;
+			this.cancel.Text = "Quit";
+			// 
 			// EntryForm
 			// 
 			this.AcceptButton = this.ok;
@@ -106,6 +107,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.CancelButton = this.cancel;
 			this.ClientSize = new System.Drawing.Size(674, 551);
 			this.Controls.Add(this.splitContainerControl1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "EntryForm";
 			this.Text = "MainForm";
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).EndInit();
