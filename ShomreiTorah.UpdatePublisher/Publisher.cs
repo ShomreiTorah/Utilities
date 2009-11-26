@@ -43,7 +43,7 @@ namespace ShomreiTorah.UpdatePublisher {
 
 			ui.Caption = "Connecting...";
 			using (var transform = updateAlg.CreateEncryptor())
-			using (var hasher = new SHA512CryptoServiceProvider())
+			using (var hasher = new SHA512Managed())
 
 			using (var requestStream = ftpRequest.GetRequestStream())
 			using (var hashingStream = new CryptoStream(requestStream, hasher, CryptoStreamMode.Write))
