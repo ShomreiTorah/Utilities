@@ -47,6 +47,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.descriptionText.Name = "descriptionText";
 			this.descriptionText.Size = new System.Drawing.Size(262, 96);
 			this.descriptionText.TabIndex = 8;
+			this.descriptionText.KeyUp += new System.Windows.Forms.KeyEventHandler(this.descriptionText_KeyUp);
 			// 
 			// labelControl1
 			// 

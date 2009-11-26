@@ -86,6 +86,11 @@ namespace ShomreiTorah.UpdatePublisher {
 			if (e.Column == colSize)
 				e.Value = (files.GetDataRecordByNode(e.Node) as UpdateFile).SizeString;
 		}
+
+		private void descriptionText_KeyUp(object sender, KeyEventArgs e) {
+			if (!descriptionText.Properties.ReadOnly && e.KeyData == (Keys.Enter | Keys.Control))
+				SendKeys.Send("  • ");
+		}
 	}
 	enum UpdateKind {
 		Old, New
