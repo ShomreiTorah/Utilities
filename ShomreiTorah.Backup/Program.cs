@@ -33,23 +33,7 @@ namespace ShomreiTorah.Backup {
 		public static bool AreEqual(string first, string second) {
 			using (var stream1 = File.Open(first, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 			using (var stream2 = File.Open(second, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
-				return AreEqual(stream1, stream2);
-			}
-		}
-		public static bool AreEqual(Stream first, Stream second) {
-			try {
-				if (first.Length != second.Length) return false;
-			} catch (NotSupportedException) { }
-
-			byte[] buffer1 = new byte[4096];
-			byte[] buffer2 = new byte[4096];
-			while (true) {
-				int bytesRead = first.ReadFill(buffer1);
-				if (second.ReadFill(buffer2) != bytesRead) return false;	//Stream lengths are unequal.
-
-				if (!buffer1.SequenceEqual(buffer2)) return false;
-
-				if (bytesRead == 0) return true;
+				return stream1.IsEqualTo(stream2);
 			}
 		}
 	}
