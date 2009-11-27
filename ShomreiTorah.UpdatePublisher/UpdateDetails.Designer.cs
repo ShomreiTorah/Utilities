@@ -24,7 +24,11 @@ namespace ShomreiTorah.UpdatePublisher {
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
+			DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition styleFormatCondition1 = new DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition();
+			DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition styleFormatCondition2 = new DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition();
+			DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition styleFormatCondition3 = new DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateDetails));
+			this.colState = new DevExpress.XtraTreeList.Columns.TreeListColumn();
 			this.descriptionText = new DevExpress.XtraEditors.MemoEdit();
 			this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
 			this.files = new DevExpress.XtraTreeList.TreeList();
@@ -38,6 +42,15 @@ namespace ShomreiTorah.UpdatePublisher {
 			((System.ComponentModel.ISupportInitialize)(this.files)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.icons)).BeginInit();
 			this.SuspendLayout();
+			// 
+			// colState
+			// 
+			this.colState.Caption = "State";
+			this.colState.FieldName = "State";
+			this.colState.Name = "colState";
+			this.colState.OptionsColumn.AllowEdit = false;
+			this.colState.OptionsColumn.AllowFocus = false;
+			this.colState.OptionsColumn.ShowInCustomizationForm = false;
 			// 
 			// descriptionText
 			// 
@@ -65,12 +78,37 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.files.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
             this.colName,
             this.colSize,
-            this.colExt});
+            this.colExt,
+            this.colState});
+			styleFormatCondition1.Appearance.BackColor = System.Drawing.Color.Lime;
+			styleFormatCondition1.Appearance.Options.UseBackColor = true;
+			styleFormatCondition1.ApplyToRow = true;
+			styleFormatCondition1.Column = this.colState;
+			styleFormatCondition1.Condition = DevExpress.XtraGrid.FormatConditionEnum.Equal;
+			styleFormatCondition1.Value1 = 1;
+			styleFormatCondition2.Appearance.BackColor = System.Drawing.Color.Yellow;
+			styleFormatCondition2.Appearance.Options.UseBackColor = true;
+			styleFormatCondition2.ApplyToRow = true;
+			styleFormatCondition2.Column = this.colState;
+			styleFormatCondition2.Condition = DevExpress.XtraGrid.FormatConditionEnum.Equal;
+			styleFormatCondition2.Value1 = 2;
+			styleFormatCondition3.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			styleFormatCondition3.Appearance.Options.UseBackColor = true;
+			styleFormatCondition3.ApplyToRow = true;
+			styleFormatCondition3.Column = this.colState;
+			styleFormatCondition3.Condition = DevExpress.XtraGrid.FormatConditionEnum.Equal;
+			styleFormatCondition3.Value1 = 3;
+			this.files.FormatConditions.AddRange(new DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition[] {
+            styleFormatCondition1,
+            styleFormatCondition2,
+            styleFormatCondition3});
 			this.files.KeyFieldName = "FullPath";
 			this.files.Location = new System.Drawing.Point(12, 179);
 			this.files.Name = "files";
 			this.files.OptionsBehavior.Editable = false;
 			this.files.OptionsBehavior.ResizeNodes = false;
+			this.files.OptionsSelection.EnableAppearanceFocusedCell = false;
+			this.files.OptionsSelection.EnableAppearanceFocusedRow = false;
 			this.files.OptionsView.ShowColumns = false;
 			this.files.OptionsView.ShowHorzLines = false;
 			this.files.OptionsView.ShowIndicator = false;
@@ -115,6 +153,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.colExt.OptionsColumn.AllowEdit = false;
 			this.colExt.OptionsColumn.AllowFocus = false;
 			this.colExt.OptionsColumn.ReadOnly = true;
+			this.colExt.OptionsColumn.ShowInCustomizationForm = false;
 			this.colExt.SortOrder = System.Windows.Forms.SortOrder.Ascending;
 			// 
 			// icons
@@ -176,5 +215,6 @@ namespace ShomreiTorah.UpdatePublisher {
 		private DevExpress.XtraTreeList.Columns.TreeListColumn colSize;
 		private DevExpress.XtraTreeList.Columns.TreeListColumn colExt;
 		private DevExpress.XtraEditors.LabelControl labelControl2;
+		private DevExpress.XtraTreeList.Columns.TreeListColumn colState;
 	}
 }

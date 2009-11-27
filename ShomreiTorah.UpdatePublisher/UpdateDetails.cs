@@ -11,18 +11,39 @@ using System.Globalization;
 using System.IO;
 using DevExpress.XtraTreeList;
 using System.Diagnostics.CodeAnalysis;
+using ShomreiTorah.Common;
 
 namespace ShomreiTorah.UpdatePublisher {
 	partial class UpdateDetails : XtraUserControl {
 		public UpdateDetails() {
 			InitializeComponent();
 		}
-		public void SetData(UpdateKind kind, Version version, string description, string baseDir) {
+		public void SetData(UpdateKind kind, Version version, string description, string baseDir, string oldBaseDir) {
 			caption.Text = (kind == UpdateKind.Old ? "Existing version: " : "New version: ") + version.ToString();
 			descriptionText.Text = description;
 			descriptionText.Properties.ReadOnly = kind == UpdateKind.Old;
 
 			var filesData = new List<UpdateFile>(Directory.GetFiles(baseDir, "*.*", SearchOption.AllDirectories).Select(p => new UpdateFile(p)));
+
+			if (!string.IsNullOrEmpty(oldBaseDir)) {
+				if (!baseDir.EndsWith("/", StringComparison.OrdinalIgnoreCase))
+					baseDir += "/";
+				var baseUri = new Uri(baseDir, UriKind.Absolute);
+
+				foreach (var file in filesData) {
+					var relativePath = Uri.UnescapeDataString(baseUri.MakeRelativeUri(new Uri(file.FullPath, UriKind.Absolute)).ToString());
+
+					var oldPath = Path.Combine(oldBaseDir, relativePath);
+					if (!File.Exists(oldPath))
+						file.State = (int)FileState.Added;
+					else {
+						using (var newFile = File.Open(file.FullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+						using (var oldFile = File.OpenRead(oldPath))
+							file.State = (int)(newFile.IsEqualTo(oldFile) ? FileState.Identical : FileState.Changed);
+					}
+				}
+			}
+			//The directories must be added after setting the State properties
 			filesData.AddRange(Directory.GetDirectories(baseDir, "*.*", SearchOption.AllDirectories).Select(p => new UpdateFile(p)));
 
 			files.RootValue = baseDir;
@@ -48,9 +69,17 @@ namespace ShomreiTorah.UpdatePublisher {
 			[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Data Binding")]
 			public string Extension { get { return Path.GetExtension(FullPath); } }
 
+			public int State { get; set; }
+
 			public string FullPath { get; private set; }
 			public int Size { get; private set; }
 			public string SizeString { get { return Size == -1 ? "" : ToSizeString(Size); } }
+		}
+		enum FileState {
+			None,
+			Identical,
+			Changed,
+			Added
 		}
 		static string ToSizeString(double bytes) {
 			var culture = CultureInfo.CurrentUICulture;

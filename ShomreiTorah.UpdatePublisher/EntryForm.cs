@@ -47,9 +47,9 @@ namespace ShomreiTorah.UpdatePublisher {
 						form.ClientSize = new Size(form.splitContainerControl1.Panel2.Width, form.ClientSize.Height);
 						form.splitContainerControl1.PanelVisibility = SplitPanelVisibility.Panel2;
 					} else {
-						form.oldUpdate.SetData(UpdateKind.Old, oldUpdate.NewVersion, oldUpdate.Description, oldFilesPath);
+						form.oldUpdate.SetData(UpdateKind.Old, oldUpdate.NewVersion, oldUpdate.Description, oldFilesPath, null);
 					}
-					form.newUpdate.SetData(UpdateKind.New, product.CurrentVersion, DefaultDescription, baseDir);
+					form.newUpdate.SetData(UpdateKind.New, product.CurrentVersion, DefaultDescription, baseDir, oldFilesPath);
 
 					form.Text = "Update " + product.ProductName;
 
