@@ -48,6 +48,7 @@ namespace ShomreiTorah.UpdatePublisher {
 
 			files.RootValue = baseDir;
 			files.DataSource = filesData;
+			files.ExpandAll();
 		}
 		protected override void OnVisibleChanged(EventArgs e) {
 			base.OnVisibleChanged(e);
@@ -58,7 +59,7 @@ namespace ShomreiTorah.UpdatePublisher {
 
 		sealed class UpdateFile {
 			public UpdateFile(string path) {
-				FullPath = path;
+				FullPath = path.Replace('/', '\\');
 				Size = Directory.Exists(path) ? -1 : (int)new FileInfo(path).Length;
 			}
 
