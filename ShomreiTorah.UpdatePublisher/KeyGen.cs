@@ -18,7 +18,7 @@ namespace ShomreiTorah.UpdatePublisher {
 	partial class KeyGen : XtraForm {
 		public KeyGen() {
 			InitializeComponent();
-
+			ClientSize = settingsPanel.Size;
 			try {
 				LoadCurrentValues();
 			} catch (ConfigurationException) { }
@@ -45,8 +45,9 @@ namespace ShomreiTorah.UpdatePublisher {
 			GenerateCS(PrivateKey.CreateRSA());
 
 			cs.Height += xml.Bottom - cs.Bottom;
-			xml.Hide();
-			reencrypt.Enabled = newPair.Enabled = false;
+			xml.Hide(); xmlLabel.Hide();
+
+			settingsPanel.Hide();
 		}
 		private void newPair_Click(object sender, EventArgs e) {
 			var updateVerifier = new RSACryptoServiceProvider((int)rsaKeySize.Value);
@@ -55,7 +56,13 @@ namespace ShomreiTorah.UpdatePublisher {
 
 			GenerateCS(updateVerifier);
 			GenerateXml(updateVerifier, blobDecryptor);
-			reencrypt.Enabled = newPair.Enabled = false;
+			settingsPanel.Hide();
+		}
+
+		void OnGenerated() {
+			settingsPanel.Hide();
+			FormBorderStyle = FormBorderStyle.Sizable;
+			WindowState = FormWindowState.Maximized;
 		}
 		static readonly RNGCryptoServiceProvider cryptoRandom = new RNGCryptoServiceProvider();
 
@@ -106,7 +113,7 @@ namespace ShomreiTorah.UpdatePublisher {
 				)
 			);
 
-			var builder = new StringBuilder("\t");
+			var builder = new StringBuilder("\t", 1200);
 			using (var w = XmlWriter.Create(builder, new XmlWriterSettings {
 				IndentChars = "\t",
 				NewLineChars = "\r\n\t",
