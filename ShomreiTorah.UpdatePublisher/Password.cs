@@ -22,11 +22,11 @@ namespace ShomreiTorah.UpdatePublisher {
 		}
 
 		static string password;
-		public static bool ShowPrompt(Form parent) {
+		public static bool ShowPrompt() {
 			if (!String.IsNullOrEmpty(password)) return true;
 
 			using (var dialog = new Password()) {
-				if (dialog.ShowDialog(parent) == DialogResult.Cancel) return false;
+				if (dialog.ShowDialog() == DialogResult.Cancel) return false;
 				password = dialog.text.Text;
 			}
 			return true;
@@ -36,7 +36,7 @@ namespace ShomreiTorah.UpdatePublisher {
 		public static byte[] CreateKey(byte[] salt, int size) {
 			if (salt == null) throw new ArgumentNullException("salt");
 
-			if (!ShowPrompt(null)) return null;
+			if (!ShowPrompt()) return null;
 
 			var deriver = new Rfc2898DeriveBytes(password, salt);
 			return deriver.GetBytes(size);

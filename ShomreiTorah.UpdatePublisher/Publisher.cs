@@ -23,6 +23,8 @@ namespace ShomreiTorah.UpdatePublisher {
 		SymmetricAlgorithm updateAlg;
 		byte[] updateHash;
 		public bool Publish() {
+			if (!Password.ShowPrompt()) return false;
+
 			bool succeeded = false;
 			ProgressWorker.Execute(ui => {
 				updateAlg = new RijndaelManaged { BlockSize = UpdateChecker.UpdateBlockSize, KeySize = UpdateChecker.UpdateKeySize };

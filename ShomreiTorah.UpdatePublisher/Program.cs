@@ -23,7 +23,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			if (args.Length == 1 && args[0].Equals("KeyGen", StringComparison.InvariantCultureIgnoreCase)) {
-				if (Password.ShowPrompt(null))
+				if (Password.ShowPrompt())
 					Application.Run(new KeyGen());
 				return;
 			}
