@@ -70,6 +70,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Data Binding")]
 			public string Extension { get { return Path.GetExtension(FullPath); } }
 
+			[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Data Binding")]
 			public int State { get; set; }
 
 			public string FullPath { get; private set; }

@@ -18,9 +18,15 @@ namespace ShomreiTorah.UpdatePublisher {
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main() {
+		static void Main(string[] args) {
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			if (args.Length == 1 && args[0].Equals("KeyGen", StringComparison.InvariantCultureIgnoreCase)) {
+				if (Password.ShowPrompt(null))
+					Application.Run(new KeyGen());
+				return;
+			}
 
 			string baseDir = Properties.Settings.Default.LastBaseDir;
 			if (String.IsNullOrEmpty(baseDir)) baseDir = Environment.CurrentDirectory;

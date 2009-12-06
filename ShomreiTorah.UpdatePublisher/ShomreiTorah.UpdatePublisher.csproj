@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BCrypt.cs" />
     <Compile Include="EntryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,11 +68,29 @@
       <DependentUpon>EntryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="IconReader.cs" />
+    <Compile Include="KeyGen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KeyGen.Designer.cs">
+      <DependentUpon>KeyGen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Password.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Password.Designer.cs">
+      <DependentUpon>Password.cs</DependentUpon>
+    </Compile>
     <Compile Include="PrivateKey.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EntryForm.resx">
       <DependentUpon>EntryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KeyGen.resx">
+      <DependentUpon>KeyGen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Password.resx">
+      <DependentUpon>Password.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
