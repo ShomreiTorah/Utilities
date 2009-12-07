@@ -705,41 +705,41 @@ namespace ShomreiTorah.UpdatePublisher {
 			return rs.ToString();
 		}
 
-		/// <summary>
-		/// Generate a salt for use with the BCrypt.HashPassword() method.
-		/// </summary>
-		/// <param name="logRounds">The log2 of the number of rounds of
-		/// hashing to apply. The work factor therefore increases as (2 **
-		/// logRounds).</param>
-		/// <returns>An encoded salt value.</returns>
-		public static string GenerateSalt(int logRounds) {
+		///// <summary>
+		///// Generate a salt for use with the BCrypt.HashPassword() method.
+		///// </summary>
+		///// <param name="logRounds">The log2 of the number of rounds of
+		///// hashing to apply. The work factor therefore increases as (2 **
+		///// logRounds).</param>
+		///// <returns>An encoded salt value.</returns>
+		//public static string GenerateSalt(int logRounds) {
 
-			byte[] randomBytes = new byte[BCRYPT_SALT_LEN];
+		//    byte[] randomBytes = new byte[BCRYPT_SALT_LEN];
 
-			RandomNumberGenerator.Create().GetBytes(randomBytes);
+		//    RandomNumberGenerator.Create().GetBytes(randomBytes);
 
-			StringBuilder rs = new StringBuilder((randomBytes.Length * 2) + 8);
+		//    StringBuilder rs = new StringBuilder((randomBytes.Length * 2) + 8);
 
-			rs.Append("$2a$");
-			if (logRounds < 10) {
-				rs.Append('0');
-			}
-			rs.Append(logRounds);
-			rs.Append('$');
-			rs.Append(EncodeBase64(randomBytes, randomBytes.Length));
+		//    rs.Append("$2a$");
+		//    if (logRounds < 10) {
+		//        rs.Append('0');
+		//    }
+		//    rs.Append(logRounds);
+		//    rs.Append('$');
+		//    rs.Append(EncodeBase64(randomBytes, randomBytes.Length));
 
-			return rs.ToString();
-		}
+		//    return rs.ToString();
+		//}
 
-		/// <summary>
-		/// Generate a salt for use with the <c>BCrypt.HashPassword()</c>
-		/// method, selecting a reasonable default for the number of hashing
-		/// rounds to apply.
-		/// </summary>
-		/// <returns>An encoded salt value.</returns>
-		public static string GenerateSalt() {
-			return GenerateSalt(GENSALT_DEFAULT_LOG2_ROUNDS);
-		}
+		///// <summary>
+		///// Generate a salt for use with the <c>BCrypt.HashPassword()</c>
+		///// method, selecting a reasonable default for the number of hashing
+		///// rounds to apply.
+		///// </summary>
+		///// <returns>An encoded salt value.</returns>
+		//public static string GenerateSalt() {
+		//    return GenerateSalt(GENSALT_DEFAULT_LOG2_ROUNDS);
+		//}
 
 		/// <summary>
 		/// Check that a plaintext password matches a previously hashed
