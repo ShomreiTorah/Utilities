@@ -13,15 +13,22 @@ using ShomreiTorah.Common;
 using ShomreiTorah.Common.Updates;
 using System.Globalization;
 using System.Xml;
+using System.Runtime.InteropServices;
 
 namespace ShomreiTorah.UpdatePublisher {
 	partial class KeyGen : XtraForm {
 		public KeyGen() {
 			InitializeComponent();
 			ClientSize = settingsPanel.Size;
+
 			try {
 				LoadCurrentValues();
 			} catch (ConfigurationException) { }
+		}
+		protected override void OnShown(EventArgs e) {
+			base.OnShown(e);
+			SetTabs(cs.MaskBox);
+			SetTabs(xml.MaskBox);
 		}
 		void LoadCurrentValues() {
 			try {
@@ -35,11 +42,26 @@ namespace ShomreiTorah.UpdatePublisher {
 			} catch { }
 		}
 
+		#region UI
+		static class NativeMethods {
+			[DllImport("user32.dll")]
+			public static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, ref int lParam);
+		}
+		static void SetTabs(TextBox box) {
+			//EM_SETTABSTOPS - http://msdn.microsoft.com/en-us/library/bb761663%28VS.85%29.aspx
+			int lParam = 16;
+			NativeMethods.SendMessage(box.Handle, 0x00CB, new IntPtr(1), ref lParam);
+		}
 		private void Text_DoubleClick(object sender, EventArgs e) {
 			var box = (MemoEdit)sender;
 			box.SelectAll();
 			box.Copy();
 		}
+		private void baseUri_Properties_Validating(object sender, CancelEventArgs e) {
+			Uri uri;
+			e.Cancel = !Uri.TryCreate(baseUri.Text, UriKind.Absolute, out uri);
+		}
+		#endregion
 
 		private void reencrypt_Click(object sender, EventArgs e) {
 			GenerateCS(PrivateKey.CreateRSA());
@@ -64,6 +86,8 @@ namespace ShomreiTorah.UpdatePublisher {
 			FormBorderStyle = FormBorderStyle.Sizable;
 			WindowState = FormWindowState.Maximized;
 		}
+
+		#region Code Generation
 		static readonly RNGCryptoServiceProvider cryptoRandom = new RNGCryptoServiceProvider();
 
 		const int BytesPerLine = 32;
@@ -124,10 +148,6 @@ namespace ShomreiTorah.UpdatePublisher {
 			}
 			xml.Text = builder.ToString();
 		}
-
-		private void baseUri_Properties_Validating(object sender, CancelEventArgs e) {
-			Uri uri;
-			e.Cancel = !Uri.TryCreate(baseUri.Text, UriKind.Absolute, out uri);
-		}
+		#endregion
 	}
 }
