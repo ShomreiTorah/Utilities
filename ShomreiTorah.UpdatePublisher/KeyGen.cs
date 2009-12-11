@@ -37,9 +37,10 @@ namespace ShomreiTorah.UpdatePublisher {
 			try {
 				blobDecryptorAlg.Text = Config.ReadAttribute("Updates", "Cryptography", "BlobDecryptor", "Algorithm");
 			} catch (ConfigurationException) { }
+
 			try {
 				rsaKeySize.Value = PrivateKey.CreateRSA().KeySize;
-			} catch { }
+			} catch (CryptographicException) { }
 		}
 
 		#region UI
