@@ -12,17 +12,20 @@ namespace ShomreiTorah.Backup {
 			try {
 				ExecOperation(DbBackup.DoBackup(), "Database");
 			} catch (Exception ex) {
-				Email.Warn("Database Backup Exception", ex.ToString());
+				Email.Warn("Backup Exception", ex.ToString());
 			}
+			Console.WriteLine("Finished");
 			Thread.Sleep(TimeSpan.FromSeconds(10));	//Give the async error emails time to finish.  Yes, I know that this is a horrible thing to do.
 		}
 		static void ExecOperation(IEnumerator<string> operation, string name) {
+			Console.WriteLine("Starting " + name);
 			using (operation) {
 				string current = "Loading";
 				while (true) {
 					try {
 						if (!operation.MoveNext()) return;
 						current = operation.Current;
+						Console.WriteLine("  " + current);
 					} catch (Exception ex) {
 						Email.Warn(name + " Backup Exception: " + current, ex.ToString());
 					}
