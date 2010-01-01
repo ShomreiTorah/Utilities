@@ -18,13 +18,17 @@ namespace ShomreiTorah.Backup {
 				String.Format(CultureInfo.InvariantCulture, Config.ReadAttribute("Journal", "BackupPath"), DateTime.Now)
 			);
 
-			Directory.CreateDirectory(Path.GetDirectoryName(backupFolder));
 
 			var files = fileNames.Select(file => new {
 				Name = file,
 				SourcePath = Path.Combine(journalPath, file),
 				DestPath = Path.Combine(backupFolder, file)
 			});
+
+			if (files.Any(f => !File.Exists(f.SourcePath)))
+				yield break;
+
+			Directory.CreateDirectory(Path.GetDirectoryName(backupFolder));
 
 			if (files.Any(f =>	//If any of the files don't have existing equal copies,
 				!Directory.GetFiles(Path.GetDirectoryName(backupFolder), f.Name, SearchOption.AllDirectories).Any(p => Program.AreEqual(f.SourcePath, p))
