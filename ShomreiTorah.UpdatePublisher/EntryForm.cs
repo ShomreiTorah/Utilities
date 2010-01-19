@@ -42,6 +42,12 @@ namespace ShomreiTorah.UpdatePublisher {
 					}, true);
 				} catch (TargetInvocationException) { }
 
+				if (oldUpdate != null && product.CurrentVersion == oldUpdate.NewVersion
+				 && DialogResult.No == XtraMessageBox.Show("The version number has not changed.\r\nCurrent clients will not download this update.\r\nDo you wish to continue?",
+														   "Shomrei Torah Update Publisher", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+					return null;
+
+
 				using (var form = new EntryForm()) {
 					if (oldUpdate == null || String.IsNullOrEmpty(oldFilesPath)) {
 						form.ClientSize = new Size(form.splitContainerControl1.Panel2.Width, form.ClientSize.Height);
