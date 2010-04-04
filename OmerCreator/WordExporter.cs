@@ -58,7 +58,7 @@ namespace OmerCreator {
 					table.Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 					table.Range.ParagraphFormat.SpaceAfter = 0;
 					table.Columns[1].Width = MSWord.InchesToPoints(.32f);
-					table.Columns[2].Width = MSWord.InchesToPoints(2.05f);
+					table.Columns[2].Width = MSWord.InchesToPoints(2.15f);
 					table.Columns[3].Width = MSWord.InchesToPoints(4.5f);
 
 					var border = table.Borders[WdBorderType.wdBorderHorizontal];
@@ -68,9 +68,9 @@ namespace OmerCreator {
 
 					foreach (var side in new[] { WdBorderType.wdBorderTop, WdBorderType.wdBorderRight, WdBorderType.wdBorderBottom, WdBorderType.wdBorderLeft }) {
 						border = table.Borders[side];
-						border.LineStyle = WdLineStyle.wdLineStyleEmboss3D;
-						border.LineWidth = WdLineWidth.wdLineWidth225pt;
-						border.Color = WdColor.wdColorRed;
+						border.LineStyle = WdLineStyle.wdLineStyleThickThinMedGap;
+						border.LineWidth = WdLineWidth.wdLineWidth150pt;
+						border.Color = WdColor.wdColorBlack;
 					}
 					MSWord.ScreenRefresh();
 
