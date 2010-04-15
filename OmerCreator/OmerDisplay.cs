@@ -28,7 +28,7 @@ namespace OmerCreator {
 				text.Select(text.Text.Length, 0);
 				text.SelectionAlignment = HorizontalAlignment.Left;
 				text.SelectionColor = Program.GetColor(date.Info.OmerDay);
-				text.SelectedText = String.Format(CultureInfo.CurrentUICulture, "{0}\t{1:dddd \"night\", MMMM d}\t{2}\r\n",
+				text.SelectedText = String.Format(CultureInfo.CurrentCulture, "{0}\t{1:dddd \"night\", MMMM d}\t{2}\r\n",
 						date.Info.OmerDay, date.EnglishDate.AddDays(-1), (includeנקודות ? date.Info.OmerTextנקוד : date.Info.OmerText));
 			}
 			text.Select(0, 0);

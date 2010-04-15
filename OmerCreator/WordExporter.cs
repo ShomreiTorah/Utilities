@@ -85,8 +85,8 @@ namespace OmerCreator {
 						}));
 
 						table.Rows[day].Range.Font.Color = (WdColor)ColorTranslator.ToOle(Program.GetColor(day));
-						table.Cell(day, 1).Range.Text = day.ToString(CultureInfo.CurrentUICulture);
-						table.Cell(day, 2).Range.Text = date.EnglishDate.AddDays(-1).ToString("dddd \"night\", MMMM d", CultureInfo.CurrentUICulture);
+						table.Cell(day, 1).Range.Text = day.ToString(CultureInfo.CurrentCulture);
+						table.Cell(day, 2).Range.Text = date.EnglishDate.AddDays(-1).ToString("dddd \"night\", MMMM d", CultureInfo.CurrentCulture);
 						table.Cell(day, 3).Range.Text = text;
 					}
 				} finally { MSWord.ScreenUpdating = true; }

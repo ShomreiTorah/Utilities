@@ -54,7 +54,7 @@ namespace ShomreiTorah.UpdatePublisher {
 						form.splitContainerControl1.PanelVisibility = SplitPanelVisibility.Panel2;
 					} else {
 						form.oldUpdate.SetData(UpdateKind.Old, oldUpdate.NewVersion, 
-											   String.Format(CultureInfo.CurrentUICulture, "Published: {0:F}\r\n\r\n{1}", oldUpdate.PublishDate, oldUpdate.Description), 
+											   String.Format(CultureInfo.CurrentCulture, "Published: {0:F}\r\n\r\n{1}", oldUpdate.PublishDate, oldUpdate.Description), 
 											   oldFilesPath, null);
 					}
 					form.newUpdate.SetData(UpdateKind.New, product.CurrentVersion, DefaultDescription, baseDir, oldFilesPath);

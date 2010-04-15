@@ -78,7 +78,8 @@ namespace ShomreiTorah.UpdatePublisher {
 			Buffer.BlockCopy(iv, 0, blob, key.Length, iv.Length);
 			Buffer.BlockCopy(signature, 0, blob, key.Length + iv.Length, signature.Length);
 
-			xml.Add(new XElement("Blob", Convert.ToBase64String(UpdateChecker.CreateBlobEncryptor().TransformBytes(blob))));
+			using(var transform=UpdateChecker.CreateBlobEncryptor())
+				xml.Add(new XElement("Blob", Convert.ToBase64String(transform.TransformBytes(blob))));
 
 			ui.Caption = "Uploading XML...";
 

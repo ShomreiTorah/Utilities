@@ -84,7 +84,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			Added
 		}
 		static string ToSizeString(double bytes) {
-			var culture = CultureInfo.CurrentUICulture;
+			var culture = CultureInfo.CurrentCulture;
 			const string format = "#,0.0";
 
 			if (bytes < 1024)
