@@ -93,6 +93,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			get { return primaryKey; }
 			set {
 				if (value != null && value.Owner != this) throw new ArgumentException("The primary key must belong to its schema");
+				if (value != null)
+					value.IsUnique = true;
 				primaryKey = value;
 				OnPropertyChanged("PrimaryKey");
 			}
@@ -139,6 +141,9 @@ namespace ShomreiTorah.Singularity.Designer {
 		public string Name {
 			get { return name; }
 			set {
+				if (Name == value) return;
+				if (Owner.Columns.Any(c => c.Name == value))
+					throw new ArgumentException("A column named " + value + " already exists.");
 				if (GenerateSqlMapping && SqlName == Name)
 					SqlName = value;
 				name = value;
