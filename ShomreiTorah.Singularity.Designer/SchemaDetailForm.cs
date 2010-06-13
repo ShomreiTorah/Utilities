@@ -36,7 +36,9 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.context = context;
 
 			dataTypeEdit.Items.AddRange(standardColumnTypes);
+			dataTypeEdit.DropDownRows = standardColumnTypes.Length;
 
+			columnPickerEdit.DataSource = schema.Columns;
 			schemaBindingSource.DataSource = schema;
 			schemaVGrid.DataSource = new[] { schema };
 
@@ -53,8 +55,12 @@ namespace ShomreiTorah.Singularity.Designer {
 			columnPickerEdit.View.BestFitColumns();
 		}
 
-		void Schemas_ListChanged(object sender, ListChangedEventArgs e) { UpdateForeignSchemaEdit(true); }
-
+		void Schemas_ListChanged(object sender, ListChangedEventArgs e) {
+			if (e.ListChangedType == ListChangedType.ItemDeleted && !context.Schemas.Contains(schema))
+				Close();
+			else
+				UpdateForeignSchemaEdit(true);
+		}
 
 		EditorButton ClearForeignSchemaButton { get { return foreignSchemaEdit.Buttons[1]; } }
 
