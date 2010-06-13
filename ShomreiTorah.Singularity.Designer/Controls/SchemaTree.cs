@@ -16,7 +16,21 @@ namespace ShomreiTorah.Singularity.Designer.Controls {
 			InitializeComponent();
 		}
 
-		public IList<SchemaModel> Schemas { get; set; }
+		BindingList<SchemaModel> schemas;
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public BindingList<SchemaModel> Schemas {
+			get { return schemas; }
+			set {
+				if (Schemas != null)
+					Schemas.ListChanged -= Schemas_ListChanged;
+				schemas = value;
+				if (Schemas != null)
+					Schemas.ListChanged += Schemas_ListChanged;
+			}
+		}
+
+		void Schemas_ListChanged(object sender, ListChangedEventArgs e) { RefreshList(); }
 
 		public void RefreshList() {
 			tree.BeginUnboundLoad();
@@ -76,6 +90,5 @@ namespace ShomreiTorah.Singularity.Designer.Controls {
 			if (NodeDoubleClick != null)
 				NodeDoubleClick(this, e);
 		}
-
 	}
 }
