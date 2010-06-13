@@ -184,7 +184,7 @@ namespace ShomreiTorah.Singularity.Designer {
 		[Category("Data")]
 		public bool IsUnique {
 			get { return isUnique; }
-			set { isUnique = value; OnPropertyChanged("IsUnique"); }
+			set { isUnique = Owner.PrimaryKey == this || value; OnPropertyChanged("IsUnique"); }
 		}
 
 		bool generateSqlMapping = true;
