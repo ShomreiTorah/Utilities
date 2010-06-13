@@ -20,6 +20,7 @@ namespace ShomreiTorah.Singularity.Designer.Controls {
 
 		public void RefreshList() {
 			tree.BeginUnboundLoad();
+			tree.ClearNodes();
 
 			foreach (var schema in Schemas) {
 				AddSchemaTree(schema, null);
