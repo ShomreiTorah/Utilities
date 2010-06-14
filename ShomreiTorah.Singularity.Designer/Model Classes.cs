@@ -65,17 +65,36 @@ namespace ShomreiTorah.Singularity.Designer {
 		public SchemaModel(DataContextModel owner) {
 			Owner = owner;
 
-			Columns = new BindingList<ColumnModel>();
-			Columns.AddingNew += (s, e) => e.NewObject = new ColumnModel(this);
-			Columns.ListChanged += (sender, e) => {
-				if (e.ListChangedType == ListChangedType.ItemDeleted && !Columns.Contains(PrimaryKey))
-					PrimaryKey = null;
-			};
+			Columns = new ColumnList(this);
 
 			ChildSchemas = new ReadOnlyObservableCollection<SchemaModel>(childSchemas);
 		}
 		[Browsable(false)]
 		public DataContextModel Owner { get; private set; }
+
+		class ColumnList : BindingList<ColumnModel> {
+			readonly SchemaModel schema;
+			public ColumnList(SchemaModel schema) { this.schema = schema; AllowNew = true; }
+
+			protected override object AddNewCore() {
+				int nameIndex = Count;
+				string name;
+				do {
+					nameIndex++;
+					name = "Column" + nameIndex;
+				} while (this.Any(c => c.Name == name));
+
+				var retVal = new ColumnModel(schema) { Name = name };
+				Add(retVal);
+				return retVal;
+			}
+			protected override void RemoveItem(int index) {
+				if (schema.PrimaryKey == this[index])
+					schema.PrimaryKey = null;
+				this[index].ForeignSchema = null;
+				base.RemoveItem(index);
+			}
+		}
 
 		string name;
 		///<summary>Gets or sets name of the schema.</summary>
@@ -238,6 +257,8 @@ namespace ShomreiTorah.Singularity.Designer {
 		public SchemaModel ForeignSchema {
 			get { return foreignSchema; }
 			set {
+				if (ForeignSchema == value) return;
+
 				if (ForeignSchema != null)
 					ForeignSchema.RemoveChild(Owner);
 

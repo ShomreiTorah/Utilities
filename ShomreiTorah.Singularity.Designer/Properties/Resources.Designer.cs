@@ -60,6 +60,13 @@ namespace ShomreiTorah.Singularity.Designer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap AddColumn32 {
+            get {
+                object obj = ResourceManager.GetObject("AddColumn32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap AddTable32 {
             get {
                 object obj = ResourceManager.GetObject("AddTable32", resourceCulture);
@@ -77,6 +84,13 @@ namespace ShomreiTorah.Singularity.Designer.Properties {
         internal static System.Drawing.Bitmap DatabaseServer32 {
             get {
                 object obj = ResourceManager.GetObject("DatabaseServer32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap DeleteColumn32 {
+            get {
+                object obj = ResourceManager.GetObject("DeleteColumn32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

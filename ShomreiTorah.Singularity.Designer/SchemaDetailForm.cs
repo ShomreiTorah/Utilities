@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using DevExpress.XtraVerticalGrid.Events;
 using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraBars;
 
 namespace ShomreiTorah.Singularity.Designer {
 	partial class SchemaDetailForm : XtraForm {
@@ -44,17 +45,24 @@ namespace ShomreiTorah.Singularity.Designer {
 			schemaBindingSource.DataSource = schema;
 			schemaVGrid.DataSource = new[] { schema };
 
-			if (!String.IsNullOrEmpty(schema.SqlSchemaName))
-				Text = schema.SqlSchemaName + " / " + schema.Name;
-			else
-				Text = schema.Name;
+			UpdateNames();
 
 			UpdateForeignSchemaEdit(true);
 			UpdateColumnSqlNameEdit();
 
+			schema.PropertyChanged += schema_PropertyChanged;
 			context.Schemas.ListChanged += Schemas_ListChanged;
 			columnsView.BestFitColumns();
 			columnPickerEdit.View.BestFitColumns();
+		}
+
+		void schema_PropertyChanged(object sender, PropertyChangedEventArgs e) { UpdateNames(); }
+		void UpdateNames() {
+			if (!String.IsNullOrEmpty(schema.SqlSchemaName))
+				Text = schema.SqlSchemaName + " / " + schema.Name;
+			else
+				Text = schema.Name;
+			schemaGroup.Text = schema.Name + " Schema";
 		}
 
 		void Schemas_ListChanged(object sender, ListChangedEventArgs e) {
@@ -64,11 +72,19 @@ namespace ShomreiTorah.Singularity.Designer {
 				UpdateForeignSchemaEdit(true);
 		}
 
-		EditorButton ClearForeignSchemaButton { get { return foreignSchemaEdit.Buttons[1]; } }
-
-		ColumnModel FocusedColumn {
-			get { return (ColumnModel)columnsVGrid.GetRecordObject(columnsVGrid.FocusedRecord); }
+		private void columnsBindingSource_CurrentItemChanged(object sender, EventArgs e) {
+			if (FocusedColumn == null) {
+				deleteColumn.Enabled = false;
+				deleteColumn.Caption = "Delete Column";
+			} else {
+				deleteColumn.Enabled = true;
+				deleteColumn.Caption = "Delete " + FocusedColumn.Name;
+			}
 		}
+
+		ColumnModel FocusedColumn { get { return (ColumnModel)columnsBindingSource.Current; } }
+		#region Grid editors
+		EditorButton ClearForeignSchemaButton { get { return foreignSchemaEdit.Buttons[1]; } }
 
 		private void columnsVGrid_FocusedRecordChanged(object sender, IndexChangedEventArgs e) {
 			UpdateForeignSchemaEdit(false);
@@ -99,12 +115,24 @@ namespace ShomreiTorah.Singularity.Designer {
 		void UpdateColumnSqlNameEdit() {
 			rowColumnSqlName.Enabled = FocusedColumn == null || FocusedColumn.GenerateSqlMapping;
 		}
+		#endregion
 		protected override void Dispose(bool disposing) {
 			if (disposing) {
+				schema.PropertyChanged -= schema_PropertyChanged;
 				context.Schemas.ListChanged -= Schemas_ListChanged;
 				if (components != null) components.Dispose();
 			}
 			base.Dispose(disposing);
+		}
+
+		private void addColumn_ItemClick(object sender, ItemClickEventArgs e) {
+			schema.Columns.AddNew();
+			schema.Columns.EndNew(schema.Columns.Count - 1);
+			columnsBindingSource.Position = schema.Columns.Count - 1;
+		}
+
+		private void deleteColumn_ItemClick(object sender, ItemClickEventArgs e) {
+			schema.Columns.Remove(FocusedColumn);
 		}
 	}
 }

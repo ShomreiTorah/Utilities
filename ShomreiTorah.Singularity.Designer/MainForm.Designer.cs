@@ -65,6 +65,7 @@ namespace ShomreiTorah.Singularity.Designer {
             this.deleteSchema});
 			this.ribbon.Location = new System.Drawing.Point(0, 0);
 			this.ribbon.MaxItemId = 3;
+			this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Always;
 			this.ribbon.Name = "ribbon";
 			this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
@@ -109,6 +110,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			this.ribbonPageGroup2.ItemLinks.Add(this.addSchema);
 			this.ribbonPageGroup2.ItemLinks.Add(this.deleteSchema);
+			this.ribbonPageGroup2.MergeOrder = 1;
 			this.ribbonPageGroup2.Name = "ribbonPageGroup2";
 			this.ribbonPageGroup2.ShowCaptionButton = false;
 			this.ribbonPageGroup2.Text = "Schemas";
@@ -116,6 +118,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			// ribbonPageGroup1
 			// 
 			this.ribbonPageGroup1.ItemLinks.Add(this.sqlServerImport);
+			this.ribbonPageGroup1.MergeOrder = 99;
 			this.ribbonPageGroup1.Name = "ribbonPageGroup1";
 			this.ribbonPageGroup1.ShowCaptionButton = false;
 			this.ribbonPageGroup1.Text = "Import";
@@ -222,7 +225,6 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			this.editorRow1.Name = "editorRow1";
 			this.editorRow1.Properties.Caption = "DataContext Name";
-			this.editorRow1.Properties.CustomizationCaption = null;
 			this.editorRow1.Properties.FieldName = "Name";
 			// 
 			// xtraTabbedMdiManager
