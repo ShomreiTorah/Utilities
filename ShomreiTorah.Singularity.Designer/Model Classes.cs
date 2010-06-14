@@ -171,7 +171,7 @@ namespace ShomreiTorah.Singularity.Designer {
 				OnPropertyChanged("Name");
 			}
 		}
-		Type dataType;
+		Type dataType = typeof(string);
 		///<summary>Gets or sets the column's datatype.</summary>
 		[Description("Gets or sets the column's datatype.")]
 		[Category("Data")]
@@ -245,6 +245,12 @@ namespace ShomreiTorah.Singularity.Designer {
 
 				if (ForeignSchema != null)
 					ForeignSchema.AddChild(Owner);
+
+				if (ForeignSchema == null)
+					DataType = typeof(string);
+				else
+					DataType = typeof(Row);
+
 				Owner.Owner.OnTreeChanged();
 			}
 		}

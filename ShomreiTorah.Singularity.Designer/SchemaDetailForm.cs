@@ -22,6 +22,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			typeof(decimal),
 			typeof(Guid),
 
+			typeof(Row),
+
 			typeof(byte),
 			typeof(Int16),
 			typeof(Int32),
