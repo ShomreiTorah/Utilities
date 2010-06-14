@@ -138,6 +138,8 @@
   <ItemGroup>
     <Content Include="App.ico" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <None Include="Resources\DeleteTable32.png" />
+    <None Include="Resources\AddTable32.png" />
     <None Include="Resources\RibbonIcon.png" />
     <None Include="Resources\Database32.png" />
     <None Include="Resources\DatabaseServer32.png" />

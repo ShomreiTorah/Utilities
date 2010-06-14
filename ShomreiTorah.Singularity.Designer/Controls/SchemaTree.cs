@@ -16,27 +16,27 @@ namespace ShomreiTorah.Singularity.Designer.Controls {
 			InitializeComponent();
 		}
 
-		BindingList<SchemaModel> schemas;
+		DataContextModel model;
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public BindingList<SchemaModel> Schemas {
-			get { return schemas; }
+		public DataContextModel Model {
+			get { return model; }
 			set {
-				if (Schemas != null)
-					Schemas.ListChanged -= Schemas_ListChanged;
-				schemas = value;
-				if (Schemas != null)
-					Schemas.ListChanged += Schemas_ListChanged;
+				if (Model != null)
+					Model.TreeChanged -= Model_TreeChanged;
+				model = value;
+				if (Model != null)
+					Model.TreeChanged += Model_TreeChanged;
 			}
 		}
 
-		void Schemas_ListChanged(object sender, ListChangedEventArgs e) { RefreshList(); }
+		void Model_TreeChanged(object sender, EventArgs e) { RefreshList(); }
 
 		public void RefreshList() {
 			tree.BeginUnboundLoad();
 			tree.ClearNodes();
 
-			foreach (var schema in Schemas) {
+			foreach (var schema in Model.Schemas) {
 				AddSchemaTree(schema, null);
 			}
 			tree.BestFitColumns();

@@ -25,7 +25,10 @@ namespace ShomreiTorah.Singularity.Designer {
 		}
 	}
 	public class DataContextModel : INotifyPropertyChanged {
-		public DataContextModel() { Schemas = new BindingList<SchemaModel>(); }
+		public DataContextModel() {
+			Schemas = new BindingList<SchemaModel>();
+			Schemas.ListChanged += delegate { OnTreeChanged(); };
+		}
 
 		string name;
 		///<summary>Gets or sets the name of the DataContext.</summary>
@@ -40,17 +43,28 @@ namespace ShomreiTorah.Singularity.Designer {
 		public event PropertyChangedEventHandler PropertyChanged;
 		///<summary>Raises the PropertyChanged event.</summary>
 		///<param name="name">The name of the property that changed.</param>
-		internal protected virtual void OnPropertyChanged(string propertyName) { OnPropertyChanged(new PropertyChangedEventArgs(propertyName)); }
+		protected virtual void OnPropertyChanged(string propertyName) { OnPropertyChanged(new PropertyChangedEventArgs(propertyName)); }
 		///<summary>Raises the PropertyChanged event.</summary>
 		///<param name="e">An EventArgs object that provides the event data.</param>
-		internal protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) {
+		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) {
 			if (PropertyChanged != null)
 				PropertyChanged(this, e);
 		}
-
+		///<summary>Occurs when the schema tree is changed.</summary>
+		public event EventHandler TreeChanged;
+		///<summary>Raises the TreeChanged event.</summary>
+		internal protected virtual void OnTreeChanged() { OnTreeChanged(EventArgs.Empty); }
+		///<summary>Raises the TreeChanged event.</summary>
+		///<param name="e">An EventArgs object that provides the event data.</param>
+		internal protected virtual void OnTreeChanged(EventArgs e) {
+			if (TreeChanged != null)
+				TreeChanged(this, e);
+		}
 	}
 	public class SchemaModel : INotifyPropertyChanged {
-		public SchemaModel() {
+		public SchemaModel(DataContextModel owner) {
+			Owner = owner;
+
 			Columns = new BindingList<ColumnModel>();
 			Columns.AddingNew += (s, e) => e.NewObject = new ColumnModel(this);
 			Columns.ListChanged += (sender, e) => {
@@ -60,6 +74,8 @@ namespace ShomreiTorah.Singularity.Designer {
 
 			ChildSchemas = new ReadOnlyObservableCollection<SchemaModel>(childSchemas);
 		}
+		[Browsable(false)]
+		public DataContextModel Owner { get; private set; }
 
 		string name;
 		///<summary>Gets or sets name of the schema.</summary>
@@ -120,10 +136,10 @@ namespace ShomreiTorah.Singularity.Designer {
 		public event PropertyChangedEventHandler PropertyChanged;
 		///<summary>Raises the PropertyChanged event.</summary>
 		///<param name="name">The name of the property that changed.</param>
-		internal protected virtual void OnPropertyChanged(string propertyName) { OnPropertyChanged(new PropertyChangedEventArgs(propertyName)); }
+		protected virtual void OnPropertyChanged(string propertyName) { OnPropertyChanged(new PropertyChangedEventArgs(propertyName)); }
 		///<summary>Raises the PropertyChanged event.</summary>
 		///<param name="e">An EventArgs object that provides the event data.</param>
-		internal protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) {
+		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) {
 			if (PropertyChanged != null)
 				PropertyChanged(this, e);
 		}
@@ -229,6 +245,7 @@ namespace ShomreiTorah.Singularity.Designer {
 
 				if (ForeignSchema != null)
 					ForeignSchema.AddChild(Owner);
+				Owner.Owner.OnTreeChanged();
 			}
 		}
 
@@ -239,10 +256,10 @@ namespace ShomreiTorah.Singularity.Designer {
 		public event PropertyChangedEventHandler PropertyChanged;
 		///<summary>Raises the PropertyChanged event.</summary>
 		///<param name="name">The name of the property that changed.</param>
-		internal protected virtual void OnPropertyChanged(string propertyName) { OnPropertyChanged(new PropertyChangedEventArgs(propertyName)); }
+		protected virtual void OnPropertyChanged(string propertyName) { OnPropertyChanged(new PropertyChangedEventArgs(propertyName)); }
 		///<summary>Raises the PropertyChanged event.</summary>
 		///<param name="e">An EventArgs object that provides the event data.</param>
-		internal protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) {
+		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) {
 			if (PropertyChanged != null)
 				PropertyChanged(this, e);
 		}

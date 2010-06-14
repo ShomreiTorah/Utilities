@@ -121,6 +121,7 @@ namespace ShomreiTorah.Singularity.Designer {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
 			this.dataTypeEdit.HighlightedItemStyle = DevExpress.XtraEditors.HighlightStyle.Skinned;
 			this.dataTypeEdit.Name = "dataTypeEdit";
+			this.dataTypeEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
 			// 
 			// sqlSchemaEdit
 			// 
@@ -298,14 +299,12 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			this.editorRow1.Name = "editorRow1";
 			this.editorRow1.Properties.Caption = "Table Name";
-			this.editorRow1.Properties.CustomizationCaption = null;
 			this.editorRow1.Properties.FieldName = "Name";
 			// 
 			// rowPrimaryKey
 			// 
 			this.rowPrimaryKey.Name = "rowPrimaryKey";
 			this.rowPrimaryKey.Properties.Caption = "Primary Key";
-			this.rowPrimaryKey.Properties.CustomizationCaption = null;
 			this.rowPrimaryKey.Properties.FieldName = "PrimaryKey";
 			this.rowPrimaryKey.Properties.RowEdit = this.columnPickerEdit;
 			// 
@@ -317,20 +316,17 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.categoryRow3.Height = 19;
 			this.categoryRow3.Name = "categoryRow3";
 			this.categoryRow3.Properties.Caption = "SQL";
-			this.categoryRow3.Properties.CustomizationCaption = null;
 			// 
 			// editorRow2
 			// 
 			this.editorRow2.Name = "editorRow2";
 			this.editorRow2.Properties.Caption = "SQL Name";
-			this.editorRow2.Properties.CustomizationCaption = null;
 			this.editorRow2.Properties.FieldName = "SqlName";
 			// 
 			// rowSqlSchemaName
 			// 
 			this.rowSqlSchemaName.Name = "rowSqlSchemaName";
 			this.rowSqlSchemaName.Properties.Caption = "SQL Schema";
-			this.rowSqlSchemaName.Properties.CustomizationCaption = null;
 			this.rowSqlSchemaName.Properties.FieldName = "SqlSchemaName";
 			// 
 			// columnsVGrid
@@ -376,20 +372,17 @@ namespace ShomreiTorah.Singularity.Designer {
             this.rowDataType});
 			this.categoryRow2.Name = "categoryRow2";
 			this.categoryRow2.Properties.Caption = "General";
-			this.categoryRow2.Properties.CustomizationCaption = null;
 			// 
 			// rowName
 			// 
 			this.rowName.Name = "rowName";
 			this.rowName.Properties.Caption = "Column Name";
-			this.rowName.Properties.CustomizationCaption = null;
 			this.rowName.Properties.FieldName = "Name";
 			// 
 			// rowDataType
 			// 
 			this.rowDataType.Name = "rowDataType";
 			this.rowDataType.Properties.Caption = "Data Type";
-			this.rowDataType.Properties.CustomizationCaption = null;
 			this.rowDataType.Properties.FieldName = "DataType";
 			this.rowDataType.Properties.RowEdit = this.dataTypeEdit;
 			// 
@@ -400,12 +393,12 @@ namespace ShomreiTorah.Singularity.Designer {
             this.rowColumnSqlName});
 			this.categoryRow1.Name = "categoryRow1";
 			this.categoryRow1.Properties.Caption = "SQL";
-			this.categoryRow1.Properties.CustomizationCaption = null;
 			// 
 			// rowSyncSql
 			// 
 			this.rowSyncSql.Name = "rowSyncSql";
 			this.rowSyncSql.Properties.Caption = "Sync to SQL Server";
+			this.rowSyncSql.Properties.CustomizationCaption = null;
 			this.rowSyncSql.Properties.FieldName = "GenerateSqlMapping";
 			this.rowSyncSql.Properties.RowEdit = this.syncSqlEdit;
 			// 
@@ -413,7 +406,6 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			this.rowColumnSqlName.Name = "rowColumnSqlName";
 			this.rowColumnSqlName.Properties.Caption = "SQL Name";
-			this.rowColumnSqlName.Properties.CustomizationCaption = null;
 			this.rowColumnSqlName.Properties.FieldName = "SqlName";
 			this.rowColumnSqlName.Properties.RowEdit = this.columnSqlNameEdit;
 			// 
@@ -421,28 +413,24 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			this.rowDefaultValue.Name = "rowDefaultValue";
 			this.rowDefaultValue.Properties.Caption = "Default Value";
-			this.rowDefaultValue.Properties.CustomizationCaption = null;
 			this.rowDefaultValue.Properties.FieldName = "DefaultValue";
 			// 
 			// rowAllowNulls
 			// 
 			this.rowAllowNulls.Name = "rowAllowNulls";
 			this.rowAllowNulls.Properties.Caption = "Allow Nulls";
-			this.rowAllowNulls.Properties.CustomizationCaption = null;
 			this.rowAllowNulls.Properties.FieldName = "AllowNulls";
 			// 
 			// rowIsUnique
 			// 
 			this.rowIsUnique.Name = "rowIsUnique";
 			this.rowIsUnique.Properties.Caption = "Is Unique";
-			this.rowIsUnique.Properties.CustomizationCaption = null;
 			this.rowIsUnique.Properties.FieldName = "IsUnique";
 			// 
 			// rowForeignSchema
 			// 
 			this.rowForeignSchema.Name = "rowForeignSchema";
 			this.rowForeignSchema.Properties.Caption = "Foreign Schema";
-			this.rowForeignSchema.Properties.CustomizationCaption = null;
 			this.rowForeignSchema.Properties.FieldName = "ForeignSchema";
 			this.rowForeignSchema.Properties.RowEdit = this.foreignSchemaEdit;
 			// 

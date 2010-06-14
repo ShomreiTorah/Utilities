@@ -17,8 +17,8 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 		readonly HashSet<SchemaModel> selectedSchemas;
 
 		public static IEnumerable<SchemaModel> ShowDialog(IEnumerable<SchemaModel> schemas) {
-			using (var dialog=new SchemaSelector(schemas)) {
-				if (dialog.ShowDialog() == DialogResult.Cancel) 
+			using (var dialog = new SchemaSelector(schemas)) {
+				if (dialog.ShowDialog() == DialogResult.Cancel)
 					return null;
 				return dialog.selectedSchemas;
 			}

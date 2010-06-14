@@ -27,7 +27,10 @@ namespace ShomreiTorah.Singularity.Designer {
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
 			this.sqlServerImport = new DevExpress.XtraBars.BarButtonItem();
+			this.addSchema = new DevExpress.XtraBars.BarButtonItem();
+			this.deleteSchema = new DevExpress.XtraBars.BarButtonItem();
 			this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
+			this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
 			this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
@@ -57,9 +60,11 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.ribbon.ApplicationCaption = "Singularity Designer";
 			this.ribbon.ApplicationIcon = global::ShomreiTorah.Singularity.Designer.Properties.Resources.RibbonIcon;
 			this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
-            this.sqlServerImport});
+            this.sqlServerImport,
+            this.addSchema,
+            this.deleteSchema});
 			this.ribbon.Location = new System.Drawing.Point(0, 0);
-			this.ribbon.MaxItemId = 1;
+			this.ribbon.MaxItemId = 3;
 			this.ribbon.Name = "ribbon";
 			this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
@@ -76,12 +81,37 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.sqlServerImport.Name = "sqlServerImport";
 			this.sqlServerImport.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.sqlServerImport_ItemClick);
 			// 
+			// addSchema
+			// 
+			this.addSchema.Caption = "Add Schema";
+			this.addSchema.Id = 1;
+			this.addSchema.LargeGlyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.AddTable32;
+			this.addSchema.Name = "addSchema";
+			this.addSchema.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.addSchema_ItemClick);
+			// 
+			// deleteSchema
+			// 
+			this.deleteSchema.Caption = "Delete Schema";
+			this.deleteSchema.Id = 2;
+			this.deleteSchema.LargeGlyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.DeleteTable32;
+			this.deleteSchema.Name = "deleteSchema";
+			this.deleteSchema.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.deleteSchema_ItemClick);
+			// 
 			// ribbonPage1
 			// 
 			this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.ribbonPageGroup2,
             this.ribbonPageGroup1});
 			this.ribbonPage1.Name = "ribbonPage1";
 			this.ribbonPage1.Text = "ribbonPage1";
+			// 
+			// ribbonPageGroup2
+			// 
+			this.ribbonPageGroup2.ItemLinks.Add(this.addSchema);
+			this.ribbonPageGroup2.ItemLinks.Add(this.deleteSchema);
+			this.ribbonPageGroup2.Name = "ribbonPageGroup2";
+			this.ribbonPageGroup2.ShowCaptionButton = false;
+			this.ribbonPageGroup2.Text = "Schemas";
 			// 
 			// ribbonPageGroup1
 			// 
@@ -149,9 +179,9 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.schemaTree.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.schemaTree.Location = new System.Drawing.Point(0, 0);
 			this.schemaTree.Name = "schemaTree";
-			this.schemaTree.Schemas = null;
 			this.schemaTree.Size = new System.Drawing.Size(194, 344);
 			this.schemaTree.TabIndex = 0;
+			this.schemaTree.SelectionChanged += new System.EventHandler(this.schemaTree_SelectionChanged);
 			this.schemaTree.NodeDoubleClick += new System.EventHandler(this.schemaTree_NodeDoubleClick);
 			// 
 			// dockPanel2
@@ -192,6 +222,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			this.editorRow1.Name = "editorRow1";
 			this.editorRow1.Properties.Caption = "DataContext Name";
+			this.editorRow1.Properties.CustomizationCaption = null;
 			this.editorRow1.Properties.FieldName = "Name";
 			// 
 			// xtraTabbedMdiManager
@@ -243,5 +274,8 @@ namespace ShomreiTorah.Singularity.Designer {
 		private DevExpress.XtraVerticalGrid.VGridControl dataContextVGrid;
 		private DevExpress.XtraVerticalGrid.Rows.EditorRow editorRow1;
 		private DevExpress.XtraBars.Docking.DockPanel panelContainer1;
+		private DevExpress.XtraBars.BarButtonItem addSchema;
+		private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
+		private DevExpress.XtraBars.BarButtonItem deleteSchema;
 	}
 }

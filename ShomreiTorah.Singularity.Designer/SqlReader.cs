@@ -54,7 +54,7 @@ FROM	INFORMATION_SCHEMA.COLUMNS Columns
 					JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS ParentConstraints	ON Refs.UNIQUE_CONSTRAINT_NAME = ParentConstraints.CONSTRAINT_NAME
 		) ForeignKeyColumns ON (ForeignKeyColumns.ChildTable = Columns.TABLE_NAME AND ForeignKeyColumns.ChildColumn = Columns.COLUMN_NAME);";
 
-		public static IEnumerable<SchemaModel> ReadSchemas(DBConnector database) {
+		public static IEnumerable<SchemaModel> ReadSchemas(DataContextModel owner, DBConnector database) {
 			if (database == null) throw new ArgumentNullException("database");
 
 			List<SchemaModel> tables = new List<SchemaModel>();
@@ -66,7 +66,7 @@ FROM	INFORMATION_SCHEMA.COLUMNS Columns
 				#region Read Tables
 				using (var reader = database.ExecuteReader(TablesSql)) {
 					while (reader.Read()) {
-						var table = new SchemaModel {
+						var table = new SchemaModel(owner) {
 							Name = (string)reader["TableName"],
 							SqlName = (string)reader["TableName"],
 							SqlSchemaName = reader["SchemaName"] as string
