@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using DevExpress.XtraTreeList.Nodes;
 using DevExpress.XtraTreeList;
+using ShomreiTorah.Singularity.Designer.Model;
 
 namespace ShomreiTorah.Singularity.Designer.Controls {
 	[DefaultEvent("SelectionChanged")]

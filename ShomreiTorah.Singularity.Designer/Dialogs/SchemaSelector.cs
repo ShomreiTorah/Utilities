@@ -10,6 +10,7 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Base;
+using ShomreiTorah.Singularity.Designer.Model;
 
 namespace ShomreiTorah.Singularity.Designer.Dialogs {
 	partial class SchemaSelector : XtraForm {

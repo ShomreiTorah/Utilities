@@ -91,6 +91,9 @@
     <Compile Include="Model Classes.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Model\ColumnModel.cs" />
+    <Compile Include="Model\DataContextModel.cs" />
+    <Compile Include="Model\SchemaModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchemaDetailForm.cs">

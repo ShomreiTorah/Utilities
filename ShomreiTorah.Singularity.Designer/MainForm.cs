@@ -10,6 +10,7 @@ using DevExpress.XtraBars;
 using ShomreiTorah.Common;
 using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraEditors;
+using ShomreiTorah.Singularity.Designer.Model;
 
 namespace ShomreiTorah.Singularity.Designer {
 	partial class MainForm : RibbonForm {
