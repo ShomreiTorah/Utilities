@@ -53,6 +53,11 @@ namespace ShomreiTorah.Singularity.Designer {
 		public SchemaModel() {
 			Columns = new BindingList<ColumnModel>();
 			Columns.AddingNew += (s, e) => e.NewObject = new ColumnModel(this);
+			Columns.ListChanged += (sender, e) => {
+				if (e.ListChangedType == ListChangedType.ItemDeleted && !Columns.Contains(PrimaryKey))
+					PrimaryKey = null;
+			};
+
 			ChildSchemas = new ReadOnlyObservableCollection<SchemaModel>(childSchemas);
 		}
 
