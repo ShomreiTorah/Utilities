@@ -50,6 +50,8 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			set {
 				if (SqlName == Name)
 					SqlName = value;
+				if (RowClassName == Name)
+					RowClassName = value;
 				name = value;
 				OnPropertyChanged("Name");
 			}
@@ -85,6 +87,23 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			}
 		}
 
+		string rowClassName;
+		///<summary>Gets or sets the name of the strongly-typed Row class.</summary>
+		[Description("Gets or sets the name of the strongly-typed Row class.")]
+		[Category("Code Generation")]
+		public string RowClassName {
+			get { return rowClassName; }
+			set { rowClassName = value.Replace(' ', '_'); OnPropertyChanged("RowClassName"); }
+		}
+		MemberVisibility rowClassVisibility = MemberVisibility.Public;
+		///<summary>Gets or sets the access modifiers of the strongly-typed Row class.</summary>
+		[Description("Gets or sets the access modifiers of the strongly-typed Row class.")]
+		[Category("Code Generation")]
+		public MemberVisibility RowClassVisibility {
+			get { return rowClassVisibility; }
+			set { rowClassVisibility = value; OnPropertyChanged("RowClassVisibility"); }
+		}
+
 		public BindingList<ColumnModel> Columns { get; private set; }
 		public ReadOnlyObservableCollection<SchemaModel> ChildSchemas { get; private set; }
 
@@ -108,5 +127,10 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 				PropertyChanged(this, e);
 		}
 
+	}
+	public enum MemberVisibility {
+		Private,
+		Internal,
+		Public
 	}
 }

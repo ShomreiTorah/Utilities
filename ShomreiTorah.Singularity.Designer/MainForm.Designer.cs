@@ -29,9 +29,11 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.sqlServerImport = new DevExpress.XtraBars.BarButtonItem();
 			this.addSchema = new DevExpress.XtraBars.BarButtonItem();
 			this.deleteSchema = new DevExpress.XtraBars.BarButtonItem();
+			this.generateCode = new DevExpress.XtraBars.BarButtonItem();
 			this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
 			this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+			this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
 			this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
 			this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
@@ -43,6 +45,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dataContextVGrid = new DevExpress.XtraVerticalGrid.VGridControl();
 			this.editorRow1 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.xtraTabbedMdiManager = new DevExpress.XtraTabbedMdi.XtraTabbedMdiManager(this.components);
+			this.editorRow2 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.categoryRow1 = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
 			((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
 			this.panelContainer1.SuspendLayout();
@@ -62,9 +66,10 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.sqlServerImport,
             this.addSchema,
-            this.deleteSchema});
+            this.deleteSchema,
+            this.generateCode});
 			this.ribbon.Location = new System.Drawing.Point(0, 0);
-			this.ribbon.MaxItemId = 3;
+			this.ribbon.MaxItemId = 4;
 			this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Always;
 			this.ribbon.Name = "ribbon";
 			this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
@@ -98,11 +103,19 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.deleteSchema.Name = "deleteSchema";
 			this.deleteSchema.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.deleteSchema_ItemClick);
 			// 
+			// generateCode
+			// 
+			this.generateCode.Caption = "Generate Code";
+			this.generateCode.Id = 3;
+			this.generateCode.Name = "generateCode";
+			this.generateCode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.generateCode_ItemClick);
+			// 
 			// ribbonPage1
 			// 
 			this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroup2,
-            this.ribbonPageGroup1});
+            this.ribbonPageGroup1,
+            this.ribbonPageGroup3});
 			this.ribbonPage1.Name = "ribbonPage1";
 			this.ribbonPage1.Text = "ribbonPage1";
 			// 
@@ -122,6 +135,13 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.ribbonPageGroup1.Name = "ribbonPageGroup1";
 			this.ribbonPageGroup1.ShowCaptionButton = false;
 			this.ribbonPageGroup1.Text = "Import";
+			// 
+			// ribbonPageGroup3
+			// 
+			this.ribbonPageGroup3.ItemLinks.Add(this.generateCode);
+			this.ribbonPageGroup3.Name = "ribbonPageGroup3";
+			this.ribbonPageGroup3.ShowCaptionButton = false;
+			this.ribbonPageGroup3.Text = "Code Generation";
 			// 
 			// ribbonStatusBar
 			// 
@@ -217,7 +237,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dataContextVGrid.RecordWidth = 80;
 			this.dataContextVGrid.RowHeaderWidth = 120;
 			this.dataContextVGrid.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
-            this.editorRow1});
+            this.editorRow1,
+            this.categoryRow1});
 			this.dataContextVGrid.Size = new System.Drawing.Size(194, 72);
 			this.dataContextVGrid.TabIndex = 0;
 			// 
@@ -231,6 +252,21 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			this.xtraTabbedMdiManager.MdiParent = this;
 			this.xtraTabbedMdiManager.SetNextMdiChildMode = DevExpress.XtraTabbedMdi.SetNextMdiChildMode.TabControl;
+			// 
+			// editorRow2
+			// 
+			this.editorRow2.Name = "editorRow2";
+			this.editorRow2.Properties.Caption = "Namespace";
+			this.editorRow2.Properties.CustomizationCaption = null;
+			this.editorRow2.Properties.FieldName = "NamespaceName";
+			// 
+			// categoryRow1
+			// 
+			this.categoryRow1.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
+            this.editorRow2});
+			this.categoryRow1.Name = "categoryRow1";
+			this.categoryRow1.Properties.Caption = "Code Generation";
+			this.categoryRow1.Properties.CustomizationCaption = null;
 			// 
 			// MainForm
 			// 
@@ -279,5 +315,9 @@ namespace ShomreiTorah.Singularity.Designer {
 		private DevExpress.XtraBars.BarButtonItem addSchema;
 		private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
 		private DevExpress.XtraBars.BarButtonItem deleteSchema;
+		private DevExpress.XtraBars.BarButtonItem generateCode;
+		private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
+		private DevExpress.XtraVerticalGrid.Rows.CategoryRow categoryRow1;
+		private DevExpress.XtraVerticalGrid.Rows.EditorRow editorRow2;
 	}
 }

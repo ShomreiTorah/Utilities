@@ -11,6 +11,8 @@ using ShomreiTorah.Common;
 using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraEditors;
 using ShomreiTorah.Singularity.Designer.Model;
+using System.IO;
+using System.Globalization;
 
 namespace ShomreiTorah.Singularity.Designer {
 	partial class MainForm : RibbonForm {
@@ -23,7 +25,7 @@ namespace ShomreiTorah.Singularity.Designer {
 		}
 
 		private void sqlServerImport_ItemClick(object sender, ItemClickEventArgs e) {
-			var newSchemas = Dialogs.SchemaSelector.ShowDialog( SqlReader.ReadSchemas(context,DB.Default));
+			var newSchemas = Dialogs.SchemaSelector.ShowDialog(SqlReader.ReadSchemas(context, DB.Default));
 			if (newSchemas != null)
 				context.Schemas.AddRange(newSchemas);
 		}
@@ -52,6 +54,11 @@ namespace ShomreiTorah.Singularity.Designer {
 				deleteSchema.Caption = "Delete " + schemaTree.SelectedSchema.Name;
 				deleteSchema.Enabled = true;
 			}
+		}
+
+		private void generateCode_ItemClick(object sender, ItemClickEventArgs e) {
+			var writer = new StringWriter(CultureInfo.InvariantCulture);
+			context.WriteClasses(writer);
 		}
 	}
 }

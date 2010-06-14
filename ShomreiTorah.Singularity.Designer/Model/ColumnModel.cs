@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Globalization;
 
 namespace ShomreiTorah.Singularity.Designer.Model {
-	public class ColumnModel : INotifyPropertyChanged {
+	public partial class ColumnModel : INotifyPropertyChanged {
 		public ColumnModel(SchemaModel owner) {
 			if (owner == null) throw new ArgumentNullException("owner");
 
@@ -28,6 +28,8 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					throw new ArgumentException("A column named " + value + " already exists.");
 				if (GenerateSqlMapping && SqlName == Name)
 					SqlName = value;
+				if (PropertyName == Name)
+					PropertyName = value;
 				name = value;
 				OnPropertyChanged("Name");
 			}
@@ -95,7 +97,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		SchemaModel foreignSchema;
 		///<summary>Gets or sets the schema that this column serves as a primary key for.</summary>
 		[Description("Gets or sets the schema that this column serves as a primary key for.")]
-		[Category("Data")]
+		[Category("Relations")]
 		public SchemaModel ForeignSchema {
 			get { return foreignSchema; }
 			set {
@@ -109,13 +111,54 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 				if (ForeignSchema != null)
 					ForeignSchema.AddChild(Owner);
 
-				if (ForeignSchema == null)
+				if (ForeignSchema == null) {
 					DataType = typeof(string);
-				else
+					ForeignRelationName = ForeignRelationPropertyName = null;
+				} else {
 					DataType = typeof(Row);
+					ForeignRelationName = ForeignSchema.Name;
+				}
 
 				Owner.Owner.OnTreeChanged();
 			}
+		}
+		string foreignRelationName;
+		///<summary>Gets or sets the name of the ChildRelation in the column's foreign schema.</summary>
+		[Description("Gets or sets the name of the ChildRelation in the column's foreign schema.")]
+		[Category("Relations")]
+		public string ForeignRelationName {
+			get { return foreignRelationName; }
+			set {
+				if (ForeignRelationPropertyName == ForeignRelationName)
+					ForeignRelationPropertyName = value;
+				foreignRelationName = value;
+				OnPropertyChanged("ForeignRelationName");
+			}
+		}
+		string foreignRelationPropertyName;
+		///<summary>Gets or sets the name of the property in the foreign schema that returns the child rows.</summary>
+		[Description("Gets or sets the name of the property in the foreign schema that returns the child rows.")]
+		[Category("Code Generation")]
+		public string ForeignRelationPropertyName {
+			get { return foreignRelationPropertyName; }
+			set { foreignRelationPropertyName = value; OnPropertyChanged("ForeignRelationPropertyName"); }
+		}
+
+		MemberVisibility propertyVisibility=MemberVisibility.Public;
+		///<summary>Gets or sets the access modifier for the column's property in the strongly-typed Row class.</summary>
+		[Description("Gets or sets the access modifier for the column's property in the strongly-typed Row class.")]
+		[Category("Code Generation")]
+		public MemberVisibility PropertyVisibility {
+			get { return propertyVisibility; }
+			set { propertyVisibility = value; OnPropertyChanged("PropertyVisibility"); }
+		}
+		string propertyName;
+		///<summary>Gets or sets the name of the column's property in the strongly-typed Row class.</summary>
+		[Description("Gets or sets the name of the column's property in the strongly-typed Row class.")]
+		[Category("Code Generation")]
+		public string PropertyName {
+			get { return propertyName; }
+			set { propertyName = value; OnPropertyChanged("PropertyName"); }
 		}
 
 		public override string ToString() {

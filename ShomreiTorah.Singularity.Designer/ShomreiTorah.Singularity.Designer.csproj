@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\CodeGenerator.cs" />
     <Compile Include="Controls\SchemaTree.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -94,6 +95,7 @@
     <Compile Include="Model\ColumnModel.cs" />
     <Compile Include="Model\DataContextModel.cs" />
     <Compile Include="Model\SchemaModel.cs" />
+    <Compile Include="Model\Temp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchemaDetailForm.cs">

@@ -42,6 +42,9 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.categoryRow3 = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
 			this.editorRow2 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.rowSqlSchemaName = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.categoryRow4 = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
+			this.editorRow4 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.editorRow3 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.columnsVGrid = new DevExpress.XtraVerticalGrid.VGridControl();
 			this.columnSqlNameEdit = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
 			this.syncSqlEdit = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
@@ -51,15 +54,21 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.categoryRow1 = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
 			this.rowSyncSql = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.rowColumnSqlName = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-			this.rowDefaultValue = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.rowAllowNulls = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.rowIsUnique = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.rowDefaultValue = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.categoryRow5 = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
 			this.rowForeignSchema = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.rowForeignRelationName = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.categoryRow6 = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
+			this.editorRow6 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.editorRow7 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
 			this.addColumn = new DevExpress.XtraBars.BarButtonItem();
 			this.deleteColumn = new DevExpress.XtraBars.BarButtonItem();
 			this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
 			this.schemaGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+			this.rowForeignRelationPropertyName = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).BeginInit();
 			this.splitContainerControl1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.columnsGrid)).BeginInit();
@@ -84,13 +93,13 @@ namespace ShomreiTorah.Singularity.Designer {
 			// splitContainerControl1
 			// 
 			this.splitContainerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainerControl1.Location = new System.Drawing.Point(0, 142);
+			this.splitContainerControl1.Location = new System.Drawing.Point(0, 95);
 			this.splitContainerControl1.Name = "splitContainerControl1";
 			this.splitContainerControl1.Panel1.Controls.Add(this.columnsGrid);
 			this.splitContainerControl1.Panel1.Text = "Panel1";
 			this.splitContainerControl1.Panel2.Controls.Add(this.splitContainerControl2);
 			this.splitContainerControl1.Panel2.Text = "Panel2";
-			this.splitContainerControl1.Size = new System.Drawing.Size(783, 410);
+			this.splitContainerControl1.Size = new System.Drawing.Size(798, 513);
 			this.splitContainerControl1.SplitterPosition = 443;
 			this.splitContainerControl1.TabIndex = 0;
 			this.splitContainerControl1.Text = "splitContainerControl1";
@@ -103,7 +112,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.columnsGrid.Location = new System.Drawing.Point(0, 0);
 			this.columnsGrid.MainView = this.columnsView;
 			this.columnsGrid.Name = "columnsGrid";
-			this.columnsGrid.Size = new System.Drawing.Size(443, 410);
+			this.columnsGrid.Size = new System.Drawing.Size(443, 513);
 			this.columnsGrid.TabIndex = 0;
 			this.columnsGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.columnsView});
@@ -273,7 +282,6 @@ namespace ShomreiTorah.Singularity.Designer {
 			// splitContainerControl2
 			// 
 			this.splitContainerControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainerControl2.FixedPanel = DevExpress.XtraEditors.SplitFixedPanel.None;
 			this.splitContainerControl2.Horizontal = false;
 			this.splitContainerControl2.Location = new System.Drawing.Point(0, 0);
 			this.splitContainerControl2.Name = "splitContainerControl2";
@@ -281,8 +289,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.splitContainerControl2.Panel1.Text = "Panel1";
 			this.splitContainerControl2.Panel2.Controls.Add(this.columnsVGrid);
 			this.splitContainerControl2.Panel2.Text = "Panel2";
-			this.splitContainerControl2.Size = new System.Drawing.Size(332, 410);
-			this.splitContainerControl2.SplitterPosition = 205;
+			this.splitContainerControl2.Size = new System.Drawing.Size(347, 513);
+			this.splitContainerControl2.SplitterPosition = 159;
 			this.splitContainerControl2.TabIndex = 0;
 			this.splitContainerControl2.Text = "splitContainerControl2";
 			// 
@@ -298,9 +306,10 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.schemaVGrid.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
             this.editorRow1,
             this.rowPrimaryKey,
-            this.categoryRow3});
+            this.categoryRow3,
+            this.categoryRow4});
 			this.schemaVGrid.ShowButtonMode = DevExpress.XtraVerticalGrid.ShowButtonModeEnum.ShowAlways;
-			this.schemaVGrid.Size = new System.Drawing.Size(332, 205);
+			this.schemaVGrid.Size = new System.Drawing.Size(347, 159);
 			this.schemaVGrid.TabIndex = 0;
 			// 
 			// editorRow1
@@ -342,6 +351,26 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.rowSqlSchemaName.Properties.CustomizationCaption = null;
 			this.rowSqlSchemaName.Properties.FieldName = "SqlSchemaName";
 			// 
+			// categoryRow4
+			// 
+			this.categoryRow4.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
+            this.editorRow4,
+            this.editorRow3});
+			this.categoryRow4.Name = "categoryRow4";
+			this.categoryRow4.Properties.Caption = "Code Generation";
+			// 
+			// editorRow4
+			// 
+			this.editorRow4.Name = "editorRow4";
+			this.editorRow4.Properties.Caption = "Class Visibility";
+			this.editorRow4.Properties.FieldName = "RowClassVisibility";
+			// 
+			// editorRow3
+			// 
+			this.editorRow3.Name = "editorRow3";
+			this.editorRow3.Properties.Caption = "Class Name";
+			this.editorRow3.Properties.FieldName = "RowClassName";
+			// 
 			// columnsVGrid
 			// 
 			this.columnsVGrid.DataSource = this.columnsBindingSource;
@@ -357,12 +386,13 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.columnsVGrid.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
             this.categoryRow2,
             this.categoryRow1,
-            this.rowDefaultValue,
             this.rowAllowNulls,
             this.rowIsUnique,
-            this.rowForeignSchema});
+            this.rowDefaultValue,
+            this.categoryRow5,
+            this.categoryRow6});
 			this.columnsVGrid.ShowButtonMode = DevExpress.XtraVerticalGrid.ShowButtonModeEnum.ShowAlways;
-			this.columnsVGrid.Size = new System.Drawing.Size(332, 197);
+			this.columnsVGrid.Size = new System.Drawing.Size(347, 346);
 			this.columnsVGrid.TabIndex = 0;
 			this.columnsVGrid.FocusedRecordChanged += new DevExpress.XtraVerticalGrid.Events.IndexChangedEventHandler(this.columnsVGrid_FocusedRecordChanged);
 			// 
@@ -426,13 +456,6 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.rowColumnSqlName.Properties.FieldName = "SqlName";
 			this.rowColumnSqlName.Properties.RowEdit = this.columnSqlNameEdit;
 			// 
-			// rowDefaultValue
-			// 
-			this.rowDefaultValue.Name = "rowDefaultValue";
-			this.rowDefaultValue.Properties.Caption = "Default Value";
-			this.rowDefaultValue.Properties.CustomizationCaption = null;
-			this.rowDefaultValue.Properties.FieldName = "DefaultValue";
-			// 
 			// rowAllowNulls
 			// 
 			this.rowAllowNulls.Name = "rowAllowNulls";
@@ -447,6 +470,21 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.rowIsUnique.Properties.CustomizationCaption = null;
 			this.rowIsUnique.Properties.FieldName = "IsUnique";
 			// 
+			// rowDefaultValue
+			// 
+			this.rowDefaultValue.Name = "rowDefaultValue";
+			this.rowDefaultValue.Properties.Caption = "Default Value";
+			this.rowDefaultValue.Properties.CustomizationCaption = null;
+			this.rowDefaultValue.Properties.FieldName = "DefaultValue";
+			// 
+			// categoryRow5
+			// 
+			this.categoryRow5.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
+            this.rowForeignSchema,
+            this.rowForeignRelationName});
+			this.categoryRow5.Name = "categoryRow5";
+			this.categoryRow5.Properties.Caption = "Relations";
+			// 
 			// rowForeignSchema
 			// 
 			this.rowForeignSchema.Name = "rowForeignSchema";
@@ -454,6 +492,33 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.rowForeignSchema.Properties.CustomizationCaption = null;
 			this.rowForeignSchema.Properties.FieldName = "ForeignSchema";
 			this.rowForeignSchema.Properties.RowEdit = this.foreignSchemaEdit;
+			// 
+			// rowForeignRelationName
+			// 
+			this.rowForeignRelationName.Name = "rowForeignRelationName";
+			this.rowForeignRelationName.Properties.Caption = "Foreign Relation";
+			this.rowForeignRelationName.Properties.FieldName = "ForeignRelationName";
+			// 
+			// categoryRow6
+			// 
+			this.categoryRow6.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
+            this.editorRow6,
+            this.editorRow7,
+            this.rowForeignRelationPropertyName});
+			this.categoryRow6.Name = "categoryRow6";
+			this.categoryRow6.Properties.Caption = "Code Generation";
+			// 
+			// editorRow6
+			// 
+			this.editorRow6.Name = "editorRow6";
+			this.editorRow6.Properties.Caption = "Proeprty Visibility";
+			this.editorRow6.Properties.FieldName = "PropertyVisibility";
+			// 
+			// editorRow7
+			// 
+			this.editorRow7.Name = "editorRow7";
+			this.editorRow7.Properties.Caption = "Property Name";
+			this.editorRow7.Properties.FieldName = "PropertyName";
 			// 
 			// ribbonControl1
 			// 
@@ -468,7 +533,9 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
 			this.ribbonControl1.SelectedPage = this.ribbonPage1;
-			this.ribbonControl1.Size = new System.Drawing.Size(783, 142);
+			this.ribbonControl1.ShowPageHeadersMode = DevExpress.XtraBars.Ribbon.ShowPageHeadersMode.ShowOnMultiplePages;
+			this.ribbonControl1.Size = new System.Drawing.Size(798, 95);
+			this.ribbonControl1.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Hidden;
 			// 
 			// addColumn
 			// 
@@ -502,11 +569,18 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.schemaGroup.ShowCaptionButton = false;
 			this.schemaGroup.Text = "Schema";
 			// 
+			// rowForeignRelationPropertyName
+			// 
+			this.rowForeignRelationPropertyName.Name = "rowForeignRelationPropertyName";
+			this.rowForeignRelationPropertyName.Properties.Caption = "Child Property Name";
+			this.rowForeignRelationPropertyName.Properties.CustomizationCaption = null;
+			this.rowForeignRelationPropertyName.Properties.FieldName = "ForeignRelationPropertyName";
+			// 
 			// SchemaDetailForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(783, 552);
+			this.ClientSize = new System.Drawing.Size(798, 608);
 			this.Controls.Add(this.splitContainerControl1);
 			this.Controls.Add(this.ribbonControl1);
 			this.Name = "SchemaDetailForm";
@@ -583,5 +657,14 @@ namespace ShomreiTorah.Singularity.Designer {
 		private DevExpress.XtraBars.BarButtonItem deleteColumn;
 		private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
 		private DevExpress.XtraBars.Ribbon.RibbonPageGroup schemaGroup;
+		private DevExpress.XtraVerticalGrid.Rows.CategoryRow categoryRow4;
+		private DevExpress.XtraVerticalGrid.Rows.EditorRow editorRow4;
+		private DevExpress.XtraVerticalGrid.Rows.EditorRow editorRow3;
+		private DevExpress.XtraVerticalGrid.Rows.CategoryRow categoryRow5;
+		private DevExpress.XtraVerticalGrid.Rows.EditorRow rowForeignRelationName;
+		private DevExpress.XtraVerticalGrid.Rows.CategoryRow categoryRow6;
+		private DevExpress.XtraVerticalGrid.Rows.EditorRow editorRow6;
+		private DevExpress.XtraVerticalGrid.Rows.EditorRow editorRow7;
+		private DevExpress.XtraVerticalGrid.Rows.EditorRow rowForeignRelationPropertyName;
 	}
 }

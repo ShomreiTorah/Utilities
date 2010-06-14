@@ -20,6 +20,16 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			set { name = value; OnPropertyChanged("Name"); }
 		}
 		public BindingList<SchemaModel> Schemas { get; private set; }
+
+		string namespaceName="ShomreiTorah";
+		///<summary>Gets or sets the namespace for the generated code.</summary>
+		[Description("Gets or sets the namespace for the generated code.")]
+		[Category("Code Generation")]
+		public string Namespace {
+			get { return namespaceName; }
+			set { namespaceName = value; OnPropertyChanged("Namespace"); }
+		}
+
 		///<summary>Occurs when a property value is changed.</summary>
 		public event PropertyChangedEventHandler PropertyChanged;
 		///<summary>Raises the PropertyChanged event.</summary>

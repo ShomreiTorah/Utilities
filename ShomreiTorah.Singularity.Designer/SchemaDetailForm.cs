@@ -112,6 +112,7 @@ namespace ShomreiTorah.Singularity.Designer {
 				foreignSchemaEdit.View.BestFitColumns();
 			}
 			ClearForeignSchemaButton.Enabled = FocusedColumn != null && FocusedColumn.ForeignSchema != null;
+			rowForeignRelationName.Enabled = rowForeignRelationPropertyName.Enabled = FocusedColumn == null || FocusedColumn.ForeignSchema != null;
 		}
 		void UpdateColumnSqlNameEdit() {
 			rowColumnSqlName.Enabled = FocusedColumn == null || FocusedColumn.GenerateSqlMapping;
