@@ -141,6 +141,22 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 				WriteValueProperty(column, writer);
 			writer.WriteLine("#endregion");
 
+			if (schema.ChildSchemas.Any()) {
+				writer.WriteLine();
+
+				writer.WriteLine("#region ChildRows Properties");
+				//Support schemas with two foreign keys
+				//that reference the same parent schema
+				foreach (var foreignColumn in schema.ChildSchemas.SelectMany(fs => fs.Columns.Where(c => c.ForeignSchema == schema))) {
+					//public IChildRowCollection<Pledge> Pledges { get { return TypedChildRows<Pledge>(Pledge.PersonIdColumn); } }
+
+					writer.WriteLine(foreignColumn.Owner.RowClassVisibility.ToString().ToLowerInvariant()
+								   + " IChildRowCollection<" + foreignColumn.Owner.RowClassName + "> " + foreignColumn.ForeignRelationPropertyName
+								   + " { get { return TypedChildRows<" + foreignColumn.Owner.RowClassName + ">(" + foreignColumn.Owner.RowClassName + "." + foreignColumn.PropertyName + "Column); } }");
+				}
+				writer.WriteLine("#endregion");
+			}
+
 			writer.WriteLine();
 
 			writer.Write("#region Partial Methods");
