@@ -1,13 +1,58 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace ShomreiTorah.Singularity.Designer.Model {
 	static class CodeGenerator {
-		public static string Quote(this string str) { return str == null ? "null" : "\"" + str.Replace(@"\", @"\\") + "\""; }	//TODO: Improve
+		public static string Quote(this string value) {
+			if (value == null) return "null";
+			StringBuilder b = new StringBuilder(value.Length + 5);
+
+			b.Append("\"");	//Adapted from .Net source (Microsoft.CSharp.CSharpCodeGenerator.QuoteSnippetStringCStyle)
+
+			for (int i = 0; i < value.Length; i++) {
+				switch (value[i]) {
+					case '\r':
+						b.Append(@"\r");
+						break;
+					case '\t':
+						b.Append(@"\t");
+						break;
+					case '\"':
+						b.Append(@"\""");
+						break;
+					case '\'':
+						b.Append(@"\'");
+						break;
+					case '\\':
+						b.Append(@"\\");
+						break;
+					case '\0':
+						b.Append(@"\0");
+						break;
+					case '\n':
+						b.Append(@"\n");
+						break;
+					case '\u2028':
+					case '\u2029':
+						b.Append(@"\u");
+						b.Append(((int)value[i]).ToString("X4", CultureInfo.InvariantCulture));
+						break;
+
+					default:
+						b.Append(value[i]);
+						break;
+				}
+			}
+
+			b.Append("\"");
+
+			return b.ToString();
+		}
 
 		public static void WriteClasses(this DataContextModel model, TextWriter writer) {
 			if (model == null) throw new ArgumentNullException("model");
