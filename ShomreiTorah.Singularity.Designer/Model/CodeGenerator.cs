@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ShomreiTorah.Singularity.Designer.Model {
 	static class CodeGenerator {
-		public static string Quote(this string str) { return "\"" + str.Replace(@"\", @"\\") + "\""; }	//TODO: Improve
+		public static string Quote(this string str) { return str == null ? "null" : "\"" + str.Replace(@"\", @"\\") + "\""; }	//TODO: Improve
 
 		public static void WriteClasses(this DataContextModel model, TextWriter writer) {
 			if (model == null) throw new ArgumentNullException("model");
@@ -19,12 +19,18 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			indentedWriter.WriteLine("using System.Diagnostics;");
 			indentedWriter.WriteLine("using ShomreiTorah.Singularity;");
 			indentedWriter.WriteLine("using ShomreiTorah.Singularity.Sql;");
-
+			indentedWriter.WriteLine();
 			indentedWriter.WriteLine("namespace " + model.Namespace + " {");
 			indentedWriter.Indent++;
 
-			foreach (var schema in model.Schemas)
+			bool first = true;
+			foreach (var schema in model.Schemas) {
+				if (first)
+					first = false;
+				else
+					indentedWriter.WriteLine();
 				WriteSchema(schema, indentedWriter);
+			}
 
 			indentedWriter.Indent--;
 			indentedWriter.WriteLine("}");
@@ -33,32 +39,55 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		static void WriteSchema(SchemaModel schema, IndentedTextWriter writer) {
 			writer.WriteLine(schema.RowClassVisibility.ToString().ToLowerInvariant() + " partial class " + schema.RowClassName + " : Row {");
 			writer.Indent++;
+
+			writer.WriteLine(@"///<summary>Creates a new  " + schema.RowClassName + @" instance.</summary>");
+			writer.WriteLine("public " + schema.RowClassName + " () : base(Schema) { Initialize(); }");
+			writer.WriteLine("partial void Initialize();");
+
+			writer.WriteLine();
+
+			writer.WriteLine(@"///<summary>Creates a strongly-typed  " + schema.Name + @" table.</summary>");
 			writer.WriteLine("public static TypedTable<" + schema.RowClassName + "> CreateTable() "
 								+ "{ return new TypedTable<" + schema.RowClassName + ">(Schema, () => new " + schema.RowClassName + "()); }");
-			writer.WriteLine(@"///<summary>Creates a new  " + schema.RowClassName + @" instance.</summary>");
-			writer.WriteLine("public " + schema.RowClassName + " () : base(Schema) { }");
 
 			writer.WriteLine();
 			foreach (var column in schema.Columns) {
-				writer.WriteLine(@"///<summary>Gets the " + column.Name + @" column.</summary>");
+				writer.WriteLine(@"///<summary>Gets the schema's " + column.Name + @" column.</summary>");
 				writer.WriteLine("public static " + column.ColumnType.Name + " " + column.ColumnPropertyName + " { get; private set; }");
 			}
 			writer.WriteLine();
 
 
-			writer.WriteLine("#region Create Schema");
-			writer.WriteLine(@"///<summary>Gets the " + schema.Name + @" schema.</summary>");
-			writer.WriteLine("public static new TypedSchema<" + schema.RowClassName + "> Schema { get { return schema; } }");
-			writer.Write("private static readonly TypedSchema<" + schema.RowClassName + "> schema "
-								+ "= TypedSchema<" + schema.RowClassName + ">.Create(" + schema.Name.Quote() + ", schema => {");
+			writer.WriteLine(@"///<summary>Gets the " + schema.Name + @" schema instance.</summary>");
+			writer.WriteLine("public static new TypedSchema<" + schema.RowClassName + "> Schema { get; private set; }");
+
+			writer.WriteLine(@"///<summary>Gets the SchemaMapping that maps this schema to the SQL Server " + schema.SqlName + @" table.</summary>");
+			writer.WriteLine("public static SchemaMapping SchemaMapping { get; private set; }");
+
+			writer.WriteLine();
+			writer.WriteGeneratedCodeAttribute();
+			writer.WriteLine("static " + schema.RowClassName + "() {");
 			writer.Indent++;
+			writer.WriteLine("#region Create Schema");
+			writer.WriteLine("Schema = new TypedSchema<" + schema.RowClassName + ">(" + schema.Name.Quote() + ");");
 			foreach (var column in schema.Columns) {
 				writer.WriteLine();
 				WriteColumnCreation(column, writer);
 			}
-			writer.Indent--;
-			writer.WriteLine("});");
 			writer.WriteLine("#endregion");
+			writer.WriteLine();
+
+			writer.WriteLine("#region Create SchemaMapping");
+			writer.WriteLine("SchemaMapping = new SchemaMapping(Schema, false);");
+			writer.WriteLine("SchemaMapping.SqlName = " + schema.SqlName.Quote() + ";");
+			writer.WriteLine("SchemaMapping.SqlSchemaName = " + schema.SqlSchemaName.Quote() + ";");
+			writer.WriteLine();
+			foreach (var column in schema.Columns)
+				writer.WriteLine("SchemaMapping.Columns.AddMapping(" + column.PropertyName + "Column, " + column.SqlName.Quote() + ");");
+			writer.WriteLine("#endregion");
+
+			writer.Indent--;
+			writer.WriteLine("}");
 
 			writer.WriteLine();
 
@@ -85,7 +114,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			writer.WriteLine(@"///<param name=""newValue"">The value to validate.</param>");
 			writer.WriteLine(@"///<returns>An error message, or null if the value is valid.</returns>");
 			writer.WriteLine(@"///<remarks>This method is overridden by typed rows to perform custom validation logic.</remarks>");
-			writer.WritGeneratedCodeAttribute();
+			writer.WriteGeneratedCodeAttribute();
 			writer.WriteLine("public override string ValidateValue(Column column, object newValue) {");
 			writer.Indent++;
 			writer.WriteLine("string error = base.ValidateValue(column, newValue);");
@@ -114,7 +143,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			#endregion
 			#region OnValueChanged
 			writer.WriteLine(@"///<summary>Processes an explicit change of a column value.</summary>");
-			writer.WritGeneratedCodeAttribute();
+			writer.WriteGeneratedCodeAttribute();
 			writer.WriteLine("protected override void OnValueChanged(Column column, object oldValue, object newValue) {");
 			writer.Indent++;
 
@@ -143,13 +172,13 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			//TODO: Calculated Columns
 
 			if (column == column.Owner.PrimaryKey)
-				writer.Write("schema.PrimaryKey = ");
+				writer.Write("Schema.PrimaryKey = ");
 			if (column.ForeignSchema != null) {
 				writer.WriteLine(column.ColumnPropertyName
-					+ " = schema.Columns.AddForeignKey(" + column.Name.Quote() + ", " + column.ForeignSchema.RowClassName + ".Schema, " + column.ForeignRelationName.Quote() + ");");
+					+ " = Schema.Columns.AddForeignKey(" + column.Name.Quote() + ", " + column.ForeignSchema.RowClassName + ".Schema, " + column.ForeignRelationName.Quote() + ");");
 			} else {
 				writer.WriteLine(column.ColumnPropertyName
-					+ " = schema.Columns.AddValueColumn(" + column.Name.Quote() + ", typeof(" + column.DataType.Name + "), " + column.DefaultValueCode + ");");
+					+ " = Schema.Columns.AddValueColumn(" + column.Name.Quote() + ", typeof(" + column.DataType.Name + "), " + column.DefaultValueCode + ");");
 			}
 			if (column.IsUnique)
 				writer.WriteLine(column.ColumnPropertyName + ".Unique = true;");
@@ -162,7 +191,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		}
 
 		static void WriteValueProperty(ColumnModel column, IndentedTextWriter writer) {
-			writer.WritGeneratedCodeAttribute();
+			writer.WriteGeneratedCodeAttribute();
 			writer.WriteLine(column.PropertyVisibility.ToString().ToLowerInvariant() + " " + column.ActualType + " " + column.PropertyName + " {");
 			writer.Indent++;
 			writer.WriteLine("get { return base.Field<" + column.ActualType + ">(" + column.ColumnPropertyName + "); }");
@@ -171,7 +200,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			writer.WriteLine("}");
 		}
 
-		static void WritGeneratedCodeAttribute(this TextWriter writer) {
+		static void WriteGeneratedCodeAttribute(this TextWriter writer) {
 			writer.WriteLine(@"[DebuggerNonUserCode]");
 			writer.WriteLine(@"[GeneratedCode(""ShomreiTorah.Singularity.Designer"", ""1.0"")]");
 		}

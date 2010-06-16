@@ -3,29 +3,49 @@ using System.CodeDom.Compiler;
 using System.Diagnostics;
 using ShomreiTorah.Singularity;
 using ShomreiTorah.Singularity.Sql;
+
 namespace ShomreiTorah {
 	public partial class SSEmails : Row {
-		public static TypedTable<SSEmails> CreateTable() { return new TypedTable<SSEmails>(Schema, () => new SSEmails()); }
 		///<summary>Creates a new  SSEmails instance.</summary>
-		public SSEmails() : base(Schema) { }
+		public SSEmails() : base(Schema) { Initialize(); }
+		partial void Initialize();
 
-		///<summary>Gets the PledgeId column.</summary>
+		///<summary>Creates a strongly-typed  SSEmails table.</summary>
+		public static TypedTable<SSEmails> CreateTable() { return new TypedTable<SSEmails>(Schema, () => new SSEmails()); }
+
+		///<summary>Gets the schema's PledgeId column.</summary>
 		public static ForeignKeyColumn PledgeIdColumn { get; private set; }
-		///<summary>Gets the Email column.</summary>
+		///<summary>Gets the schema's Email column.</summary>
 		public static ValueColumn EmailColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the SSEmails schema.</summary>
-		public static new TypedSchema<SSEmails> Schema { get { return schema; } }
-		private static readonly TypedSchema<SSEmails> schema = TypedSchema<SSEmails>.Create("SSEmails", schema => {
-			PledgeIdColumn = schema.Columns.AddForeignKey("PledgeId", Pledges.Schema, "Pledges");
+		///<summary>Gets the SSEmails schema instance.</summary>
+		public static new TypedSchema<SSEmails> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server SSEmails table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static SSEmails() {
+			#region Create Schema
+			Schema = new TypedSchema<SSEmails>("SSEmails");
+
+			PledgeIdColumn = Schema.Columns.AddForeignKey("PledgeId", Pledges.Schema, "Pledges");
 			PledgeIdColumn.Unique = true;
 			PledgeIdColumn.AllowNulls = false;
 
-			EmailColumn = schema.Columns.AddValueColumn("Email", typeof(String), null);
+			EmailColumn = Schema.Columns.AddValueColumn("Email", typeof(String), null);
 			EmailColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "SSEmails";
+			SchemaMapping.SqlSchemaName = "Website";
+
+			SchemaMapping.Columns.AddMapping(PledgeIdColumn, "PledgeId");
+			SchemaMapping.Columns.AddMapping(EmailColumn, "Email");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -85,48 +105,72 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class SSRequests : Row {
-		public static TypedTable<SSRequests> CreateTable() { return new TypedTable<SSRequests>(Schema, () => new SSRequests()); }
-		///<summary>Creates a new  SSRequests instance.</summary>
-		public SSRequests() : base(Schema) { }
 
-		///<summary>Gets the ID column.</summary>
+	public partial class SSRequests : Row {
+		///<summary>Creates a new  SSRequests instance.</summary>
+		public SSRequests() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  SSRequests table.</summary>
+		public static TypedTable<SSRequests> CreateTable() { return new TypedTable<SSRequests>(Schema, () => new SSRequests()); }
+
+		///<summary>Gets the schema's ID column.</summary>
 		public static ValueColumn IDColumn { get; private set; }
-		///<summary>Gets the Date column.</summary>
+		///<summary>Gets the schema's Date column.</summary>
 		public static ValueColumn DateColumn { get; private set; }
-		///<summary>Gets the FullName column.</summary>
+		///<summary>Gets the schema's FullName column.</summary>
 		public static ValueColumn FullNameColumn { get; private set; }
-		///<summary>Gets the Phone column.</summary>
+		///<summary>Gets the schema's Phone column.</summary>
 		public static ValueColumn PhoneColumn { get; private set; }
-		///<summary>Gets the Email column.</summary>
+		///<summary>Gets the schema's Email column.</summary>
 		public static ValueColumn EmailColumn { get; private set; }
-		///<summary>Gets the Text column.</summary>
+		///<summary>Gets the schema's Text column.</summary>
 		public static ValueColumn TextColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the SSRequests schema.</summary>
-		public static new TypedSchema<SSRequests> Schema { get { return schema; } }
-		private static readonly TypedSchema<SSRequests> schema = TypedSchema<SSRequests>.Create("SSRequests", schema => {
-			IDColumn = schema.Columns.AddValueColumn("ID", typeof(Int32), null);
+		///<summary>Gets the SSRequests schema instance.</summary>
+		public static new TypedSchema<SSRequests> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server SSRequests table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static SSRequests() {
+			#region Create Schema
+			Schema = new TypedSchema<SSRequests>("SSRequests");
+
+			IDColumn = Schema.Columns.AddValueColumn("ID", typeof(Int32), null);
 			IDColumn.AllowNulls = false;
 
-			DateColumn = schema.Columns.AddValueColumn("Date", typeof(DateTime), null);
+			DateColumn = Schema.Columns.AddValueColumn("Date", typeof(DateTime), null);
 			DateColumn.Unique = true;
 			DateColumn.AllowNulls = false;
 
-			FullNameColumn = schema.Columns.AddValueColumn("FullName", typeof(String), null);
+			FullNameColumn = Schema.Columns.AddValueColumn("FullName", typeof(String), null);
 			FullNameColumn.AllowNulls = false;
 
-			PhoneColumn = schema.Columns.AddValueColumn("Phone", typeof(String), null);
+			PhoneColumn = Schema.Columns.AddValueColumn("Phone", typeof(String), null);
 			PhoneColumn.AllowNulls = false;
 
-			EmailColumn = schema.Columns.AddValueColumn("Email", typeof(String), null);
+			EmailColumn = Schema.Columns.AddValueColumn("Email", typeof(String), null);
 			EmailColumn.AllowNulls = false;
 
-			TextColumn = schema.Columns.AddValueColumn("Text", typeof(String), null);
+			TextColumn = Schema.Columns.AddValueColumn("Text", typeof(String), null);
 			TextColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "SSRequests";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(IDColumn, "ID");
+			SchemaMapping.Columns.AddMapping(DateColumn, "Date");
+			SchemaMapping.Columns.AddMapping(FullNameColumn, "FullName");
+			SchemaMapping.Columns.AddMapping(PhoneColumn, "Phone");
+			SchemaMapping.Columns.AddMapping(EmailColumn, "Email");
+			SchemaMapping.Columns.AddMapping(TextColumn, "Text");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -242,47 +286,71 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class MBList : Row {
-		public static TypedTable<MBList> CreateTable() { return new TypedTable<MBList>(Schema, () => new MBList()); }
-		///<summary>Creates a new  MBList instance.</summary>
-		public MBList() : base(Schema) { }
 
-		///<summary>Gets the ID column.</summary>
+	public partial class MBList : Row {
+		///<summary>Creates a new  MBList instance.</summary>
+		public MBList() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  MBList table.</summary>
+		public static TypedTable<MBList> CreateTable() { return new TypedTable<MBList>(Schema, () => new MBList()); }
+
+		///<summary>Gets the schema's ID column.</summary>
 		public static ValueColumn IDColumn { get; private set; }
-		///<summary>Gets the FullName column.</summary>
+		///<summary>Gets the schema's FullName column.</summary>
 		public static ValueColumn FullNameColumn { get; private set; }
-		///<summary>Gets the Phone column.</summary>
+		///<summary>Gets the schema's Phone column.</summary>
 		public static ValueColumn PhoneColumn { get; private set; }
-		///<summary>Gets the Email column.</summary>
+		///<summary>Gets the schema's Email column.</summary>
 		public static ValueColumn EmailColumn { get; private set; }
-		///<summary>Gets the CholehName column.</summary>
+		///<summary>Gets the schema's CholehName column.</summary>
 		public static ValueColumn CholehNameColumn { get; private set; }
-		///<summary>Gets the Until column.</summary>
+		///<summary>Gets the schema's Until column.</summary>
 		public static ValueColumn UntilColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the MBList schema.</summary>
-		public static new TypedSchema<MBList> Schema { get { return schema; } }
-		private static readonly TypedSchema<MBList> schema = TypedSchema<MBList>.Create("MBList", schema => {
-			IDColumn = schema.Columns.AddValueColumn("ID", typeof(Int32), null);
+		///<summary>Gets the MBList schema instance.</summary>
+		public static new TypedSchema<MBList> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server MBList table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static MBList() {
+			#region Create Schema
+			Schema = new TypedSchema<MBList>("MBList");
+
+			IDColumn = Schema.Columns.AddValueColumn("ID", typeof(Int32), null);
 			IDColumn.AllowNulls = false;
 
-			FullNameColumn = schema.Columns.AddValueColumn("FullName", typeof(String), null);
+			FullNameColumn = Schema.Columns.AddValueColumn("FullName", typeof(String), null);
 			FullNameColumn.AllowNulls = false;
 
-			PhoneColumn = schema.Columns.AddValueColumn("Phone", typeof(String), null);
+			PhoneColumn = Schema.Columns.AddValueColumn("Phone", typeof(String), null);
 			PhoneColumn.AllowNulls = false;
 
-			EmailColumn = schema.Columns.AddValueColumn("Email", typeof(String), null);
+			EmailColumn = Schema.Columns.AddValueColumn("Email", typeof(String), null);
 			EmailColumn.AllowNulls = false;
 
-			CholehNameColumn = schema.Columns.AddValueColumn("CholehName", typeof(String), null);
+			CholehNameColumn = Schema.Columns.AddValueColumn("CholehName", typeof(String), null);
 			CholehNameColumn.AllowNulls = false;
 
-			UntilColumn = schema.Columns.AddValueColumn("Until", typeof(DateTime), null);
+			UntilColumn = Schema.Columns.AddValueColumn("Until", typeof(DateTime), null);
 			UntilColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "MBList";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(IDColumn, "ID");
+			SchemaMapping.Columns.AddMapping(FullNameColumn, "FullName");
+			SchemaMapping.Columns.AddMapping(PhoneColumn, "Phone");
+			SchemaMapping.Columns.AddMapping(EmailColumn, "Email");
+			SchemaMapping.Columns.AddMapping(CholehNameColumn, "CholehName");
+			SchemaMapping.Columns.AddMapping(UntilColumn, "Until");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -398,37 +466,59 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class vw_aspnet_WebPartState_Paths : Row {
-		public static TypedTable<vw_aspnet_WebPartState_Paths> CreateTable() { return new TypedTable<vw_aspnet_WebPartState_Paths>(Schema, () => new vw_aspnet_WebPartState_Paths()); }
-		///<summary>Creates a new  vw_aspnet_WebPartState_Paths instance.</summary>
-		public vw_aspnet_WebPartState_Paths() : base(Schema) { }
 
-		///<summary>Gets the ApplicationId column.</summary>
+	public partial class vw_aspnet_WebPartState_Paths : Row {
+		///<summary>Creates a new  vw_aspnet_WebPartState_Paths instance.</summary>
+		public vw_aspnet_WebPartState_Paths() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  vw_aspnet_WebPartState_Paths table.</summary>
+		public static TypedTable<vw_aspnet_WebPartState_Paths> CreateTable() { return new TypedTable<vw_aspnet_WebPartState_Paths>(Schema, () => new vw_aspnet_WebPartState_Paths()); }
+
+		///<summary>Gets the schema's ApplicationId column.</summary>
 		public static ValueColumn ApplicationIdColumn { get; private set; }
-		///<summary>Gets the PathId column.</summary>
+		///<summary>Gets the schema's PathId column.</summary>
 		public static ValueColumn PathIdColumn { get; private set; }
-		///<summary>Gets the Path column.</summary>
+		///<summary>Gets the schema's Path column.</summary>
 		public static ValueColumn PathColumn { get; private set; }
-		///<summary>Gets the LoweredPath column.</summary>
+		///<summary>Gets the schema's LoweredPath column.</summary>
 		public static ValueColumn LoweredPathColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the vw_aspnet_WebPartState_Paths schema.</summary>
-		public static new TypedSchema<vw_aspnet_WebPartState_Paths> Schema { get { return schema; } }
-		private static readonly TypedSchema<vw_aspnet_WebPartState_Paths> schema = TypedSchema<vw_aspnet_WebPartState_Paths>.Create("vw_aspnet_WebPartState_Paths", schema => {
-			ApplicationIdColumn = schema.Columns.AddValueColumn("ApplicationId", typeof(Guid), null);
+		///<summary>Gets the vw_aspnet_WebPartState_Paths schema instance.</summary>
+		public static new TypedSchema<vw_aspnet_WebPartState_Paths> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server vw_aspnet_WebPartState_Paths table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static vw_aspnet_WebPartState_Paths() {
+			#region Create Schema
+			Schema = new TypedSchema<vw_aspnet_WebPartState_Paths>("vw_aspnet_WebPartState_Paths");
+
+			ApplicationIdColumn = Schema.Columns.AddValueColumn("ApplicationId", typeof(Guid), null);
 			ApplicationIdColumn.AllowNulls = false;
 
-			PathIdColumn = schema.Columns.AddValueColumn("PathId", typeof(Guid), null);
+			PathIdColumn = Schema.Columns.AddValueColumn("PathId", typeof(Guid), null);
 			PathIdColumn.AllowNulls = false;
 
-			PathColumn = schema.Columns.AddValueColumn("Path", typeof(String), null);
+			PathColumn = Schema.Columns.AddValueColumn("Path", typeof(String), null);
 			PathColumn.AllowNulls = false;
 
-			LoweredPathColumn = schema.Columns.AddValueColumn("LoweredPath", typeof(String), null);
+			LoweredPathColumn = Schema.Columns.AddValueColumn("LoweredPath", typeof(String), null);
 			LoweredPathColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "vw_aspnet_WebPartState_Paths";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(ApplicationIdColumn, "ApplicationId");
+			SchemaMapping.Columns.AddMapping(PathIdColumn, "PathId");
+			SchemaMapping.Columns.AddMapping(PathColumn, "Path");
+			SchemaMapping.Columns.AddMapping(LoweredPathColumn, "LoweredPath");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -516,34 +606,55 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class ScheduleDates : Row {
-		public static TypedTable<ScheduleDates> CreateTable() { return new TypedTable<ScheduleDates>(Schema, () => new ScheduleDates()); }
-		///<summary>Creates a new  ScheduleDates instance.</summary>
-		public ScheduleDates() : base(Schema) { }
 
-		///<summary>Gets the ID column.</summary>
+	public partial class ScheduleDates : Row {
+		///<summary>Creates a new  ScheduleDates instance.</summary>
+		public ScheduleDates() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  ScheduleDates table.</summary>
+		public static TypedTable<ScheduleDates> CreateTable() { return new TypedTable<ScheduleDates>(Schema, () => new ScheduleDates()); }
+
+		///<summary>Gets the schema's ID column.</summary>
 		public static ValueColumn IDColumn { get; private set; }
-		///<summary>Gets the Date column.</summary>
+		///<summary>Gets the schema's Date column.</summary>
 		public static ValueColumn DateColumn { get; private set; }
-		///<summary>Gets the Title column.</summary>
+		///<summary>Gets the schema's Title column.</summary>
 		public static ValueColumn TitleColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the ScheduleDates schema.</summary>
-		public static new TypedSchema<ScheduleDates> Schema { get { return schema; } }
-		private static readonly TypedSchema<ScheduleDates> schema = TypedSchema<ScheduleDates>.Create("ScheduleDates", schema => {
-			schema.PrimaryKey = IDColumn = schema.Columns.AddValueColumn("ID", typeof(Guid), null);
+		///<summary>Gets the ScheduleDates schema instance.</summary>
+		public static new TypedSchema<ScheduleDates> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server ScheduleDates table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static ScheduleDates() {
+			#region Create Schema
+			Schema = new TypedSchema<ScheduleDates>("ScheduleDates");
+
+			Schema.PrimaryKey = IDColumn = Schema.Columns.AddValueColumn("ID", typeof(Guid), null);
 			IDColumn.Unique = true;
 			IDColumn.AllowNulls = false;
 
-			DateColumn = schema.Columns.AddValueColumn("Date", typeof(DateTime), null);
+			DateColumn = Schema.Columns.AddValueColumn("Date", typeof(DateTime), null);
 			DateColumn.Unique = true;
 			DateColumn.AllowNulls = false;
 
-			TitleColumn = schema.Columns.AddValueColumn("Title", typeof(String), null);
+			TitleColumn = Schema.Columns.AddValueColumn("Title", typeof(String), null);
 			TitleColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "ScheduleDates";
+			SchemaMapping.SqlSchemaName = "Schedules";
+
+			SchemaMapping.Columns.AddMapping(IDColumn, "ID");
+			SchemaMapping.Columns.AddMapping(DateColumn, "Date");
+			SchemaMapping.Columns.AddMapping(TitleColumn, "Title");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -617,32 +728,53 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class vw_aspnet_WebPartState_Shared : Row {
-		public static TypedTable<vw_aspnet_WebPartState_Shared> CreateTable() { return new TypedTable<vw_aspnet_WebPartState_Shared>(Schema, () => new vw_aspnet_WebPartState_Shared()); }
-		///<summary>Creates a new  vw_aspnet_WebPartState_Shared instance.</summary>
-		public vw_aspnet_WebPartState_Shared() : base(Schema) { }
 
-		///<summary>Gets the PathId column.</summary>
+	public partial class vw_aspnet_WebPartState_Shared : Row {
+		///<summary>Creates a new  vw_aspnet_WebPartState_Shared instance.</summary>
+		public vw_aspnet_WebPartState_Shared() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  vw_aspnet_WebPartState_Shared table.</summary>
+		public static TypedTable<vw_aspnet_WebPartState_Shared> CreateTable() { return new TypedTable<vw_aspnet_WebPartState_Shared>(Schema, () => new vw_aspnet_WebPartState_Shared()); }
+
+		///<summary>Gets the schema's PathId column.</summary>
 		public static ValueColumn PathIdColumn { get; private set; }
-		///<summary>Gets the DataSize column.</summary>
+		///<summary>Gets the schema's DataSize column.</summary>
 		public static ValueColumn DataSizeColumn { get; private set; }
-		///<summary>Gets the LastUpdatedDate column.</summary>
+		///<summary>Gets the schema's LastUpdatedDate column.</summary>
 		public static ValueColumn LastUpdatedDateColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the vw_aspnet_WebPartState_Shared schema.</summary>
-		public static new TypedSchema<vw_aspnet_WebPartState_Shared> Schema { get { return schema; } }
-		private static readonly TypedSchema<vw_aspnet_WebPartState_Shared> schema = TypedSchema<vw_aspnet_WebPartState_Shared>.Create("vw_aspnet_WebPartState_Shared", schema => {
-			PathIdColumn = schema.Columns.AddValueColumn("PathId", typeof(Guid), null);
+		///<summary>Gets the vw_aspnet_WebPartState_Shared schema instance.</summary>
+		public static new TypedSchema<vw_aspnet_WebPartState_Shared> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server vw_aspnet_WebPartState_Shared table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static vw_aspnet_WebPartState_Shared() {
+			#region Create Schema
+			Schema = new TypedSchema<vw_aspnet_WebPartState_Shared>("vw_aspnet_WebPartState_Shared");
+
+			PathIdColumn = Schema.Columns.AddValueColumn("PathId", typeof(Guid), null);
 			PathIdColumn.AllowNulls = false;
 
-			DataSizeColumn = schema.Columns.AddValueColumn("DataSize", typeof(Int32), null);
+			DataSizeColumn = Schema.Columns.AddValueColumn("DataSize", typeof(Int32), null);
 			DataSizeColumn.AllowNulls = true;
 
-			LastUpdatedDateColumn = schema.Columns.AddValueColumn("LastUpdatedDate", typeof(DateTime), null);
+			LastUpdatedDateColumn = Schema.Columns.AddValueColumn("LastUpdatedDate", typeof(DateTime), null);
 			LastUpdatedDateColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "vw_aspnet_WebPartState_Shared";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(PathIdColumn, "PathId");
+			SchemaMapping.Columns.AddMapping(DataSizeColumn, "DataSize");
+			SchemaMapping.Columns.AddMapping(LastUpdatedDateColumn, "LastUpdatedDate");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -716,37 +848,59 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class vw_aspnet_WebPartState_User : Row {
-		public static TypedTable<vw_aspnet_WebPartState_User> CreateTable() { return new TypedTable<vw_aspnet_WebPartState_User>(Schema, () => new vw_aspnet_WebPartState_User()); }
-		///<summary>Creates a new  vw_aspnet_WebPartState_User instance.</summary>
-		public vw_aspnet_WebPartState_User() : base(Schema) { }
 
-		///<summary>Gets the PathId column.</summary>
+	public partial class vw_aspnet_WebPartState_User : Row {
+		///<summary>Creates a new  vw_aspnet_WebPartState_User instance.</summary>
+		public vw_aspnet_WebPartState_User() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  vw_aspnet_WebPartState_User table.</summary>
+		public static TypedTable<vw_aspnet_WebPartState_User> CreateTable() { return new TypedTable<vw_aspnet_WebPartState_User>(Schema, () => new vw_aspnet_WebPartState_User()); }
+
+		///<summary>Gets the schema's PathId column.</summary>
 		public static ValueColumn PathIdColumn { get; private set; }
-		///<summary>Gets the UserId column.</summary>
+		///<summary>Gets the schema's UserId column.</summary>
 		public static ValueColumn UserIdColumn { get; private set; }
-		///<summary>Gets the DataSize column.</summary>
+		///<summary>Gets the schema's DataSize column.</summary>
 		public static ValueColumn DataSizeColumn { get; private set; }
-		///<summary>Gets the LastUpdatedDate column.</summary>
+		///<summary>Gets the schema's LastUpdatedDate column.</summary>
 		public static ValueColumn LastUpdatedDateColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the vw_aspnet_WebPartState_User schema.</summary>
-		public static new TypedSchema<vw_aspnet_WebPartState_User> Schema { get { return schema; } }
-		private static readonly TypedSchema<vw_aspnet_WebPartState_User> schema = TypedSchema<vw_aspnet_WebPartState_User>.Create("vw_aspnet_WebPartState_User", schema => {
-			PathIdColumn = schema.Columns.AddValueColumn("PathId", typeof(Guid), null);
+		///<summary>Gets the vw_aspnet_WebPartState_User schema instance.</summary>
+		public static new TypedSchema<vw_aspnet_WebPartState_User> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server vw_aspnet_WebPartState_User table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static vw_aspnet_WebPartState_User() {
+			#region Create Schema
+			Schema = new TypedSchema<vw_aspnet_WebPartState_User>("vw_aspnet_WebPartState_User");
+
+			PathIdColumn = Schema.Columns.AddValueColumn("PathId", typeof(Guid), null);
 			PathIdColumn.AllowNulls = true;
 
-			UserIdColumn = schema.Columns.AddValueColumn("UserId", typeof(Guid), null);
+			UserIdColumn = Schema.Columns.AddValueColumn("UserId", typeof(Guid), null);
 			UserIdColumn.AllowNulls = true;
 
-			DataSizeColumn = schema.Columns.AddValueColumn("DataSize", typeof(Int32), null);
+			DataSizeColumn = Schema.Columns.AddValueColumn("DataSize", typeof(Int32), null);
 			DataSizeColumn.AllowNulls = true;
 
-			LastUpdatedDateColumn = schema.Columns.AddValueColumn("LastUpdatedDate", typeof(DateTime), null);
+			LastUpdatedDateColumn = Schema.Columns.AddValueColumn("LastUpdatedDate", typeof(DateTime), null);
 			LastUpdatedDateColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "vw_aspnet_WebPartState_User";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(PathIdColumn, "PathId");
+			SchemaMapping.Columns.AddMapping(UserIdColumn, "UserId");
+			SchemaMapping.Columns.AddMapping(DataSizeColumn, "DataSize");
+			SchemaMapping.Columns.AddMapping(LastUpdatedDateColumn, "LastUpdatedDate");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -834,93 +988,126 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class aspnet_WebEvent_Events : Row {
-		public static TypedTable<aspnet_WebEvent_Events> CreateTable() { return new TypedTable<aspnet_WebEvent_Events>(Schema, () => new aspnet_WebEvent_Events()); }
-		///<summary>Creates a new  aspnet_WebEvent_Events instance.</summary>
-		public aspnet_WebEvent_Events() : base(Schema) { }
 
-		///<summary>Gets the EventId column.</summary>
+	public partial class aspnet_WebEvent_Events : Row {
+		///<summary>Creates a new  aspnet_WebEvent_Events instance.</summary>
+		public aspnet_WebEvent_Events() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  aspnet_WebEvent_Events table.</summary>
+		public static TypedTable<aspnet_WebEvent_Events> CreateTable() { return new TypedTable<aspnet_WebEvent_Events>(Schema, () => new aspnet_WebEvent_Events()); }
+
+		///<summary>Gets the schema's EventId column.</summary>
 		public static ValueColumn EventIdColumn { get; private set; }
-		///<summary>Gets the EventTimeUtc column.</summary>
+		///<summary>Gets the schema's EventTimeUtc column.</summary>
 		public static ValueColumn EventTimeUtcColumn { get; private set; }
-		///<summary>Gets the EventTime column.</summary>
+		///<summary>Gets the schema's EventTime column.</summary>
 		public static ValueColumn EventTimeColumn { get; private set; }
-		///<summary>Gets the EventType column.</summary>
+		///<summary>Gets the schema's EventType column.</summary>
 		public static ValueColumn EventTypeColumn { get; private set; }
-		///<summary>Gets the EventSequence column.</summary>
+		///<summary>Gets the schema's EventSequence column.</summary>
 		public static ValueColumn EventSequenceColumn { get; private set; }
-		///<summary>Gets the EventOccurrence column.</summary>
+		///<summary>Gets the schema's EventOccurrence column.</summary>
 		public static ValueColumn EventOccurrenceColumn { get; private set; }
-		///<summary>Gets the EventCode column.</summary>
+		///<summary>Gets the schema's EventCode column.</summary>
 		public static ValueColumn EventCodeColumn { get; private set; }
-		///<summary>Gets the EventDetailCode column.</summary>
+		///<summary>Gets the schema's EventDetailCode column.</summary>
 		public static ValueColumn EventDetailCodeColumn { get; private set; }
-		///<summary>Gets the Message column.</summary>
+		///<summary>Gets the schema's Message column.</summary>
 		public static ValueColumn MessageColumn { get; private set; }
-		///<summary>Gets the ApplicationPath column.</summary>
+		///<summary>Gets the schema's ApplicationPath column.</summary>
 		public static ValueColumn ApplicationPathColumn { get; private set; }
-		///<summary>Gets the ApplicationVirtualPath column.</summary>
+		///<summary>Gets the schema's ApplicationVirtualPath column.</summary>
 		public static ValueColumn ApplicationVirtualPathColumn { get; private set; }
-		///<summary>Gets the MachineName column.</summary>
+		///<summary>Gets the schema's MachineName column.</summary>
 		public static ValueColumn MachineNameColumn { get; private set; }
-		///<summary>Gets the RequestUrl column.</summary>
+		///<summary>Gets the schema's RequestUrl column.</summary>
 		public static ValueColumn RequestUrlColumn { get; private set; }
-		///<summary>Gets the ExceptionType column.</summary>
+		///<summary>Gets the schema's ExceptionType column.</summary>
 		public static ValueColumn ExceptionTypeColumn { get; private set; }
-		///<summary>Gets the Details column.</summary>
+		///<summary>Gets the schema's Details column.</summary>
 		public static ValueColumn DetailsColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the aspnet_WebEvent_Events schema.</summary>
-		public static new TypedSchema<aspnet_WebEvent_Events> Schema { get { return schema; } }
-		private static readonly TypedSchema<aspnet_WebEvent_Events> schema = TypedSchema<aspnet_WebEvent_Events>.Create("aspnet_WebEvent_Events", schema => {
-			schema.PrimaryKey = EventIdColumn = schema.Columns.AddValueColumn("EventId", typeof(String), null);
+		///<summary>Gets the aspnet_WebEvent_Events schema instance.</summary>
+		public static new TypedSchema<aspnet_WebEvent_Events> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server aspnet_WebEvent_Events table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static aspnet_WebEvent_Events() {
+			#region Create Schema
+			Schema = new TypedSchema<aspnet_WebEvent_Events>("aspnet_WebEvent_Events");
+
+			Schema.PrimaryKey = EventIdColumn = Schema.Columns.AddValueColumn("EventId", typeof(String), null);
 			EventIdColumn.Unique = true;
 			EventIdColumn.AllowNulls = false;
 
-			EventTimeUtcColumn = schema.Columns.AddValueColumn("EventTimeUtc", typeof(DateTime), null);
+			EventTimeUtcColumn = Schema.Columns.AddValueColumn("EventTimeUtc", typeof(DateTime), null);
 			EventTimeUtcColumn.AllowNulls = false;
 
-			EventTimeColumn = schema.Columns.AddValueColumn("EventTime", typeof(DateTime), null);
+			EventTimeColumn = Schema.Columns.AddValueColumn("EventTime", typeof(DateTime), null);
 			EventTimeColumn.AllowNulls = false;
 
-			EventTypeColumn = schema.Columns.AddValueColumn("EventType", typeof(String), null);
+			EventTypeColumn = Schema.Columns.AddValueColumn("EventType", typeof(String), null);
 			EventTypeColumn.AllowNulls = false;
 
-			EventSequenceColumn = schema.Columns.AddValueColumn("EventSequence", typeof(Decimal), null);
+			EventSequenceColumn = Schema.Columns.AddValueColumn("EventSequence", typeof(Decimal), null);
 			EventSequenceColumn.AllowNulls = false;
 
-			EventOccurrenceColumn = schema.Columns.AddValueColumn("EventOccurrence", typeof(Decimal), null);
+			EventOccurrenceColumn = Schema.Columns.AddValueColumn("EventOccurrence", typeof(Decimal), null);
 			EventOccurrenceColumn.AllowNulls = false;
 
-			EventCodeColumn = schema.Columns.AddValueColumn("EventCode", typeof(Int32), null);
+			EventCodeColumn = Schema.Columns.AddValueColumn("EventCode", typeof(Int32), null);
 			EventCodeColumn.AllowNulls = false;
 
-			EventDetailCodeColumn = schema.Columns.AddValueColumn("EventDetailCode", typeof(Int32), null);
+			EventDetailCodeColumn = Schema.Columns.AddValueColumn("EventDetailCode", typeof(Int32), null);
 			EventDetailCodeColumn.AllowNulls = false;
 
-			MessageColumn = schema.Columns.AddValueColumn("Message", typeof(String), null);
+			MessageColumn = Schema.Columns.AddValueColumn("Message", typeof(String), null);
 			MessageColumn.AllowNulls = true;
 
-			ApplicationPathColumn = schema.Columns.AddValueColumn("ApplicationPath", typeof(String), null);
+			ApplicationPathColumn = Schema.Columns.AddValueColumn("ApplicationPath", typeof(String), null);
 			ApplicationPathColumn.AllowNulls = true;
 
-			ApplicationVirtualPathColumn = schema.Columns.AddValueColumn("ApplicationVirtualPath", typeof(String), null);
+			ApplicationVirtualPathColumn = Schema.Columns.AddValueColumn("ApplicationVirtualPath", typeof(String), null);
 			ApplicationVirtualPathColumn.AllowNulls = true;
 
-			MachineNameColumn = schema.Columns.AddValueColumn("MachineName", typeof(String), null);
+			MachineNameColumn = Schema.Columns.AddValueColumn("MachineName", typeof(String), null);
 			MachineNameColumn.AllowNulls = false;
 
-			RequestUrlColumn = schema.Columns.AddValueColumn("RequestUrl", typeof(String), null);
+			RequestUrlColumn = Schema.Columns.AddValueColumn("RequestUrl", typeof(String), null);
 			RequestUrlColumn.AllowNulls = true;
 
-			ExceptionTypeColumn = schema.Columns.AddValueColumn("ExceptionType", typeof(String), null);
+			ExceptionTypeColumn = Schema.Columns.AddValueColumn("ExceptionType", typeof(String), null);
 			ExceptionTypeColumn.AllowNulls = true;
 
-			DetailsColumn = schema.Columns.AddValueColumn("Details", typeof(String), null);
+			DetailsColumn = Schema.Columns.AddValueColumn("Details", typeof(String), null);
 			DetailsColumn.AllowNulls = true;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "aspnet_WebEvent_Events";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(EventIdColumn, "EventId");
+			SchemaMapping.Columns.AddMapping(EventTimeUtcColumn, "EventTimeUtc");
+			SchemaMapping.Columns.AddMapping(EventTimeColumn, "EventTime");
+			SchemaMapping.Columns.AddMapping(EventTypeColumn, "EventType");
+			SchemaMapping.Columns.AddMapping(EventSequenceColumn, "EventSequence");
+			SchemaMapping.Columns.AddMapping(EventOccurrenceColumn, "EventOccurrence");
+			SchemaMapping.Columns.AddMapping(EventCodeColumn, "EventCode");
+			SchemaMapping.Columns.AddMapping(EventDetailCodeColumn, "EventDetailCode");
+			SchemaMapping.Columns.AddMapping(MessageColumn, "Message");
+			SchemaMapping.Columns.AddMapping(ApplicationPathColumn, "ApplicationPath");
+			SchemaMapping.Columns.AddMapping(ApplicationVirtualPathColumn, "ApplicationVirtualPath");
+			SchemaMapping.Columns.AddMapping(MachineNameColumn, "MachineName");
+			SchemaMapping.Columns.AddMapping(RequestUrlColumn, "RequestUrl");
+			SchemaMapping.Columns.AddMapping(ExceptionTypeColumn, "ExceptionType");
+			SchemaMapping.Columns.AddMapping(DetailsColumn, "Details");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -1162,49 +1349,73 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class ScheduleTimes : Row {
-		public static TypedTable<ScheduleTimes> CreateTable() { return new TypedTable<ScheduleTimes>(Schema, () => new ScheduleTimes()); }
-		///<summary>Creates a new  ScheduleTimes instance.</summary>
-		public ScheduleTimes() : base(Schema) { }
 
-		///<summary>Gets the ID column.</summary>
+	public partial class ScheduleTimes : Row {
+		///<summary>Creates a new  ScheduleTimes instance.</summary>
+		public ScheduleTimes() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  ScheduleTimes table.</summary>
+		public static TypedTable<ScheduleTimes> CreateTable() { return new TypedTable<ScheduleTimes>(Schema, () => new ScheduleTimes()); }
+
+		///<summary>Gets the schema's ID column.</summary>
 		public static ValueColumn IDColumn { get; private set; }
-		///<summary>Gets the CellID column.</summary>
+		///<summary>Gets the schema's CellID column.</summary>
 		public static ForeignKeyColumn CellIDColumn { get; private set; }
-		///<summary>Gets the Name column.</summary>
+		///<summary>Gets the schema's Name column.</summary>
 		public static ValueColumn NameColumn { get; private set; }
-		///<summary>Gets the Time column.</summary>
+		///<summary>Gets the schema's Time column.</summary>
 		public static ValueColumn TimeColumn { get; private set; }
-		///<summary>Gets the IsBold column.</summary>
+		///<summary>Gets the schema's IsBold column.</summary>
 		public static ValueColumn IsBoldColumn { get; private set; }
-		///<summary>Gets the LastModified column.</summary>
+		///<summary>Gets the schema's LastModified column.</summary>
 		public static ValueColumn LastModifiedColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the ScheduleTimes schema.</summary>
-		public static new TypedSchema<ScheduleTimes> Schema { get { return schema; } }
-		private static readonly TypedSchema<ScheduleTimes> schema = TypedSchema<ScheduleTimes>.Create("ScheduleTimes", schema => {
-			schema.PrimaryKey = IDColumn = schema.Columns.AddValueColumn("ID", typeof(Guid), null);
+		///<summary>Gets the ScheduleTimes schema instance.</summary>
+		public static new TypedSchema<ScheduleTimes> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server ScheduleTimes table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static ScheduleTimes() {
+			#region Create Schema
+			Schema = new TypedSchema<ScheduleTimes>("ScheduleTimes");
+
+			Schema.PrimaryKey = IDColumn = Schema.Columns.AddValueColumn("ID", typeof(Guid), null);
 			IDColumn.Unique = true;
 			IDColumn.AllowNulls = false;
 
-			CellIDColumn = schema.Columns.AddForeignKey("CellID", ScheduleDates.Schema, "ScheduleDates");
+			CellIDColumn = Schema.Columns.AddForeignKey("CellID", ScheduleDates.Schema, "ScheduleDates");
 			CellIDColumn.AllowNulls = false;
 
-			NameColumn = schema.Columns.AddValueColumn("Name", typeof(String), null);
+			NameColumn = Schema.Columns.AddValueColumn("Name", typeof(String), null);
 			NameColumn.Unique = true;
 			NameColumn.AllowNulls = false;
 
-			TimeColumn = schema.Columns.AddValueColumn("Time", typeof(DateTime), null);
+			TimeColumn = Schema.Columns.AddValueColumn("Time", typeof(DateTime), null);
 			TimeColumn.AllowNulls = false;
 
-			IsBoldColumn = schema.Columns.AddValueColumn("IsBold", typeof(Boolean), null);
+			IsBoldColumn = Schema.Columns.AddValueColumn("IsBold", typeof(Boolean), null);
 			IsBoldColumn.AllowNulls = false;
 
-			LastModifiedColumn = schema.Columns.AddValueColumn("LastModified", typeof(DateTime), null);
+			LastModifiedColumn = Schema.Columns.AddValueColumn("LastModified", typeof(DateTime), null);
 			LastModifiedColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "ScheduleTimes";
+			SchemaMapping.SqlSchemaName = "Schedules";
+
+			SchemaMapping.Columns.AddMapping(IDColumn, "ID");
+			SchemaMapping.Columns.AddMapping(CellIDColumn, "CellID");
+			SchemaMapping.Columns.AddMapping(NameColumn, "Name");
+			SchemaMapping.Columns.AddMapping(TimeColumn, "Time");
+			SchemaMapping.Columns.AddMapping(IsBoldColumn, "IsBold");
+			SchemaMapping.Columns.AddMapping(LastModifiedColumn, "LastModified");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -1320,41 +1531,63 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class Deposits : Row {
-		public static TypedTable<Deposits> CreateTable() { return new TypedTable<Deposits>(Schema, () => new Deposits()); }
-		///<summary>Creates a new  Deposits instance.</summary>
-		public Deposits() : base(Schema) { }
 
-		///<summary>Gets the DepositId column.</summary>
+	public partial class Deposits : Row {
+		///<summary>Creates a new  Deposits instance.</summary>
+		public Deposits() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  Deposits table.</summary>
+		public static TypedTable<Deposits> CreateTable() { return new TypedTable<Deposits>(Schema, () => new Deposits()); }
+
+		///<summary>Gets the schema's DepositId column.</summary>
 		public static ValueColumn DepositIdColumn { get; private set; }
-		///<summary>Gets the Date column.</summary>
+		///<summary>Gets the schema's Date column.</summary>
 		public static ValueColumn DateColumn { get; private set; }
-		///<summary>Gets the Number column.</summary>
+		///<summary>Gets the schema's Number column.</summary>
 		public static ValueColumn NumberColumn { get; private set; }
-		///<summary>Gets the Account column.</summary>
+		///<summary>Gets the schema's Account column.</summary>
 		public static ValueColumn AccountColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the Deposits schema.</summary>
-		public static new TypedSchema<Deposits> Schema { get { return schema; } }
-		private static readonly TypedSchema<Deposits> schema = TypedSchema<Deposits>.Create("Deposits", schema => {
-			schema.PrimaryKey = DepositIdColumn = schema.Columns.AddValueColumn("DepositId", typeof(Guid), null);
+		///<summary>Gets the Deposits schema instance.</summary>
+		public static new TypedSchema<Deposits> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server Deposits table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static Deposits() {
+			#region Create Schema
+			Schema = new TypedSchema<Deposits>("Deposits");
+
+			Schema.PrimaryKey = DepositIdColumn = Schema.Columns.AddValueColumn("DepositId", typeof(Guid), null);
 			DepositIdColumn.Unique = true;
 			DepositIdColumn.AllowNulls = false;
 
-			DateColumn = schema.Columns.AddValueColumn("Date", typeof(DateTime), null);
+			DateColumn = Schema.Columns.AddValueColumn("Date", typeof(DateTime), null);
 			DateColumn.Unique = true;
 			DateColumn.AllowNulls = false;
 
-			NumberColumn = schema.Columns.AddValueColumn("Number", typeof(Int32), null);
+			NumberColumn = Schema.Columns.AddValueColumn("Number", typeof(Int32), null);
 			NumberColumn.Unique = true;
 			NumberColumn.AllowNulls = false;
 
-			AccountColumn = schema.Columns.AddValueColumn("Account", typeof(String), null);
+			AccountColumn = Schema.Columns.AddValueColumn("Account", typeof(String), null);
 			AccountColumn.Unique = true;
 			AccountColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "Deposits";
+			SchemaMapping.SqlSchemaName = "Billing";
+
+			SchemaMapping.Columns.AddMapping(DepositIdColumn, "DepositId");
+			SchemaMapping.Columns.AddMapping(DateColumn, "Date");
+			SchemaMapping.Columns.AddMapping(NumberColumn, "Number");
+			SchemaMapping.Columns.AddMapping(AccountColumn, "Account");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -1442,69 +1675,97 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class tblMLMembers : Row {
-		public static TypedTable<tblMLMembers> CreateTable() { return new TypedTable<tblMLMembers>(Schema, () => new tblMLMembers()); }
-		///<summary>Creates a new  tblMLMembers instance.</summary>
-		public tblMLMembers() : base(Schema) { }
 
-		///<summary>Gets the Mail_ID column.</summary>
+	public partial class tblMLMembers : Row {
+		///<summary>Creates a new  tblMLMembers instance.</summary>
+		public tblMLMembers() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  tblMLMembers table.</summary>
+		public static TypedTable<tblMLMembers> CreateTable() { return new TypedTable<tblMLMembers>(Schema, () => new tblMLMembers()); }
+
+		///<summary>Gets the schema's Mail_ID column.</summary>
 		public static ValueColumn Mail_IDColumn { get; private set; }
-		///<summary>Gets the Name column.</summary>
+		///<summary>Gets the schema's Name column.</summary>
 		public static ValueColumn NameColumn { get; private set; }
-		///<summary>Gets the Email column.</summary>
+		///<summary>Gets the schema's Email column.</summary>
 		public static ValueColumn EmailColumn { get; private set; }
-		///<summary>Gets the ID_Code column.</summary>
+		///<summary>Gets the schema's ID_Code column.</summary>
 		public static ValueColumn ID_CodeColumn { get; private set; }
-		///<summary>Gets the Password column.</summary>
+		///<summary>Gets the schema's Password column.</summary>
 		public static ValueColumn PasswordColumn { get; private set; }
-		///<summary>Gets the Salt column.</summary>
+		///<summary>Gets the schema's Salt column.</summary>
 		public static ValueColumn SaltColumn { get; private set; }
-		///<summary>Gets the Active column.</summary>
+		///<summary>Gets the schema's Active column.</summary>
 		public static ValueColumn ActiveColumn { get; private set; }
-		///<summary>Gets the Join_Date column.</summary>
+		///<summary>Gets the schema's Join_Date column.</summary>
 		public static ValueColumn Join_DateColumn { get; private set; }
-		///<summary>Gets the HTMLformat column.</summary>
+		///<summary>Gets the schema's HTMLformat column.</summary>
 		public static ValueColumn HTMLformatColumn { get; private set; }
-		///<summary>Gets the PersonId column.</summary>
+		///<summary>Gets the schema's PersonId column.</summary>
 		public static ForeignKeyColumn PersonIdColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the tblMLMembers schema.</summary>
-		public static new TypedSchema<tblMLMembers> Schema { get { return schema; } }
-		private static readonly TypedSchema<tblMLMembers> schema = TypedSchema<tblMLMembers>.Create("tblMLMembers", schema => {
-			schema.PrimaryKey = Mail_IDColumn = schema.Columns.AddValueColumn("Mail_ID", typeof(Int32), null);
+		///<summary>Gets the tblMLMembers schema instance.</summary>
+		public static new TypedSchema<tblMLMembers> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server tblMLMembers table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static tblMLMembers() {
+			#region Create Schema
+			Schema = new TypedSchema<tblMLMembers>("tblMLMembers");
+
+			Schema.PrimaryKey = Mail_IDColumn = Schema.Columns.AddValueColumn("Mail_ID", typeof(Int32), null);
 			Mail_IDColumn.Unique = true;
 			Mail_IDColumn.AllowNulls = false;
 
-			NameColumn = schema.Columns.AddValueColumn("Name", typeof(String), null);
+			NameColumn = Schema.Columns.AddValueColumn("Name", typeof(String), null);
 			NameColumn.Unique = true;
 			NameColumn.AllowNulls = true;
 
-			EmailColumn = schema.Columns.AddValueColumn("Email", typeof(String), null);
+			EmailColumn = Schema.Columns.AddValueColumn("Email", typeof(String), null);
 			EmailColumn.AllowNulls = false;
 
-			ID_CodeColumn = schema.Columns.AddValueColumn("ID_Code", typeof(String), null);
+			ID_CodeColumn = Schema.Columns.AddValueColumn("ID_Code", typeof(String), null);
 			ID_CodeColumn.AllowNulls = true;
 
-			PasswordColumn = schema.Columns.AddValueColumn("Password", typeof(String), null);
+			PasswordColumn = Schema.Columns.AddValueColumn("Password", typeof(String), null);
 			PasswordColumn.AllowNulls = true;
 
-			SaltColumn = schema.Columns.AddValueColumn("Salt", typeof(String), null);
+			SaltColumn = Schema.Columns.AddValueColumn("Salt", typeof(String), null);
 			SaltColumn.AllowNulls = true;
 
-			ActiveColumn = schema.Columns.AddValueColumn("Active", typeof(Boolean), null);
+			ActiveColumn = Schema.Columns.AddValueColumn("Active", typeof(Boolean), null);
 			ActiveColumn.AllowNulls = false;
 
-			Join_DateColumn = schema.Columns.AddValueColumn("Join_Date", typeof(DateTime), null);
+			Join_DateColumn = Schema.Columns.AddValueColumn("Join_Date", typeof(DateTime), null);
 			Join_DateColumn.AllowNulls = false;
 
-			HTMLformatColumn = schema.Columns.AddValueColumn("HTMLformat", typeof(Boolean), null);
+			HTMLformatColumn = Schema.Columns.AddValueColumn("HTMLformat", typeof(Boolean), null);
 			HTMLformatColumn.AllowNulls = false;
 
-			PersonIdColumn = schema.Columns.AddForeignKey("PersonId", MasterDirectory.Schema, "MasterDirectory");
+			PersonIdColumn = Schema.Columns.AddForeignKey("PersonId", MasterDirectory.Schema, "MasterDirectory");
 			PersonIdColumn.AllowNulls = true;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "tblMLMembers";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(Mail_IDColumn, "Mail_ID");
+			SchemaMapping.Columns.AddMapping(NameColumn, "Name");
+			SchemaMapping.Columns.AddMapping(EmailColumn, "Email");
+			SchemaMapping.Columns.AddMapping(ID_CodeColumn, "ID_Code");
+			SchemaMapping.Columns.AddMapping(PasswordColumn, "Password");
+			SchemaMapping.Columns.AddMapping(SaltColumn, "Salt");
+			SchemaMapping.Columns.AddMapping(ActiveColumn, "Active");
+			SchemaMapping.Columns.AddMapping(Join_DateColumn, "Join_Date");
+			SchemaMapping.Columns.AddMapping(HTMLformatColumn, "HTMLformat");
+			SchemaMapping.Columns.AddMapping(PersonIdColumn, "PersonId");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -1676,58 +1937,84 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class StatementLog : Row {
-		public static TypedTable<StatementLog> CreateTable() { return new TypedTable<StatementLog>(Schema, () => new StatementLog()); }
-		///<summary>Creates a new  StatementLog instance.</summary>
-		public StatementLog() : base(Schema) { }
 
-		///<summary>Gets the Id column.</summary>
+	public partial class StatementLog : Row {
+		///<summary>Creates a new  StatementLog instance.</summary>
+		public StatementLog() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  StatementLog table.</summary>
+		public static TypedTable<StatementLog> CreateTable() { return new TypedTable<StatementLog>(Schema, () => new StatementLog()); }
+
+		///<summary>Gets the schema's Id column.</summary>
 		public static ValueColumn IdColumn { get; private set; }
-		///<summary>Gets the PersonId column.</summary>
+		///<summary>Gets the schema's PersonId column.</summary>
 		public static ForeignKeyColumn PersonIdColumn { get; private set; }
-		///<summary>Gets the DateGenerated column.</summary>
+		///<summary>Gets the schema's DateGenerated column.</summary>
 		public static ValueColumn DateGeneratedColumn { get; private set; }
-		///<summary>Gets the Media column.</summary>
+		///<summary>Gets the schema's Media column.</summary>
 		public static ValueColumn MediaColumn { get; private set; }
-		///<summary>Gets the StatementKind column.</summary>
+		///<summary>Gets the schema's StatementKind column.</summary>
 		public static ValueColumn StatementKindColumn { get; private set; }
-		///<summary>Gets the StartDate column.</summary>
+		///<summary>Gets the schema's StartDate column.</summary>
 		public static ValueColumn StartDateColumn { get; private set; }
-		///<summary>Gets the EndDate column.</summary>
+		///<summary>Gets the schema's EndDate column.</summary>
 		public static ValueColumn EndDateColumn { get; private set; }
-		///<summary>Gets the UserName column.</summary>
+		///<summary>Gets the schema's UserName column.</summary>
 		public static ValueColumn UserNameColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the StatementLog schema.</summary>
-		public static new TypedSchema<StatementLog> Schema { get { return schema; } }
-		private static readonly TypedSchema<StatementLog> schema = TypedSchema<StatementLog>.Create("StatementLog", schema => {
-			schema.PrimaryKey = IdColumn = schema.Columns.AddValueColumn("Id", typeof(Guid), null);
+		///<summary>Gets the StatementLog schema instance.</summary>
+		public static new TypedSchema<StatementLog> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server StatementLog table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static StatementLog() {
+			#region Create Schema
+			Schema = new TypedSchema<StatementLog>("StatementLog");
+
+			Schema.PrimaryKey = IdColumn = Schema.Columns.AddValueColumn("Id", typeof(Guid), null);
 			IdColumn.Unique = true;
 			IdColumn.AllowNulls = false;
 
-			PersonIdColumn = schema.Columns.AddForeignKey("PersonId", MasterDirectory.Schema, "MasterDirectory");
+			PersonIdColumn = Schema.Columns.AddForeignKey("PersonId", MasterDirectory.Schema, "MasterDirectory");
 			PersonIdColumn.AllowNulls = false;
 
-			DateGeneratedColumn = schema.Columns.AddValueColumn("DateGenerated", typeof(DateTime), null);
+			DateGeneratedColumn = Schema.Columns.AddValueColumn("DateGenerated", typeof(DateTime), null);
 			DateGeneratedColumn.AllowNulls = false;
 
-			MediaColumn = schema.Columns.AddValueColumn("Media", typeof(String), null);
+			MediaColumn = Schema.Columns.AddValueColumn("Media", typeof(String), null);
 			MediaColumn.AllowNulls = false;
 
-			StatementKindColumn = schema.Columns.AddValueColumn("StatementKind", typeof(String), null);
+			StatementKindColumn = Schema.Columns.AddValueColumn("StatementKind", typeof(String), null);
 			StatementKindColumn.AllowNulls = false;
 
-			StartDateColumn = schema.Columns.AddValueColumn("StartDate", typeof(DateTime), null);
+			StartDateColumn = Schema.Columns.AddValueColumn("StartDate", typeof(DateTime), null);
 			StartDateColumn.AllowNulls = false;
 
-			EndDateColumn = schema.Columns.AddValueColumn("EndDate", typeof(DateTime), null);
+			EndDateColumn = Schema.Columns.AddValueColumn("EndDate", typeof(DateTime), null);
 			EndDateColumn.AllowNulls = false;
 
-			UserNameColumn = schema.Columns.AddValueColumn("UserName", typeof(String), null);
+			UserNameColumn = Schema.Columns.AddValueColumn("UserName", typeof(String), null);
 			UserNameColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "StatementLog";
+			SchemaMapping.SqlSchemaName = "Billing";
+
+			SchemaMapping.Columns.AddMapping(IdColumn, "Id");
+			SchemaMapping.Columns.AddMapping(PersonIdColumn, "PersonId");
+			SchemaMapping.Columns.AddMapping(DateGeneratedColumn, "DateGenerated");
+			SchemaMapping.Columns.AddMapping(MediaColumn, "Media");
+			SchemaMapping.Columns.AddMapping(StatementKindColumn, "StatementKind");
+			SchemaMapping.Columns.AddMapping(StartDateColumn, "StartDate");
+			SchemaMapping.Columns.AddMapping(EndDateColumn, "EndDate");
+			SchemaMapping.Columns.AddMapping(UserNameColumn, "UserName");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -1871,78 +2158,108 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class MasterDirectory : Row {
-		public static TypedTable<MasterDirectory> CreateTable() { return new TypedTable<MasterDirectory>(Schema, () => new MasterDirectory()); }
-		///<summary>Creates a new  MasterDirectory instance.</summary>
-		public MasterDirectory() : base(Schema) { }
 
-		///<summary>Gets the Id column.</summary>
+	public partial class MasterDirectory : Row {
+		///<summary>Creates a new  MasterDirectory instance.</summary>
+		public MasterDirectory() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  MasterDirectory table.</summary>
+		public static TypedTable<MasterDirectory> CreateTable() { return new TypedTable<MasterDirectory>(Schema, () => new MasterDirectory()); }
+
+		///<summary>Gets the schema's Id column.</summary>
 		public static ValueColumn IdColumn { get; private set; }
-		///<summary>Gets the YKID column.</summary>
+		///<summary>Gets the schema's YKID column.</summary>
 		public static ValueColumn YKIDColumn { get; private set; }
-		///<summary>Gets the LastName column.</summary>
+		///<summary>Gets the schema's LastName column.</summary>
 		public static ValueColumn LastNameColumn { get; private set; }
-		///<summary>Gets the HisName column.</summary>
+		///<summary>Gets the schema's HisName column.</summary>
 		public static ValueColumn HisNameColumn { get; private set; }
-		///<summary>Gets the HerName column.</summary>
+		///<summary>Gets the schema's HerName column.</summary>
 		public static ValueColumn HerNameColumn { get; private set; }
-		///<summary>Gets the FullName column.</summary>
+		///<summary>Gets the schema's FullName column.</summary>
 		public static ValueColumn FullNameColumn { get; private set; }
-		///<summary>Gets the Address column.</summary>
+		///<summary>Gets the schema's Address column.</summary>
 		public static ValueColumn AddressColumn { get; private set; }
-		///<summary>Gets the City column.</summary>
+		///<summary>Gets the schema's City column.</summary>
 		public static ValueColumn CityColumn { get; private set; }
-		///<summary>Gets the State column.</summary>
+		///<summary>Gets the schema's State column.</summary>
 		public static ValueColumn StateColumn { get; private set; }
-		///<summary>Gets the Zip column.</summary>
+		///<summary>Gets the schema's Zip column.</summary>
 		public static ValueColumn ZipColumn { get; private set; }
-		///<summary>Gets the Phone column.</summary>
+		///<summary>Gets the schema's Phone column.</summary>
 		public static ValueColumn PhoneColumn { get; private set; }
-		///<summary>Gets the Source column.</summary>
+		///<summary>Gets the schema's Source column.</summary>
 		public static ValueColumn SourceColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the MasterDirectory schema.</summary>
-		public static new TypedSchema<MasterDirectory> Schema { get { return schema; } }
-		private static readonly TypedSchema<MasterDirectory> schema = TypedSchema<MasterDirectory>.Create("MasterDirectory", schema => {
-			schema.PrimaryKey = IdColumn = schema.Columns.AddValueColumn("Id", typeof(Guid), null);
+		///<summary>Gets the MasterDirectory schema instance.</summary>
+		public static new TypedSchema<MasterDirectory> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server MasterDirectory table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static MasterDirectory() {
+			#region Create Schema
+			Schema = new TypedSchema<MasterDirectory>("MasterDirectory");
+
+			Schema.PrimaryKey = IdColumn = Schema.Columns.AddValueColumn("Id", typeof(Guid), null);
 			IdColumn.Unique = true;
 			IdColumn.AllowNulls = false;
 
-			YKIDColumn = schema.Columns.AddValueColumn("YKID", typeof(Int32), null);
+			YKIDColumn = Schema.Columns.AddValueColumn("YKID", typeof(Int32), null);
 			YKIDColumn.AllowNulls = true;
 
-			LastNameColumn = schema.Columns.AddValueColumn("LastName", typeof(String), null);
+			LastNameColumn = Schema.Columns.AddValueColumn("LastName", typeof(String), null);
 			LastNameColumn.AllowNulls = false;
 
-			HisNameColumn = schema.Columns.AddValueColumn("HisName", typeof(String), null);
+			HisNameColumn = Schema.Columns.AddValueColumn("HisName", typeof(String), null);
 			HisNameColumn.AllowNulls = true;
 
-			HerNameColumn = schema.Columns.AddValueColumn("HerName", typeof(String), null);
+			HerNameColumn = Schema.Columns.AddValueColumn("HerName", typeof(String), null);
 			HerNameColumn.AllowNulls = true;
 
-			FullNameColumn = schema.Columns.AddValueColumn("FullName", typeof(String), null);
+			FullNameColumn = Schema.Columns.AddValueColumn("FullName", typeof(String), null);
 			FullNameColumn.AllowNulls = true;
 
-			AddressColumn = schema.Columns.AddValueColumn("Address", typeof(String), null);
+			AddressColumn = Schema.Columns.AddValueColumn("Address", typeof(String), null);
 			AddressColumn.AllowNulls = true;
 
-			CityColumn = schema.Columns.AddValueColumn("City", typeof(String), null);
+			CityColumn = Schema.Columns.AddValueColumn("City", typeof(String), null);
 			CityColumn.AllowNulls = true;
 
-			StateColumn = schema.Columns.AddValueColumn("State", typeof(String), null);
+			StateColumn = Schema.Columns.AddValueColumn("State", typeof(String), null);
 			StateColumn.AllowNulls = true;
 
-			ZipColumn = schema.Columns.AddValueColumn("Zip", typeof(String), null);
+			ZipColumn = Schema.Columns.AddValueColumn("Zip", typeof(String), null);
 			ZipColumn.AllowNulls = true;
 
-			PhoneColumn = schema.Columns.AddValueColumn("Phone", typeof(String), null);
+			PhoneColumn = Schema.Columns.AddValueColumn("Phone", typeof(String), null);
 			PhoneColumn.AllowNulls = false;
 
-			SourceColumn = schema.Columns.AddValueColumn("Source", typeof(String), null);
+			SourceColumn = Schema.Columns.AddValueColumn("Source", typeof(String), null);
 			SourceColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "MasterDirectory";
+			SchemaMapping.SqlSchemaName = "Data";
+
+			SchemaMapping.Columns.AddMapping(IdColumn, "Id");
+			SchemaMapping.Columns.AddMapping(YKIDColumn, "YKID");
+			SchemaMapping.Columns.AddMapping(LastNameColumn, "LastName");
+			SchemaMapping.Columns.AddMapping(HisNameColumn, "HisName");
+			SchemaMapping.Columns.AddMapping(HerNameColumn, "HerName");
+			SchemaMapping.Columns.AddMapping(FullNameColumn, "FullName");
+			SchemaMapping.Columns.AddMapping(AddressColumn, "Address");
+			SchemaMapping.Columns.AddMapping(CityColumn, "City");
+			SchemaMapping.Columns.AddMapping(StateColumn, "State");
+			SchemaMapping.Columns.AddMapping(ZipColumn, "Zip");
+			SchemaMapping.Columns.AddMapping(PhoneColumn, "Phone");
+			SchemaMapping.Columns.AddMapping(SourceColumn, "Source");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -2142,40 +2459,62 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class aspnet_Applications : Row {
-		public static TypedTable<aspnet_Applications> CreateTable() { return new TypedTable<aspnet_Applications>(Schema, () => new aspnet_Applications()); }
-		///<summary>Creates a new  aspnet_Applications instance.</summary>
-		public aspnet_Applications() : base(Schema) { }
 
-		///<summary>Gets the ApplicationName column.</summary>
+	public partial class aspnet_Applications : Row {
+		///<summary>Creates a new  aspnet_Applications instance.</summary>
+		public aspnet_Applications() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  aspnet_Applications table.</summary>
+		public static TypedTable<aspnet_Applications> CreateTable() { return new TypedTable<aspnet_Applications>(Schema, () => new aspnet_Applications()); }
+
+		///<summary>Gets the schema's ApplicationName column.</summary>
 		public static ValueColumn ApplicationNameColumn { get; private set; }
-		///<summary>Gets the LoweredApplicationName column.</summary>
+		///<summary>Gets the schema's LoweredApplicationName column.</summary>
 		public static ValueColumn LoweredApplicationNameColumn { get; private set; }
-		///<summary>Gets the ApplicationId column.</summary>
+		///<summary>Gets the schema's ApplicationId column.</summary>
 		public static ValueColumn ApplicationIdColumn { get; private set; }
-		///<summary>Gets the Description column.</summary>
+		///<summary>Gets the schema's Description column.</summary>
 		public static ValueColumn DescriptionColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the aspnet_Applications schema.</summary>
-		public static new TypedSchema<aspnet_Applications> Schema { get { return schema; } }
-		private static readonly TypedSchema<aspnet_Applications> schema = TypedSchema<aspnet_Applications>.Create("aspnet_Applications", schema => {
-			ApplicationNameColumn = schema.Columns.AddValueColumn("ApplicationName", typeof(String), null);
+		///<summary>Gets the aspnet_Applications schema instance.</summary>
+		public static new TypedSchema<aspnet_Applications> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server aspnet_Applications table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static aspnet_Applications() {
+			#region Create Schema
+			Schema = new TypedSchema<aspnet_Applications>("aspnet_Applications");
+
+			ApplicationNameColumn = Schema.Columns.AddValueColumn("ApplicationName", typeof(String), null);
 			ApplicationNameColumn.Unique = true;
 			ApplicationNameColumn.AllowNulls = false;
 
-			LoweredApplicationNameColumn = schema.Columns.AddValueColumn("LoweredApplicationName", typeof(String), null);
+			LoweredApplicationNameColumn = Schema.Columns.AddValueColumn("LoweredApplicationName", typeof(String), null);
 			LoweredApplicationNameColumn.Unique = true;
 			LoweredApplicationNameColumn.AllowNulls = false;
 
-			schema.PrimaryKey = ApplicationIdColumn = schema.Columns.AddValueColumn("ApplicationId", typeof(Guid), null);
+			Schema.PrimaryKey = ApplicationIdColumn = Schema.Columns.AddValueColumn("ApplicationId", typeof(Guid), null);
 			ApplicationIdColumn.Unique = true;
 			ApplicationIdColumn.AllowNulls = false;
 
-			DescriptionColumn = schema.Columns.AddValueColumn("Description", typeof(String), null);
+			DescriptionColumn = Schema.Columns.AddValueColumn("Description", typeof(String), null);
 			DescriptionColumn.AllowNulls = true;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "aspnet_Applications";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(ApplicationNameColumn, "ApplicationName");
+			SchemaMapping.Columns.AddMapping(LoweredApplicationNameColumn, "LoweredApplicationName");
+			SchemaMapping.Columns.AddMapping(ApplicationIdColumn, "ApplicationId");
+			SchemaMapping.Columns.AddMapping(DescriptionColumn, "Description");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -2263,44 +2602,67 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class Pages : Row {
-		public static TypedTable<Pages> CreateTable() { return new TypedTable<Pages>(Schema, () => new Pages()); }
-		///<summary>Creates a new  Pages instance.</summary>
-		public Pages() : base(Schema) { }
 
-		///<summary>Gets the Id column.</summary>
+	public partial class Pages : Row {
+		///<summary>Creates a new  Pages instance.</summary>
+		public Pages() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  Pages table.</summary>
+		public static TypedTable<Pages> CreateTable() { return new TypedTable<Pages>(Schema, () => new Pages()); }
+
+		///<summary>Gets the schema's Id column.</summary>
 		public static ValueColumn IdColumn { get; private set; }
-		///<summary>Gets the PageName column.</summary>
+		///<summary>Gets the schema's PageName column.</summary>
 		public static ValueColumn PageNameColumn { get; private set; }
-		///<summary>Gets the Title column.</summary>
+		///<summary>Gets the schema's Title column.</summary>
 		public static ValueColumn TitleColumn { get; private set; }
-		///<summary>Gets the Content column.</summary>
+		///<summary>Gets the schema's Content column.</summary>
 		public static ValueColumn ContentColumn { get; private set; }
-		///<summary>Gets the DateModified column.</summary>
+		///<summary>Gets the schema's DateModified column.</summary>
 		public static ValueColumn DateModifiedColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the Pages schema.</summary>
-		public static new TypedSchema<Pages> Schema { get { return schema; } }
-		private static readonly TypedSchema<Pages> schema = TypedSchema<Pages>.Create("Pages", schema => {
-			schema.PrimaryKey = IdColumn = schema.Columns.AddValueColumn("Id", typeof(Guid), null);
+		///<summary>Gets the Pages schema instance.</summary>
+		public static new TypedSchema<Pages> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server Pages table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static Pages() {
+			#region Create Schema
+			Schema = new TypedSchema<Pages>("Pages");
+
+			Schema.PrimaryKey = IdColumn = Schema.Columns.AddValueColumn("Id", typeof(Guid), null);
 			IdColumn.Unique = true;
 			IdColumn.AllowNulls = false;
 
-			PageNameColumn = schema.Columns.AddValueColumn("PageName", typeof(String), null);
+			PageNameColumn = Schema.Columns.AddValueColumn("PageName", typeof(String), null);
 			PageNameColumn.Unique = true;
 			PageNameColumn.AllowNulls = false;
 
-			TitleColumn = schema.Columns.AddValueColumn("Title", typeof(String), null);
+			TitleColumn = Schema.Columns.AddValueColumn("Title", typeof(String), null);
 			TitleColumn.AllowNulls = false;
 
-			ContentColumn = schema.Columns.AddValueColumn("Content", typeof(String), null);
+			ContentColumn = Schema.Columns.AddValueColumn("Content", typeof(String), null);
 			ContentColumn.AllowNulls = false;
 
-			DateModifiedColumn = schema.Columns.AddValueColumn("DateModified", typeof(DateTime), null);
+			DateModifiedColumn = Schema.Columns.AddValueColumn("DateModified", typeof(DateTime), null);
 			DateModifiedColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "Pages";
+			SchemaMapping.SqlSchemaName = "Website";
+
+			SchemaMapping.Columns.AddMapping(IdColumn, "Id");
+			SchemaMapping.Columns.AddMapping(PageNameColumn, "PageName");
+			SchemaMapping.Columns.AddMapping(TitleColumn, "Title");
+			SchemaMapping.Columns.AddMapping(ContentColumn, "Content");
+			SchemaMapping.Columns.AddMapping(DateModifiedColumn, "DateModified");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -2402,45 +2764,68 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class sysdiagrams : Row {
-		public static TypedTable<sysdiagrams> CreateTable() { return new TypedTable<sysdiagrams>(Schema, () => new sysdiagrams()); }
-		///<summary>Creates a new  sysdiagrams instance.</summary>
-		public sysdiagrams() : base(Schema) { }
 
-		///<summary>Gets the name column.</summary>
+	public partial class sysdiagrams : Row {
+		///<summary>Creates a new  sysdiagrams instance.</summary>
+		public sysdiagrams() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  sysdiagrams table.</summary>
+		public static TypedTable<sysdiagrams> CreateTable() { return new TypedTable<sysdiagrams>(Schema, () => new sysdiagrams()); }
+
+		///<summary>Gets the schema's name column.</summary>
 		public static ValueColumn nameColumn { get; private set; }
-		///<summary>Gets the principal_id column.</summary>
+		///<summary>Gets the schema's principal_id column.</summary>
 		public static ValueColumn principal_idColumn { get; private set; }
-		///<summary>Gets the diagram_id column.</summary>
+		///<summary>Gets the schema's diagram_id column.</summary>
 		public static ValueColumn diagram_idColumn { get; private set; }
-		///<summary>Gets the version column.</summary>
+		///<summary>Gets the schema's version column.</summary>
 		public static ValueColumn versionColumn { get; private set; }
-		///<summary>Gets the definition column.</summary>
+		///<summary>Gets the schema's definition column.</summary>
 		public static ValueColumn definitionColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the sysdiagrams schema.</summary>
-		public static new TypedSchema<sysdiagrams> Schema { get { return schema; } }
-		private static readonly TypedSchema<sysdiagrams> schema = TypedSchema<sysdiagrams>.Create("sysdiagrams", schema => {
-			nameColumn = schema.Columns.AddValueColumn("name", typeof(String), null);
+		///<summary>Gets the sysdiagrams schema instance.</summary>
+		public static new TypedSchema<sysdiagrams> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server sysdiagrams table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static sysdiagrams() {
+			#region Create Schema
+			Schema = new TypedSchema<sysdiagrams>("sysdiagrams");
+
+			nameColumn = Schema.Columns.AddValueColumn("name", typeof(String), null);
 			nameColumn.Unique = true;
 			nameColumn.AllowNulls = false;
 
-			principal_idColumn = schema.Columns.AddValueColumn("principal_id", typeof(Int32), null);
+			principal_idColumn = Schema.Columns.AddValueColumn("principal_id", typeof(Int32), null);
 			principal_idColumn.Unique = true;
 			principal_idColumn.AllowNulls = false;
 
-			schema.PrimaryKey = diagram_idColumn = schema.Columns.AddValueColumn("diagram_id", typeof(Int32), null);
+			Schema.PrimaryKey = diagram_idColumn = Schema.Columns.AddValueColumn("diagram_id", typeof(Int32), null);
 			diagram_idColumn.Unique = true;
 			diagram_idColumn.AllowNulls = false;
 
-			versionColumn = schema.Columns.AddValueColumn("version", typeof(Int32), null);
+			versionColumn = Schema.Columns.AddValueColumn("version", typeof(Int32), null);
 			versionColumn.AllowNulls = true;
 
-			definitionColumn = schema.Columns.AddValueColumn("definition", typeof(Byte[]), null);
+			definitionColumn = Schema.Columns.AddValueColumn("definition", typeof(Byte[]), null);
 			definitionColumn.AllowNulls = true;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "sysdiagrams";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(nameColumn, "name");
+			SchemaMapping.Columns.AddMapping(principal_idColumn, "principal_id");
+			SchemaMapping.Columns.AddMapping(diagram_idColumn, "diagram_id");
+			SchemaMapping.Columns.AddMapping(versionColumn, "version");
+			SchemaMapping.Columns.AddMapping(definitionColumn, "definition");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -2542,53 +2927,78 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class aspnet_Users : Row {
-		public static TypedTable<aspnet_Users> CreateTable() { return new TypedTable<aspnet_Users>(Schema, () => new aspnet_Users()); }
-		///<summary>Creates a new  aspnet_Users instance.</summary>
-		public aspnet_Users() : base(Schema) { }
 
-		///<summary>Gets the ApplicationId column.</summary>
+	public partial class aspnet_Users : Row {
+		///<summary>Creates a new  aspnet_Users instance.</summary>
+		public aspnet_Users() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  aspnet_Users table.</summary>
+		public static TypedTable<aspnet_Users> CreateTable() { return new TypedTable<aspnet_Users>(Schema, () => new aspnet_Users()); }
+
+		///<summary>Gets the schema's ApplicationId column.</summary>
 		public static ForeignKeyColumn ApplicationIdColumn { get; private set; }
-		///<summary>Gets the UserId column.</summary>
+		///<summary>Gets the schema's UserId column.</summary>
 		public static ValueColumn UserIdColumn { get; private set; }
-		///<summary>Gets the UserName column.</summary>
+		///<summary>Gets the schema's UserName column.</summary>
 		public static ValueColumn UserNameColumn { get; private set; }
-		///<summary>Gets the LoweredUserName column.</summary>
+		///<summary>Gets the schema's LoweredUserName column.</summary>
 		public static ValueColumn LoweredUserNameColumn { get; private set; }
-		///<summary>Gets the MobileAlias column.</summary>
+		///<summary>Gets the schema's MobileAlias column.</summary>
 		public static ValueColumn MobileAliasColumn { get; private set; }
-		///<summary>Gets the IsAnonymous column.</summary>
+		///<summary>Gets the schema's IsAnonymous column.</summary>
 		public static ValueColumn IsAnonymousColumn { get; private set; }
-		///<summary>Gets the LastActivityDate column.</summary>
+		///<summary>Gets the schema's LastActivityDate column.</summary>
 		public static ValueColumn LastActivityDateColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the aspnet_Users schema.</summary>
-		public static new TypedSchema<aspnet_Users> Schema { get { return schema; } }
-		private static readonly TypedSchema<aspnet_Users> schema = TypedSchema<aspnet_Users>.Create("aspnet_Users", schema => {
-			ApplicationIdColumn = schema.Columns.AddForeignKey("ApplicationId", aspnet_Applications.Schema, "aspnet_Applications");
+		///<summary>Gets the aspnet_Users schema instance.</summary>
+		public static new TypedSchema<aspnet_Users> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server aspnet_Users table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static aspnet_Users() {
+			#region Create Schema
+			Schema = new TypedSchema<aspnet_Users>("aspnet_Users");
+
+			ApplicationIdColumn = Schema.Columns.AddForeignKey("ApplicationId", aspnet_Applications.Schema, "aspnet_Applications");
 			ApplicationIdColumn.AllowNulls = false;
 
-			schema.PrimaryKey = UserIdColumn = schema.Columns.AddValueColumn("UserId", typeof(Guid), null);
+			Schema.PrimaryKey = UserIdColumn = Schema.Columns.AddValueColumn("UserId", typeof(Guid), null);
 			UserIdColumn.Unique = true;
 			UserIdColumn.AllowNulls = false;
 
-			UserNameColumn = schema.Columns.AddValueColumn("UserName", typeof(String), null);
+			UserNameColumn = Schema.Columns.AddValueColumn("UserName", typeof(String), null);
 			UserNameColumn.AllowNulls = false;
 
-			LoweredUserNameColumn = schema.Columns.AddValueColumn("LoweredUserName", typeof(String), null);
+			LoweredUserNameColumn = Schema.Columns.AddValueColumn("LoweredUserName", typeof(String), null);
 			LoweredUserNameColumn.AllowNulls = false;
 
-			MobileAliasColumn = schema.Columns.AddValueColumn("MobileAlias", typeof(String), null);
+			MobileAliasColumn = Schema.Columns.AddValueColumn("MobileAlias", typeof(String), null);
 			MobileAliasColumn.AllowNulls = true;
 
-			IsAnonymousColumn = schema.Columns.AddValueColumn("IsAnonymous", typeof(Boolean), null);
+			IsAnonymousColumn = Schema.Columns.AddValueColumn("IsAnonymous", typeof(Boolean), null);
 			IsAnonymousColumn.AllowNulls = false;
 
-			LastActivityDateColumn = schema.Columns.AddValueColumn("LastActivityDate", typeof(DateTime), null);
+			LastActivityDateColumn = Schema.Columns.AddValueColumn("LastActivityDate", typeof(DateTime), null);
 			LastActivityDateColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "aspnet_Users";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(ApplicationIdColumn, "ApplicationId");
+			SchemaMapping.Columns.AddMapping(UserIdColumn, "UserId");
+			SchemaMapping.Columns.AddMapping(UserNameColumn, "UserName");
+			SchemaMapping.Columns.AddMapping(LoweredUserNameColumn, "LoweredUserName");
+			SchemaMapping.Columns.AddMapping(MobileAliasColumn, "MobileAlias");
+			SchemaMapping.Columns.AddMapping(IsAnonymousColumn, "IsAnonymous");
+			SchemaMapping.Columns.AddMapping(LastActivityDateColumn, "LastActivityDate");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -2718,43 +3128,66 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class PublicPages : Row {
-		public static TypedTable<PublicPages> CreateTable() { return new TypedTable<PublicPages>(Schema, () => new PublicPages()); }
-		///<summary>Creates a new  PublicPages instance.</summary>
-		public PublicPages() : base(Schema) { }
 
-		///<summary>Gets the Id column.</summary>
+	public partial class PublicPages : Row {
+		///<summary>Creates a new  PublicPages instance.</summary>
+		public PublicPages() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  PublicPages table.</summary>
+		public static TypedTable<PublicPages> CreateTable() { return new TypedTable<PublicPages>(Schema, () => new PublicPages()); }
+
+		///<summary>Gets the schema's Id column.</summary>
 		public static ValueColumn IdColumn { get; private set; }
-		///<summary>Gets the PageName column.</summary>
+		///<summary>Gets the schema's PageName column.</summary>
 		public static ValueColumn PageNameColumn { get; private set; }
-		///<summary>Gets the Title column.</summary>
+		///<summary>Gets the schema's Title column.</summary>
 		public static ValueColumn TitleColumn { get; private set; }
-		///<summary>Gets the Content column.</summary>
+		///<summary>Gets the schema's Content column.</summary>
 		public static ValueColumn ContentColumn { get; private set; }
-		///<summary>Gets the DateModified column.</summary>
+		///<summary>Gets the schema's DateModified column.</summary>
 		public static ValueColumn DateModifiedColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the PublicPages schema.</summary>
-		public static new TypedSchema<PublicPages> Schema { get { return schema; } }
-		private static readonly TypedSchema<PublicPages> schema = TypedSchema<PublicPages>.Create("PublicPages", schema => {
-			IdColumn = schema.Columns.AddValueColumn("Id", typeof(Guid), null);
+		///<summary>Gets the PublicPages schema instance.</summary>
+		public static new TypedSchema<PublicPages> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server PublicPages table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static PublicPages() {
+			#region Create Schema
+			Schema = new TypedSchema<PublicPages>("PublicPages");
+
+			IdColumn = Schema.Columns.AddValueColumn("Id", typeof(Guid), null);
 			IdColumn.AllowNulls = false;
 
-			PageNameColumn = schema.Columns.AddValueColumn("PageName", typeof(String), null);
+			PageNameColumn = Schema.Columns.AddValueColumn("PageName", typeof(String), null);
 			PageNameColumn.Unique = true;
 			PageNameColumn.AllowNulls = false;
 
-			TitleColumn = schema.Columns.AddValueColumn("Title", typeof(String), null);
+			TitleColumn = Schema.Columns.AddValueColumn("Title", typeof(String), null);
 			TitleColumn.AllowNulls = false;
 
-			ContentColumn = schema.Columns.AddValueColumn("Content", typeof(String), null);
+			ContentColumn = Schema.Columns.AddValueColumn("Content", typeof(String), null);
 			ContentColumn.AllowNulls = false;
 
-			DateModifiedColumn = schema.Columns.AddValueColumn("DateModified", typeof(DateTime), null);
+			DateModifiedColumn = Schema.Columns.AddValueColumn("DateModified", typeof(DateTime), null);
 			DateModifiedColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "PublicPages";
+			SchemaMapping.SqlSchemaName = "Website";
+
+			SchemaMapping.Columns.AddMapping(IdColumn, "Id");
+			SchemaMapping.Columns.AddMapping(PageNameColumn, "PageName");
+			SchemaMapping.Columns.AddMapping(TitleColumn, "Title");
+			SchemaMapping.Columns.AddMapping(ContentColumn, "Content");
+			SchemaMapping.Columns.AddMapping(DateModifiedColumn, "DateModified");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -2856,33 +3289,54 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class aspnet_SchemaVersions : Row {
-		public static TypedTable<aspnet_SchemaVersions> CreateTable() { return new TypedTable<aspnet_SchemaVersions>(Schema, () => new aspnet_SchemaVersions()); }
-		///<summary>Creates a new  aspnet_SchemaVersions instance.</summary>
-		public aspnet_SchemaVersions() : base(Schema) { }
 
-		///<summary>Gets the Feature column.</summary>
+	public partial class aspnet_SchemaVersions : Row {
+		///<summary>Creates a new  aspnet_SchemaVersions instance.</summary>
+		public aspnet_SchemaVersions() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  aspnet_SchemaVersions table.</summary>
+		public static TypedTable<aspnet_SchemaVersions> CreateTable() { return new TypedTable<aspnet_SchemaVersions>(Schema, () => new aspnet_SchemaVersions()); }
+
+		///<summary>Gets the schema's Feature column.</summary>
 		public static ValueColumn FeatureColumn { get; private set; }
-		///<summary>Gets the CompatibleSchemaVersion column.</summary>
+		///<summary>Gets the schema's CompatibleSchemaVersion column.</summary>
 		public static ValueColumn CompatibleSchemaVersionColumn { get; private set; }
-		///<summary>Gets the IsCurrentVersion column.</summary>
+		///<summary>Gets the schema's IsCurrentVersion column.</summary>
 		public static ValueColumn IsCurrentVersionColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the aspnet_SchemaVersions schema.</summary>
-		public static new TypedSchema<aspnet_SchemaVersions> Schema { get { return schema; } }
-		private static readonly TypedSchema<aspnet_SchemaVersions> schema = TypedSchema<aspnet_SchemaVersions>.Create("aspnet_SchemaVersions", schema => {
-			FeatureColumn = schema.Columns.AddValueColumn("Feature", typeof(String), null);
+		///<summary>Gets the aspnet_SchemaVersions schema instance.</summary>
+		public static new TypedSchema<aspnet_SchemaVersions> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server aspnet_SchemaVersions table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static aspnet_SchemaVersions() {
+			#region Create Schema
+			Schema = new TypedSchema<aspnet_SchemaVersions>("aspnet_SchemaVersions");
+
+			FeatureColumn = Schema.Columns.AddValueColumn("Feature", typeof(String), null);
 			FeatureColumn.AllowNulls = false;
 
-			schema.PrimaryKey = CompatibleSchemaVersionColumn = schema.Columns.AddValueColumn("CompatibleSchemaVersion", typeof(String), null);
+			Schema.PrimaryKey = CompatibleSchemaVersionColumn = Schema.Columns.AddValueColumn("CompatibleSchemaVersion", typeof(String), null);
 			CompatibleSchemaVersionColumn.Unique = true;
 			CompatibleSchemaVersionColumn.AllowNulls = false;
 
-			IsCurrentVersionColumn = schema.Columns.AddValueColumn("IsCurrentVersion", typeof(Boolean), null);
+			IsCurrentVersionColumn = Schema.Columns.AddValueColumn("IsCurrentVersion", typeof(Boolean), null);
 			IsCurrentVersionColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "aspnet_SchemaVersions";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(FeatureColumn, "Feature");
+			SchemaMapping.Columns.AddMapping(CompatibleSchemaVersionColumn, "CompatibleSchemaVersion");
+			SchemaMapping.Columns.AddMapping(IsCurrentVersionColumn, "IsCurrentVersion");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -2956,28 +3410,48 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class ProcessedEmails : Row {
-		public static TypedTable<ProcessedEmails> CreateTable() { return new TypedTable<ProcessedEmails>(Schema, () => new ProcessedEmails()); }
-		///<summary>Creates a new  ProcessedEmails instance.</summary>
-		public ProcessedEmails() : base(Schema) { }
 
-		///<summary>Gets the UID column.</summary>
+	public partial class ProcessedEmails : Row {
+		///<summary>Creates a new  ProcessedEmails instance.</summary>
+		public ProcessedEmails() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  ProcessedEmails table.</summary>
+		public static TypedTable<ProcessedEmails> CreateTable() { return new TypedTable<ProcessedEmails>(Schema, () => new ProcessedEmails()); }
+
+		///<summary>Gets the schema's UID column.</summary>
 		public static ValueColumn UIDColumn { get; private set; }
-		///<summary>Gets the DateProcessed column.</summary>
+		///<summary>Gets the schema's DateProcessed column.</summary>
 		public static ValueColumn DateProcessedColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the ProcessedEmails schema.</summary>
-		public static new TypedSchema<ProcessedEmails> Schema { get { return schema; } }
-		private static readonly TypedSchema<ProcessedEmails> schema = TypedSchema<ProcessedEmails>.Create("ProcessedEmails", schema => {
-			schema.PrimaryKey = UIDColumn = schema.Columns.AddValueColumn("UID", typeof(String), null);
+		///<summary>Gets the ProcessedEmails schema instance.</summary>
+		public static new TypedSchema<ProcessedEmails> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server ProcessedEmails table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static ProcessedEmails() {
+			#region Create Schema
+			Schema = new TypedSchema<ProcessedEmails>("ProcessedEmails");
+
+			Schema.PrimaryKey = UIDColumn = Schema.Columns.AddValueColumn("UID", typeof(String), null);
 			UIDColumn.Unique = true;
 			UIDColumn.AllowNulls = false;
 
-			DateProcessedColumn = schema.Columns.AddValueColumn("DateProcessed", typeof(DateTime), null);
+			DateProcessedColumn = Schema.Columns.AddValueColumn("DateProcessed", typeof(DateTime), null);
 			DateProcessedColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "ProcessedEmails";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(UIDColumn, "UID");
+			SchemaMapping.Columns.AddMapping(DateProcessedColumn, "DateProcessed");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -3037,39 +3511,61 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class vw_aspnet_Applications : Row {
-		public static TypedTable<vw_aspnet_Applications> CreateTable() { return new TypedTable<vw_aspnet_Applications>(Schema, () => new vw_aspnet_Applications()); }
-		///<summary>Creates a new  vw_aspnet_Applications instance.</summary>
-		public vw_aspnet_Applications() : base(Schema) { }
 
-		///<summary>Gets the ApplicationName column.</summary>
+	public partial class vw_aspnet_Applications : Row {
+		///<summary>Creates a new  vw_aspnet_Applications instance.</summary>
+		public vw_aspnet_Applications() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  vw_aspnet_Applications table.</summary>
+		public static TypedTable<vw_aspnet_Applications> CreateTable() { return new TypedTable<vw_aspnet_Applications>(Schema, () => new vw_aspnet_Applications()); }
+
+		///<summary>Gets the schema's ApplicationName column.</summary>
 		public static ValueColumn ApplicationNameColumn { get; private set; }
-		///<summary>Gets the LoweredApplicationName column.</summary>
+		///<summary>Gets the schema's LoweredApplicationName column.</summary>
 		public static ValueColumn LoweredApplicationNameColumn { get; private set; }
-		///<summary>Gets the ApplicationId column.</summary>
+		///<summary>Gets the schema's ApplicationId column.</summary>
 		public static ValueColumn ApplicationIdColumn { get; private set; }
-		///<summary>Gets the Description column.</summary>
+		///<summary>Gets the schema's Description column.</summary>
 		public static ValueColumn DescriptionColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the vw_aspnet_Applications schema.</summary>
-		public static new TypedSchema<vw_aspnet_Applications> Schema { get { return schema; } }
-		private static readonly TypedSchema<vw_aspnet_Applications> schema = TypedSchema<vw_aspnet_Applications>.Create("vw_aspnet_Applications", schema => {
-			ApplicationNameColumn = schema.Columns.AddValueColumn("ApplicationName", typeof(String), null);
+		///<summary>Gets the vw_aspnet_Applications schema instance.</summary>
+		public static new TypedSchema<vw_aspnet_Applications> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server vw_aspnet_Applications table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static vw_aspnet_Applications() {
+			#region Create Schema
+			Schema = new TypedSchema<vw_aspnet_Applications>("vw_aspnet_Applications");
+
+			ApplicationNameColumn = Schema.Columns.AddValueColumn("ApplicationName", typeof(String), null);
 			ApplicationNameColumn.Unique = true;
 			ApplicationNameColumn.AllowNulls = false;
 
-			LoweredApplicationNameColumn = schema.Columns.AddValueColumn("LoweredApplicationName", typeof(String), null);
+			LoweredApplicationNameColumn = Schema.Columns.AddValueColumn("LoweredApplicationName", typeof(String), null);
 			LoweredApplicationNameColumn.Unique = true;
 			LoweredApplicationNameColumn.AllowNulls = false;
 
-			ApplicationIdColumn = schema.Columns.AddValueColumn("ApplicationId", typeof(Guid), null);
+			ApplicationIdColumn = Schema.Columns.AddValueColumn("ApplicationId", typeof(Guid), null);
 			ApplicationIdColumn.AllowNulls = false;
 
-			DescriptionColumn = schema.Columns.AddValueColumn("Description", typeof(String), null);
+			DescriptionColumn = Schema.Columns.AddValueColumn("Description", typeof(String), null);
 			DescriptionColumn.AllowNulls = true;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "vw_aspnet_Applications";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(ApplicationNameColumn, "ApplicationName");
+			SchemaMapping.Columns.AddMapping(LoweredApplicationNameColumn, "LoweredApplicationName");
+			SchemaMapping.Columns.AddMapping(ApplicationIdColumn, "ApplicationId");
+			SchemaMapping.Columns.AddMapping(DescriptionColumn, "Description");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -3157,52 +3653,77 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class vw_aspnet_Users : Row {
-		public static TypedTable<vw_aspnet_Users> CreateTable() { return new TypedTable<vw_aspnet_Users>(Schema, () => new vw_aspnet_Users()); }
-		///<summary>Creates a new  vw_aspnet_Users instance.</summary>
-		public vw_aspnet_Users() : base(Schema) { }
 
-		///<summary>Gets the ApplicationId column.</summary>
+	public partial class vw_aspnet_Users : Row {
+		///<summary>Creates a new  vw_aspnet_Users instance.</summary>
+		public vw_aspnet_Users() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  vw_aspnet_Users table.</summary>
+		public static TypedTable<vw_aspnet_Users> CreateTable() { return new TypedTable<vw_aspnet_Users>(Schema, () => new vw_aspnet_Users()); }
+
+		///<summary>Gets the schema's ApplicationId column.</summary>
 		public static ValueColumn ApplicationIdColumn { get; private set; }
-		///<summary>Gets the UserId column.</summary>
+		///<summary>Gets the schema's UserId column.</summary>
 		public static ValueColumn UserIdColumn { get; private set; }
-		///<summary>Gets the UserName column.</summary>
+		///<summary>Gets the schema's UserName column.</summary>
 		public static ValueColumn UserNameColumn { get; private set; }
-		///<summary>Gets the LoweredUserName column.</summary>
+		///<summary>Gets the schema's LoweredUserName column.</summary>
 		public static ValueColumn LoweredUserNameColumn { get; private set; }
-		///<summary>Gets the MobileAlias column.</summary>
+		///<summary>Gets the schema's MobileAlias column.</summary>
 		public static ValueColumn MobileAliasColumn { get; private set; }
-		///<summary>Gets the IsAnonymous column.</summary>
+		///<summary>Gets the schema's IsAnonymous column.</summary>
 		public static ValueColumn IsAnonymousColumn { get; private set; }
-		///<summary>Gets the LastActivityDate column.</summary>
+		///<summary>Gets the schema's LastActivityDate column.</summary>
 		public static ValueColumn LastActivityDateColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the vw_aspnet_Users schema.</summary>
-		public static new TypedSchema<vw_aspnet_Users> Schema { get { return schema; } }
-		private static readonly TypedSchema<vw_aspnet_Users> schema = TypedSchema<vw_aspnet_Users>.Create("vw_aspnet_Users", schema => {
-			ApplicationIdColumn = schema.Columns.AddValueColumn("ApplicationId", typeof(Guid), null);
+		///<summary>Gets the vw_aspnet_Users schema instance.</summary>
+		public static new TypedSchema<vw_aspnet_Users> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server vw_aspnet_Users table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static vw_aspnet_Users() {
+			#region Create Schema
+			Schema = new TypedSchema<vw_aspnet_Users>("vw_aspnet_Users");
+
+			ApplicationIdColumn = Schema.Columns.AddValueColumn("ApplicationId", typeof(Guid), null);
 			ApplicationIdColumn.AllowNulls = false;
 
-			UserIdColumn = schema.Columns.AddValueColumn("UserId", typeof(Guid), null);
+			UserIdColumn = Schema.Columns.AddValueColumn("UserId", typeof(Guid), null);
 			UserIdColumn.AllowNulls = false;
 
-			UserNameColumn = schema.Columns.AddValueColumn("UserName", typeof(String), null);
+			UserNameColumn = Schema.Columns.AddValueColumn("UserName", typeof(String), null);
 			UserNameColumn.AllowNulls = false;
 
-			LoweredUserNameColumn = schema.Columns.AddValueColumn("LoweredUserName", typeof(String), null);
+			LoweredUserNameColumn = Schema.Columns.AddValueColumn("LoweredUserName", typeof(String), null);
 			LoweredUserNameColumn.AllowNulls = false;
 
-			MobileAliasColumn = schema.Columns.AddValueColumn("MobileAlias", typeof(String), null);
+			MobileAliasColumn = Schema.Columns.AddValueColumn("MobileAlias", typeof(String), null);
 			MobileAliasColumn.AllowNulls = true;
 
-			IsAnonymousColumn = schema.Columns.AddValueColumn("IsAnonymous", typeof(Boolean), null);
+			IsAnonymousColumn = Schema.Columns.AddValueColumn("IsAnonymous", typeof(Boolean), null);
 			IsAnonymousColumn.AllowNulls = false;
 
-			LastActivityDateColumn = schema.Columns.AddValueColumn("LastActivityDate", typeof(DateTime), null);
+			LastActivityDateColumn = Schema.Columns.AddValueColumn("LastActivityDate", typeof(DateTime), null);
 			LastActivityDateColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "vw_aspnet_Users";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(ApplicationIdColumn, "ApplicationId");
+			SchemaMapping.Columns.AddMapping(UserIdColumn, "UserId");
+			SchemaMapping.Columns.AddMapping(UserNameColumn, "UserName");
+			SchemaMapping.Columns.AddMapping(LoweredUserNameColumn, "LoweredUserName");
+			SchemaMapping.Columns.AddMapping(MobileAliasColumn, "MobileAlias");
+			SchemaMapping.Columns.AddMapping(IsAnonymousColumn, "IsAnonymous");
+			SchemaMapping.Columns.AddMapping(LastActivityDateColumn, "LastActivityDate");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -3332,123 +3853,162 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class aspnet_Membership : Row {
-		public static TypedTable<aspnet_Membership> CreateTable() { return new TypedTable<aspnet_Membership>(Schema, () => new aspnet_Membership()); }
-		///<summary>Creates a new  aspnet_Membership instance.</summary>
-		public aspnet_Membership() : base(Schema) { }
 
-		///<summary>Gets the ApplicationId column.</summary>
+	public partial class aspnet_Membership : Row {
+		///<summary>Creates a new  aspnet_Membership instance.</summary>
+		public aspnet_Membership() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  aspnet_Membership table.</summary>
+		public static TypedTable<aspnet_Membership> CreateTable() { return new TypedTable<aspnet_Membership>(Schema, () => new aspnet_Membership()); }
+
+		///<summary>Gets the schema's ApplicationId column.</summary>
 		public static ForeignKeyColumn ApplicationIdColumn { get; private set; }
-		///<summary>Gets the UserId column.</summary>
+		///<summary>Gets the schema's UserId column.</summary>
 		public static ForeignKeyColumn UserIdColumn { get; private set; }
-		///<summary>Gets the Password column.</summary>
+		///<summary>Gets the schema's Password column.</summary>
 		public static ValueColumn PasswordColumn { get; private set; }
-		///<summary>Gets the PasswordFormat column.</summary>
+		///<summary>Gets the schema's PasswordFormat column.</summary>
 		public static ValueColumn PasswordFormatColumn { get; private set; }
-		///<summary>Gets the PasswordSalt column.</summary>
+		///<summary>Gets the schema's PasswordSalt column.</summary>
 		public static ValueColumn PasswordSaltColumn { get; private set; }
-		///<summary>Gets the MobilePIN column.</summary>
+		///<summary>Gets the schema's MobilePIN column.</summary>
 		public static ValueColumn MobilePINColumn { get; private set; }
-		///<summary>Gets the Email column.</summary>
+		///<summary>Gets the schema's Email column.</summary>
 		public static ValueColumn EmailColumn { get; private set; }
-		///<summary>Gets the LoweredEmail column.</summary>
+		///<summary>Gets the schema's LoweredEmail column.</summary>
 		public static ValueColumn LoweredEmailColumn { get; private set; }
-		///<summary>Gets the PasswordQuestion column.</summary>
+		///<summary>Gets the schema's PasswordQuestion column.</summary>
 		public static ValueColumn PasswordQuestionColumn { get; private set; }
-		///<summary>Gets the PasswordAnswer column.</summary>
+		///<summary>Gets the schema's PasswordAnswer column.</summary>
 		public static ValueColumn PasswordAnswerColumn { get; private set; }
-		///<summary>Gets the IsApproved column.</summary>
+		///<summary>Gets the schema's IsApproved column.</summary>
 		public static ValueColumn IsApprovedColumn { get; private set; }
-		///<summary>Gets the IsLockedOut column.</summary>
+		///<summary>Gets the schema's IsLockedOut column.</summary>
 		public static ValueColumn IsLockedOutColumn { get; private set; }
-		///<summary>Gets the CreateDate column.</summary>
+		///<summary>Gets the schema's CreateDate column.</summary>
 		public static ValueColumn CreateDateColumn { get; private set; }
-		///<summary>Gets the LastLoginDate column.</summary>
+		///<summary>Gets the schema's LastLoginDate column.</summary>
 		public static ValueColumn LastLoginDateColumn { get; private set; }
-		///<summary>Gets the LastPasswordChangedDate column.</summary>
+		///<summary>Gets the schema's LastPasswordChangedDate column.</summary>
 		public static ValueColumn LastPasswordChangedDateColumn { get; private set; }
-		///<summary>Gets the LastLockoutDate column.</summary>
+		///<summary>Gets the schema's LastLockoutDate column.</summary>
 		public static ValueColumn LastLockoutDateColumn { get; private set; }
-		///<summary>Gets the FailedPasswordAttemptCount column.</summary>
+		///<summary>Gets the schema's FailedPasswordAttemptCount column.</summary>
 		public static ValueColumn FailedPasswordAttemptCountColumn { get; private set; }
-		///<summary>Gets the FailedPasswordAttemptWindowStart column.</summary>
+		///<summary>Gets the schema's FailedPasswordAttemptWindowStart column.</summary>
 		public static ValueColumn FailedPasswordAttemptWindowStartColumn { get; private set; }
-		///<summary>Gets the FailedPasswordAnswerAttemptCount column.</summary>
+		///<summary>Gets the schema's FailedPasswordAnswerAttemptCount column.</summary>
 		public static ValueColumn FailedPasswordAnswerAttemptCountColumn { get; private set; }
-		///<summary>Gets the FailedPasswordAnswerAttemptWindowStart column.</summary>
+		///<summary>Gets the schema's FailedPasswordAnswerAttemptWindowStart column.</summary>
 		public static ValueColumn FailedPasswordAnswerAttemptWindowStartColumn { get; private set; }
-		///<summary>Gets the Comment column.</summary>
+		///<summary>Gets the schema's Comment column.</summary>
 		public static ValueColumn CommentColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the aspnet_Membership schema.</summary>
-		public static new TypedSchema<aspnet_Membership> Schema { get { return schema; } }
-		private static readonly TypedSchema<aspnet_Membership> schema = TypedSchema<aspnet_Membership>.Create("aspnet_Membership", schema => {
-			ApplicationIdColumn = schema.Columns.AddForeignKey("ApplicationId", aspnet_Applications.Schema, "aspnet_Applications");
+		///<summary>Gets the aspnet_Membership schema instance.</summary>
+		public static new TypedSchema<aspnet_Membership> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server aspnet_Membership table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static aspnet_Membership() {
+			#region Create Schema
+			Schema = new TypedSchema<aspnet_Membership>("aspnet_Membership");
+
+			ApplicationIdColumn = Schema.Columns.AddForeignKey("ApplicationId", aspnet_Applications.Schema, "aspnet_Applications");
 			ApplicationIdColumn.AllowNulls = false;
 
-			schema.PrimaryKey = UserIdColumn = schema.Columns.AddForeignKey("UserId", aspnet_Users.Schema, "aspnet_Users");
+			Schema.PrimaryKey = UserIdColumn = Schema.Columns.AddForeignKey("UserId", aspnet_Users.Schema, "aspnet_Users");
 			UserIdColumn.Unique = true;
 			UserIdColumn.AllowNulls = false;
 
-			PasswordColumn = schema.Columns.AddValueColumn("Password", typeof(String), null);
+			PasswordColumn = Schema.Columns.AddValueColumn("Password", typeof(String), null);
 			PasswordColumn.AllowNulls = false;
 
-			PasswordFormatColumn = schema.Columns.AddValueColumn("PasswordFormat", typeof(Int32), null);
+			PasswordFormatColumn = Schema.Columns.AddValueColumn("PasswordFormat", typeof(Int32), null);
 			PasswordFormatColumn.AllowNulls = false;
 
-			PasswordSaltColumn = schema.Columns.AddValueColumn("PasswordSalt", typeof(String), null);
+			PasswordSaltColumn = Schema.Columns.AddValueColumn("PasswordSalt", typeof(String), null);
 			PasswordSaltColumn.AllowNulls = false;
 
-			MobilePINColumn = schema.Columns.AddValueColumn("MobilePIN", typeof(String), null);
+			MobilePINColumn = Schema.Columns.AddValueColumn("MobilePIN", typeof(String), null);
 			MobilePINColumn.AllowNulls = true;
 
-			EmailColumn = schema.Columns.AddValueColumn("Email", typeof(String), null);
+			EmailColumn = Schema.Columns.AddValueColumn("Email", typeof(String), null);
 			EmailColumn.AllowNulls = true;
 
-			LoweredEmailColumn = schema.Columns.AddValueColumn("LoweredEmail", typeof(String), null);
+			LoweredEmailColumn = Schema.Columns.AddValueColumn("LoweredEmail", typeof(String), null);
 			LoweredEmailColumn.AllowNulls = true;
 
-			PasswordQuestionColumn = schema.Columns.AddValueColumn("PasswordQuestion", typeof(String), null);
+			PasswordQuestionColumn = Schema.Columns.AddValueColumn("PasswordQuestion", typeof(String), null);
 			PasswordQuestionColumn.AllowNulls = true;
 
-			PasswordAnswerColumn = schema.Columns.AddValueColumn("PasswordAnswer", typeof(String), null);
+			PasswordAnswerColumn = Schema.Columns.AddValueColumn("PasswordAnswer", typeof(String), null);
 			PasswordAnswerColumn.AllowNulls = true;
 
-			IsApprovedColumn = schema.Columns.AddValueColumn("IsApproved", typeof(Boolean), null);
+			IsApprovedColumn = Schema.Columns.AddValueColumn("IsApproved", typeof(Boolean), null);
 			IsApprovedColumn.AllowNulls = false;
 
-			IsLockedOutColumn = schema.Columns.AddValueColumn("IsLockedOut", typeof(Boolean), null);
+			IsLockedOutColumn = Schema.Columns.AddValueColumn("IsLockedOut", typeof(Boolean), null);
 			IsLockedOutColumn.AllowNulls = false;
 
-			CreateDateColumn = schema.Columns.AddValueColumn("CreateDate", typeof(DateTime), null);
+			CreateDateColumn = Schema.Columns.AddValueColumn("CreateDate", typeof(DateTime), null);
 			CreateDateColumn.AllowNulls = false;
 
-			LastLoginDateColumn = schema.Columns.AddValueColumn("LastLoginDate", typeof(DateTime), null);
+			LastLoginDateColumn = Schema.Columns.AddValueColumn("LastLoginDate", typeof(DateTime), null);
 			LastLoginDateColumn.AllowNulls = false;
 
-			LastPasswordChangedDateColumn = schema.Columns.AddValueColumn("LastPasswordChangedDate", typeof(DateTime), null);
+			LastPasswordChangedDateColumn = Schema.Columns.AddValueColumn("LastPasswordChangedDate", typeof(DateTime), null);
 			LastPasswordChangedDateColumn.AllowNulls = false;
 
-			LastLockoutDateColumn = schema.Columns.AddValueColumn("LastLockoutDate", typeof(DateTime), null);
+			LastLockoutDateColumn = Schema.Columns.AddValueColumn("LastLockoutDate", typeof(DateTime), null);
 			LastLockoutDateColumn.AllowNulls = false;
 
-			FailedPasswordAttemptCountColumn = schema.Columns.AddValueColumn("FailedPasswordAttemptCount", typeof(Int32), null);
+			FailedPasswordAttemptCountColumn = Schema.Columns.AddValueColumn("FailedPasswordAttemptCount", typeof(Int32), null);
 			FailedPasswordAttemptCountColumn.AllowNulls = false;
 
-			FailedPasswordAttemptWindowStartColumn = schema.Columns.AddValueColumn("FailedPasswordAttemptWindowStart", typeof(DateTime), null);
+			FailedPasswordAttemptWindowStartColumn = Schema.Columns.AddValueColumn("FailedPasswordAttemptWindowStart", typeof(DateTime), null);
 			FailedPasswordAttemptWindowStartColumn.AllowNulls = false;
 
-			FailedPasswordAnswerAttemptCountColumn = schema.Columns.AddValueColumn("FailedPasswordAnswerAttemptCount", typeof(Int32), null);
+			FailedPasswordAnswerAttemptCountColumn = Schema.Columns.AddValueColumn("FailedPasswordAnswerAttemptCount", typeof(Int32), null);
 			FailedPasswordAnswerAttemptCountColumn.AllowNulls = false;
 
-			FailedPasswordAnswerAttemptWindowStartColumn = schema.Columns.AddValueColumn("FailedPasswordAnswerAttemptWindowStart", typeof(DateTime), null);
+			FailedPasswordAnswerAttemptWindowStartColumn = Schema.Columns.AddValueColumn("FailedPasswordAnswerAttemptWindowStart", typeof(DateTime), null);
 			FailedPasswordAnswerAttemptWindowStartColumn.AllowNulls = false;
 
-			CommentColumn = schema.Columns.AddValueColumn("Comment", typeof(String), null);
+			CommentColumn = Schema.Columns.AddValueColumn("Comment", typeof(String), null);
 			CommentColumn.AllowNulls = true;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "aspnet_Membership";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(ApplicationIdColumn, "ApplicationId");
+			SchemaMapping.Columns.AddMapping(UserIdColumn, "UserId");
+			SchemaMapping.Columns.AddMapping(PasswordColumn, "Password");
+			SchemaMapping.Columns.AddMapping(PasswordFormatColumn, "PasswordFormat");
+			SchemaMapping.Columns.AddMapping(PasswordSaltColumn, "PasswordSalt");
+			SchemaMapping.Columns.AddMapping(MobilePINColumn, "MobilePIN");
+			SchemaMapping.Columns.AddMapping(EmailColumn, "Email");
+			SchemaMapping.Columns.AddMapping(LoweredEmailColumn, "LoweredEmail");
+			SchemaMapping.Columns.AddMapping(PasswordQuestionColumn, "PasswordQuestion");
+			SchemaMapping.Columns.AddMapping(PasswordAnswerColumn, "PasswordAnswer");
+			SchemaMapping.Columns.AddMapping(IsApprovedColumn, "IsApproved");
+			SchemaMapping.Columns.AddMapping(IsLockedOutColumn, "IsLockedOut");
+			SchemaMapping.Columns.AddMapping(CreateDateColumn, "CreateDate");
+			SchemaMapping.Columns.AddMapping(LastLoginDateColumn, "LastLoginDate");
+			SchemaMapping.Columns.AddMapping(LastPasswordChangedDateColumn, "LastPasswordChangedDate");
+			SchemaMapping.Columns.AddMapping(LastLockoutDateColumn, "LastLockoutDate");
+			SchemaMapping.Columns.AddMapping(FailedPasswordAttemptCountColumn, "FailedPasswordAttemptCount");
+			SchemaMapping.Columns.AddMapping(FailedPasswordAttemptWindowStartColumn, "FailedPasswordAttemptWindowStart");
+			SchemaMapping.Columns.AddMapping(FailedPasswordAnswerAttemptCountColumn, "FailedPasswordAnswerAttemptCount");
+			SchemaMapping.Columns.AddMapping(FailedPasswordAnswerAttemptWindowStartColumn, "FailedPasswordAnswerAttemptWindowStart");
+			SchemaMapping.Columns.AddMapping(CommentColumn, "Comment");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -3774,132 +4334,173 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class vw_aspnet_MembershipUsers : Row {
-		public static TypedTable<vw_aspnet_MembershipUsers> CreateTable() { return new TypedTable<vw_aspnet_MembershipUsers>(Schema, () => new vw_aspnet_MembershipUsers()); }
-		///<summary>Creates a new  vw_aspnet_MembershipUsers instance.</summary>
-		public vw_aspnet_MembershipUsers() : base(Schema) { }
 
-		///<summary>Gets the UserId column.</summary>
+	public partial class vw_aspnet_MembershipUsers : Row {
+		///<summary>Creates a new  vw_aspnet_MembershipUsers instance.</summary>
+		public vw_aspnet_MembershipUsers() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  vw_aspnet_MembershipUsers table.</summary>
+		public static TypedTable<vw_aspnet_MembershipUsers> CreateTable() { return new TypedTable<vw_aspnet_MembershipUsers>(Schema, () => new vw_aspnet_MembershipUsers()); }
+
+		///<summary>Gets the schema's UserId column.</summary>
 		public static ValueColumn UserIdColumn { get; private set; }
-		///<summary>Gets the PasswordFormat column.</summary>
+		///<summary>Gets the schema's PasswordFormat column.</summary>
 		public static ValueColumn PasswordFormatColumn { get; private set; }
-		///<summary>Gets the MobilePIN column.</summary>
+		///<summary>Gets the schema's MobilePIN column.</summary>
 		public static ValueColumn MobilePINColumn { get; private set; }
-		///<summary>Gets the Email column.</summary>
+		///<summary>Gets the schema's Email column.</summary>
 		public static ValueColumn EmailColumn { get; private set; }
-		///<summary>Gets the LoweredEmail column.</summary>
+		///<summary>Gets the schema's LoweredEmail column.</summary>
 		public static ValueColumn LoweredEmailColumn { get; private set; }
-		///<summary>Gets the PasswordQuestion column.</summary>
+		///<summary>Gets the schema's PasswordQuestion column.</summary>
 		public static ValueColumn PasswordQuestionColumn { get; private set; }
-		///<summary>Gets the PasswordAnswer column.</summary>
+		///<summary>Gets the schema's PasswordAnswer column.</summary>
 		public static ValueColumn PasswordAnswerColumn { get; private set; }
-		///<summary>Gets the IsApproved column.</summary>
+		///<summary>Gets the schema's IsApproved column.</summary>
 		public static ValueColumn IsApprovedColumn { get; private set; }
-		///<summary>Gets the IsLockedOut column.</summary>
+		///<summary>Gets the schema's IsLockedOut column.</summary>
 		public static ValueColumn IsLockedOutColumn { get; private set; }
-		///<summary>Gets the CreateDate column.</summary>
+		///<summary>Gets the schema's CreateDate column.</summary>
 		public static ValueColumn CreateDateColumn { get; private set; }
-		///<summary>Gets the LastLoginDate column.</summary>
+		///<summary>Gets the schema's LastLoginDate column.</summary>
 		public static ValueColumn LastLoginDateColumn { get; private set; }
-		///<summary>Gets the LastPasswordChangedDate column.</summary>
+		///<summary>Gets the schema's LastPasswordChangedDate column.</summary>
 		public static ValueColumn LastPasswordChangedDateColumn { get; private set; }
-		///<summary>Gets the LastLockoutDate column.</summary>
+		///<summary>Gets the schema's LastLockoutDate column.</summary>
 		public static ValueColumn LastLockoutDateColumn { get; private set; }
-		///<summary>Gets the FailedPasswordAttemptCount column.</summary>
+		///<summary>Gets the schema's FailedPasswordAttemptCount column.</summary>
 		public static ValueColumn FailedPasswordAttemptCountColumn { get; private set; }
-		///<summary>Gets the FailedPasswordAttemptWindowStart column.</summary>
+		///<summary>Gets the schema's FailedPasswordAttemptWindowStart column.</summary>
 		public static ValueColumn FailedPasswordAttemptWindowStartColumn { get; private set; }
-		///<summary>Gets the FailedPasswordAnswerAttemptCount column.</summary>
+		///<summary>Gets the schema's FailedPasswordAnswerAttemptCount column.</summary>
 		public static ValueColumn FailedPasswordAnswerAttemptCountColumn { get; private set; }
-		///<summary>Gets the FailedPasswordAnswerAttemptWindowStart column.</summary>
+		///<summary>Gets the schema's FailedPasswordAnswerAttemptWindowStart column.</summary>
 		public static ValueColumn FailedPasswordAnswerAttemptWindowStartColumn { get; private set; }
-		///<summary>Gets the Comment column.</summary>
+		///<summary>Gets the schema's Comment column.</summary>
 		public static ValueColumn CommentColumn { get; private set; }
-		///<summary>Gets the ApplicationId column.</summary>
+		///<summary>Gets the schema's ApplicationId column.</summary>
 		public static ValueColumn ApplicationIdColumn { get; private set; }
-		///<summary>Gets the UserName column.</summary>
+		///<summary>Gets the schema's UserName column.</summary>
 		public static ValueColumn UserNameColumn { get; private set; }
-		///<summary>Gets the MobileAlias column.</summary>
+		///<summary>Gets the schema's MobileAlias column.</summary>
 		public static ValueColumn MobileAliasColumn { get; private set; }
-		///<summary>Gets the IsAnonymous column.</summary>
+		///<summary>Gets the schema's IsAnonymous column.</summary>
 		public static ValueColumn IsAnonymousColumn { get; private set; }
-		///<summary>Gets the LastActivityDate column.</summary>
+		///<summary>Gets the schema's LastActivityDate column.</summary>
 		public static ValueColumn LastActivityDateColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the vw_aspnet_MembershipUsers schema.</summary>
-		public static new TypedSchema<vw_aspnet_MembershipUsers> Schema { get { return schema; } }
-		private static readonly TypedSchema<vw_aspnet_MembershipUsers> schema = TypedSchema<vw_aspnet_MembershipUsers>.Create("vw_aspnet_MembershipUsers", schema => {
-			UserIdColumn = schema.Columns.AddValueColumn("UserId", typeof(Guid), null);
+		///<summary>Gets the vw_aspnet_MembershipUsers schema instance.</summary>
+		public static new TypedSchema<vw_aspnet_MembershipUsers> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server vw_aspnet_MembershipUsers table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static vw_aspnet_MembershipUsers() {
+			#region Create Schema
+			Schema = new TypedSchema<vw_aspnet_MembershipUsers>("vw_aspnet_MembershipUsers");
+
+			UserIdColumn = Schema.Columns.AddValueColumn("UserId", typeof(Guid), null);
 			UserIdColumn.AllowNulls = false;
 
-			PasswordFormatColumn = schema.Columns.AddValueColumn("PasswordFormat", typeof(Int32), null);
+			PasswordFormatColumn = Schema.Columns.AddValueColumn("PasswordFormat", typeof(Int32), null);
 			PasswordFormatColumn.AllowNulls = false;
 
-			MobilePINColumn = schema.Columns.AddValueColumn("MobilePIN", typeof(String), null);
+			MobilePINColumn = Schema.Columns.AddValueColumn("MobilePIN", typeof(String), null);
 			MobilePINColumn.AllowNulls = true;
 
-			EmailColumn = schema.Columns.AddValueColumn("Email", typeof(String), null);
+			EmailColumn = Schema.Columns.AddValueColumn("Email", typeof(String), null);
 			EmailColumn.AllowNulls = true;
 
-			LoweredEmailColumn = schema.Columns.AddValueColumn("LoweredEmail", typeof(String), null);
+			LoweredEmailColumn = Schema.Columns.AddValueColumn("LoweredEmail", typeof(String), null);
 			LoweredEmailColumn.AllowNulls = true;
 
-			PasswordQuestionColumn = schema.Columns.AddValueColumn("PasswordQuestion", typeof(String), null);
+			PasswordQuestionColumn = Schema.Columns.AddValueColumn("PasswordQuestion", typeof(String), null);
 			PasswordQuestionColumn.AllowNulls = true;
 
-			PasswordAnswerColumn = schema.Columns.AddValueColumn("PasswordAnswer", typeof(String), null);
+			PasswordAnswerColumn = Schema.Columns.AddValueColumn("PasswordAnswer", typeof(String), null);
 			PasswordAnswerColumn.AllowNulls = true;
 
-			IsApprovedColumn = schema.Columns.AddValueColumn("IsApproved", typeof(Boolean), null);
+			IsApprovedColumn = Schema.Columns.AddValueColumn("IsApproved", typeof(Boolean), null);
 			IsApprovedColumn.AllowNulls = false;
 
-			IsLockedOutColumn = schema.Columns.AddValueColumn("IsLockedOut", typeof(Boolean), null);
+			IsLockedOutColumn = Schema.Columns.AddValueColumn("IsLockedOut", typeof(Boolean), null);
 			IsLockedOutColumn.AllowNulls = false;
 
-			CreateDateColumn = schema.Columns.AddValueColumn("CreateDate", typeof(DateTime), null);
+			CreateDateColumn = Schema.Columns.AddValueColumn("CreateDate", typeof(DateTime), null);
 			CreateDateColumn.AllowNulls = false;
 
-			LastLoginDateColumn = schema.Columns.AddValueColumn("LastLoginDate", typeof(DateTime), null);
+			LastLoginDateColumn = Schema.Columns.AddValueColumn("LastLoginDate", typeof(DateTime), null);
 			LastLoginDateColumn.AllowNulls = false;
 
-			LastPasswordChangedDateColumn = schema.Columns.AddValueColumn("LastPasswordChangedDate", typeof(DateTime), null);
+			LastPasswordChangedDateColumn = Schema.Columns.AddValueColumn("LastPasswordChangedDate", typeof(DateTime), null);
 			LastPasswordChangedDateColumn.AllowNulls = false;
 
-			LastLockoutDateColumn = schema.Columns.AddValueColumn("LastLockoutDate", typeof(DateTime), null);
+			LastLockoutDateColumn = Schema.Columns.AddValueColumn("LastLockoutDate", typeof(DateTime), null);
 			LastLockoutDateColumn.AllowNulls = false;
 
-			FailedPasswordAttemptCountColumn = schema.Columns.AddValueColumn("FailedPasswordAttemptCount", typeof(Int32), null);
+			FailedPasswordAttemptCountColumn = Schema.Columns.AddValueColumn("FailedPasswordAttemptCount", typeof(Int32), null);
 			FailedPasswordAttemptCountColumn.AllowNulls = false;
 
-			FailedPasswordAttemptWindowStartColumn = schema.Columns.AddValueColumn("FailedPasswordAttemptWindowStart", typeof(DateTime), null);
+			FailedPasswordAttemptWindowStartColumn = Schema.Columns.AddValueColumn("FailedPasswordAttemptWindowStart", typeof(DateTime), null);
 			FailedPasswordAttemptWindowStartColumn.AllowNulls = false;
 
-			FailedPasswordAnswerAttemptCountColumn = schema.Columns.AddValueColumn("FailedPasswordAnswerAttemptCount", typeof(Int32), null);
+			FailedPasswordAnswerAttemptCountColumn = Schema.Columns.AddValueColumn("FailedPasswordAnswerAttemptCount", typeof(Int32), null);
 			FailedPasswordAnswerAttemptCountColumn.AllowNulls = false;
 
-			FailedPasswordAnswerAttemptWindowStartColumn = schema.Columns.AddValueColumn("FailedPasswordAnswerAttemptWindowStart", typeof(DateTime), null);
+			FailedPasswordAnswerAttemptWindowStartColumn = Schema.Columns.AddValueColumn("FailedPasswordAnswerAttemptWindowStart", typeof(DateTime), null);
 			FailedPasswordAnswerAttemptWindowStartColumn.AllowNulls = false;
 
-			CommentColumn = schema.Columns.AddValueColumn("Comment", typeof(String), null);
+			CommentColumn = Schema.Columns.AddValueColumn("Comment", typeof(String), null);
 			CommentColumn.AllowNulls = true;
 
-			ApplicationIdColumn = schema.Columns.AddValueColumn("ApplicationId", typeof(Guid), null);
+			ApplicationIdColumn = Schema.Columns.AddValueColumn("ApplicationId", typeof(Guid), null);
 			ApplicationIdColumn.AllowNulls = false;
 
-			UserNameColumn = schema.Columns.AddValueColumn("UserName", typeof(String), null);
+			UserNameColumn = Schema.Columns.AddValueColumn("UserName", typeof(String), null);
 			UserNameColumn.AllowNulls = false;
 
-			MobileAliasColumn = schema.Columns.AddValueColumn("MobileAlias", typeof(String), null);
+			MobileAliasColumn = Schema.Columns.AddValueColumn("MobileAlias", typeof(String), null);
 			MobileAliasColumn.AllowNulls = true;
 
-			IsAnonymousColumn = schema.Columns.AddValueColumn("IsAnonymous", typeof(Boolean), null);
+			IsAnonymousColumn = Schema.Columns.AddValueColumn("IsAnonymous", typeof(Boolean), null);
 			IsAnonymousColumn.AllowNulls = false;
 
-			LastActivityDateColumn = schema.Columns.AddValueColumn("LastActivityDate", typeof(DateTime), null);
+			LastActivityDateColumn = Schema.Columns.AddValueColumn("LastActivityDate", typeof(DateTime), null);
 			LastActivityDateColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "vw_aspnet_MembershipUsers";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(UserIdColumn, "UserId");
+			SchemaMapping.Columns.AddMapping(PasswordFormatColumn, "PasswordFormat");
+			SchemaMapping.Columns.AddMapping(MobilePINColumn, "MobilePIN");
+			SchemaMapping.Columns.AddMapping(EmailColumn, "Email");
+			SchemaMapping.Columns.AddMapping(LoweredEmailColumn, "LoweredEmail");
+			SchemaMapping.Columns.AddMapping(PasswordQuestionColumn, "PasswordQuestion");
+			SchemaMapping.Columns.AddMapping(PasswordAnswerColumn, "PasswordAnswer");
+			SchemaMapping.Columns.AddMapping(IsApprovedColumn, "IsApproved");
+			SchemaMapping.Columns.AddMapping(IsLockedOutColumn, "IsLockedOut");
+			SchemaMapping.Columns.AddMapping(CreateDateColumn, "CreateDate");
+			SchemaMapping.Columns.AddMapping(LastLoginDateColumn, "LastLoginDate");
+			SchemaMapping.Columns.AddMapping(LastPasswordChangedDateColumn, "LastPasswordChangedDate");
+			SchemaMapping.Columns.AddMapping(LastLockoutDateColumn, "LastLockoutDate");
+			SchemaMapping.Columns.AddMapping(FailedPasswordAttemptCountColumn, "FailedPasswordAttemptCount");
+			SchemaMapping.Columns.AddMapping(FailedPasswordAttemptWindowStartColumn, "FailedPasswordAttemptWindowStart");
+			SchemaMapping.Columns.AddMapping(FailedPasswordAnswerAttemptCountColumn, "FailedPasswordAnswerAttemptCount");
+			SchemaMapping.Columns.AddMapping(FailedPasswordAnswerAttemptWindowStartColumn, "FailedPasswordAnswerAttemptWindowStart");
+			SchemaMapping.Columns.AddMapping(CommentColumn, "Comment");
+			SchemaMapping.Columns.AddMapping(ApplicationIdColumn, "ApplicationId");
+			SchemaMapping.Columns.AddMapping(UserNameColumn, "UserName");
+			SchemaMapping.Columns.AddMapping(MobileAliasColumn, "MobileAlias");
+			SchemaMapping.Columns.AddMapping(IsAnonymousColumn, "IsAnonymous");
+			SchemaMapping.Columns.AddMapping(LastActivityDateColumn, "LastActivityDate");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -4253,43 +4854,66 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class aspnet_Profile : Row {
-		public static TypedTable<aspnet_Profile> CreateTable() { return new TypedTable<aspnet_Profile>(Schema, () => new aspnet_Profile()); }
-		///<summary>Creates a new  aspnet_Profile instance.</summary>
-		public aspnet_Profile() : base(Schema) { }
 
-		///<summary>Gets the UserId column.</summary>
+	public partial class aspnet_Profile : Row {
+		///<summary>Creates a new  aspnet_Profile instance.</summary>
+		public aspnet_Profile() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  aspnet_Profile table.</summary>
+		public static TypedTable<aspnet_Profile> CreateTable() { return new TypedTable<aspnet_Profile>(Schema, () => new aspnet_Profile()); }
+
+		///<summary>Gets the schema's UserId column.</summary>
 		public static ForeignKeyColumn UserIdColumn { get; private set; }
-		///<summary>Gets the PropertyNames column.</summary>
+		///<summary>Gets the schema's PropertyNames column.</summary>
 		public static ValueColumn PropertyNamesColumn { get; private set; }
-		///<summary>Gets the PropertyValuesString column.</summary>
+		///<summary>Gets the schema's PropertyValuesString column.</summary>
 		public static ValueColumn PropertyValuesStringColumn { get; private set; }
-		///<summary>Gets the PropertyValuesBinary column.</summary>
+		///<summary>Gets the schema's PropertyValuesBinary column.</summary>
 		public static ValueColumn PropertyValuesBinaryColumn { get; private set; }
-		///<summary>Gets the LastUpdatedDate column.</summary>
+		///<summary>Gets the schema's LastUpdatedDate column.</summary>
 		public static ValueColumn LastUpdatedDateColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the aspnet_Profile schema.</summary>
-		public static new TypedSchema<aspnet_Profile> Schema { get { return schema; } }
-		private static readonly TypedSchema<aspnet_Profile> schema = TypedSchema<aspnet_Profile>.Create("aspnet_Profile", schema => {
-			schema.PrimaryKey = UserIdColumn = schema.Columns.AddForeignKey("UserId", aspnet_Users.Schema, "aspnet_Users");
+		///<summary>Gets the aspnet_Profile schema instance.</summary>
+		public static new TypedSchema<aspnet_Profile> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server aspnet_Profile table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static aspnet_Profile() {
+			#region Create Schema
+			Schema = new TypedSchema<aspnet_Profile>("aspnet_Profile");
+
+			Schema.PrimaryKey = UserIdColumn = Schema.Columns.AddForeignKey("UserId", aspnet_Users.Schema, "aspnet_Users");
 			UserIdColumn.Unique = true;
 			UserIdColumn.AllowNulls = false;
 
-			PropertyNamesColumn = schema.Columns.AddValueColumn("PropertyNames", typeof(String), null);
+			PropertyNamesColumn = Schema.Columns.AddValueColumn("PropertyNames", typeof(String), null);
 			PropertyNamesColumn.AllowNulls = false;
 
-			PropertyValuesStringColumn = schema.Columns.AddValueColumn("PropertyValuesString", typeof(String), null);
+			PropertyValuesStringColumn = Schema.Columns.AddValueColumn("PropertyValuesString", typeof(String), null);
 			PropertyValuesStringColumn.AllowNulls = false;
 
-			PropertyValuesBinaryColumn = schema.Columns.AddValueColumn("PropertyValuesBinary", typeof(Byte[]), null);
+			PropertyValuesBinaryColumn = Schema.Columns.AddValueColumn("PropertyValuesBinary", typeof(Byte[]), null);
 			PropertyValuesBinaryColumn.AllowNulls = false;
 
-			LastUpdatedDateColumn = schema.Columns.AddValueColumn("LastUpdatedDate", typeof(DateTime), null);
+			LastUpdatedDateColumn = Schema.Columns.AddValueColumn("LastUpdatedDate", typeof(DateTime), null);
 			LastUpdatedDateColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "aspnet_Profile";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(UserIdColumn, "UserId");
+			SchemaMapping.Columns.AddMapping(PropertyNamesColumn, "PropertyNames");
+			SchemaMapping.Columns.AddMapping(PropertyValuesStringColumn, "PropertyValuesString");
+			SchemaMapping.Columns.AddMapping(PropertyValuesBinaryColumn, "PropertyValuesBinary");
+			SchemaMapping.Columns.AddMapping(LastUpdatedDateColumn, "LastUpdatedDate");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -4391,32 +5015,53 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class vw_aspnet_Profiles : Row {
-		public static TypedTable<vw_aspnet_Profiles> CreateTable() { return new TypedTable<vw_aspnet_Profiles>(Schema, () => new vw_aspnet_Profiles()); }
-		///<summary>Creates a new  vw_aspnet_Profiles instance.</summary>
-		public vw_aspnet_Profiles() : base(Schema) { }
 
-		///<summary>Gets the UserId column.</summary>
+	public partial class vw_aspnet_Profiles : Row {
+		///<summary>Creates a new  vw_aspnet_Profiles instance.</summary>
+		public vw_aspnet_Profiles() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  vw_aspnet_Profiles table.</summary>
+		public static TypedTable<vw_aspnet_Profiles> CreateTable() { return new TypedTable<vw_aspnet_Profiles>(Schema, () => new vw_aspnet_Profiles()); }
+
+		///<summary>Gets the schema's UserId column.</summary>
 		public static ValueColumn UserIdColumn { get; private set; }
-		///<summary>Gets the LastUpdatedDate column.</summary>
+		///<summary>Gets the schema's LastUpdatedDate column.</summary>
 		public static ValueColumn LastUpdatedDateColumn { get; private set; }
-		///<summary>Gets the DataSize column.</summary>
+		///<summary>Gets the schema's DataSize column.</summary>
 		public static ValueColumn DataSizeColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the vw_aspnet_Profiles schema.</summary>
-		public static new TypedSchema<vw_aspnet_Profiles> Schema { get { return schema; } }
-		private static readonly TypedSchema<vw_aspnet_Profiles> schema = TypedSchema<vw_aspnet_Profiles>.Create("vw_aspnet_Profiles", schema => {
-			UserIdColumn = schema.Columns.AddValueColumn("UserId", typeof(Guid), null);
+		///<summary>Gets the vw_aspnet_Profiles schema instance.</summary>
+		public static new TypedSchema<vw_aspnet_Profiles> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server vw_aspnet_Profiles table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static vw_aspnet_Profiles() {
+			#region Create Schema
+			Schema = new TypedSchema<vw_aspnet_Profiles>("vw_aspnet_Profiles");
+
+			UserIdColumn = Schema.Columns.AddValueColumn("UserId", typeof(Guid), null);
 			UserIdColumn.AllowNulls = false;
 
-			LastUpdatedDateColumn = schema.Columns.AddValueColumn("LastUpdatedDate", typeof(DateTime), null);
+			LastUpdatedDateColumn = Schema.Columns.AddValueColumn("LastUpdatedDate", typeof(DateTime), null);
 			LastUpdatedDateColumn.AllowNulls = false;
 
-			DataSizeColumn = schema.Columns.AddValueColumn("DataSize", typeof(Int32), null);
+			DataSizeColumn = Schema.Columns.AddValueColumn("DataSize", typeof(Int32), null);
 			DataSizeColumn.AllowNulls = true;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "vw_aspnet_Profiles";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(UserIdColumn, "UserId");
+			SchemaMapping.Columns.AddMapping(LastUpdatedDateColumn, "LastUpdatedDate");
+			SchemaMapping.Columns.AddMapping(DataSizeColumn, "DataSize");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -4490,43 +5135,66 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class aspnet_Roles : Row {
-		public static TypedTable<aspnet_Roles> CreateTable() { return new TypedTable<aspnet_Roles>(Schema, () => new aspnet_Roles()); }
-		///<summary>Creates a new  aspnet_Roles instance.</summary>
-		public aspnet_Roles() : base(Schema) { }
 
-		///<summary>Gets the ApplicationId column.</summary>
+	public partial class aspnet_Roles : Row {
+		///<summary>Creates a new  aspnet_Roles instance.</summary>
+		public aspnet_Roles() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  aspnet_Roles table.</summary>
+		public static TypedTable<aspnet_Roles> CreateTable() { return new TypedTable<aspnet_Roles>(Schema, () => new aspnet_Roles()); }
+
+		///<summary>Gets the schema's ApplicationId column.</summary>
 		public static ForeignKeyColumn ApplicationIdColumn { get; private set; }
-		///<summary>Gets the RoleId column.</summary>
+		///<summary>Gets the schema's RoleId column.</summary>
 		public static ValueColumn RoleIdColumn { get; private set; }
-		///<summary>Gets the RoleName column.</summary>
+		///<summary>Gets the schema's RoleName column.</summary>
 		public static ValueColumn RoleNameColumn { get; private set; }
-		///<summary>Gets the LoweredRoleName column.</summary>
+		///<summary>Gets the schema's LoweredRoleName column.</summary>
 		public static ValueColumn LoweredRoleNameColumn { get; private set; }
-		///<summary>Gets the Description column.</summary>
+		///<summary>Gets the schema's Description column.</summary>
 		public static ValueColumn DescriptionColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the aspnet_Roles schema.</summary>
-		public static new TypedSchema<aspnet_Roles> Schema { get { return schema; } }
-		private static readonly TypedSchema<aspnet_Roles> schema = TypedSchema<aspnet_Roles>.Create("aspnet_Roles", schema => {
-			ApplicationIdColumn = schema.Columns.AddForeignKey("ApplicationId", aspnet_Applications.Schema, "aspnet_Applications");
+		///<summary>Gets the aspnet_Roles schema instance.</summary>
+		public static new TypedSchema<aspnet_Roles> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server aspnet_Roles table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static aspnet_Roles() {
+			#region Create Schema
+			Schema = new TypedSchema<aspnet_Roles>("aspnet_Roles");
+
+			ApplicationIdColumn = Schema.Columns.AddForeignKey("ApplicationId", aspnet_Applications.Schema, "aspnet_Applications");
 			ApplicationIdColumn.AllowNulls = false;
 
-			schema.PrimaryKey = RoleIdColumn = schema.Columns.AddValueColumn("RoleId", typeof(Guid), null);
+			Schema.PrimaryKey = RoleIdColumn = Schema.Columns.AddValueColumn("RoleId", typeof(Guid), null);
 			RoleIdColumn.Unique = true;
 			RoleIdColumn.AllowNulls = false;
 
-			RoleNameColumn = schema.Columns.AddValueColumn("RoleName", typeof(String), null);
+			RoleNameColumn = Schema.Columns.AddValueColumn("RoleName", typeof(String), null);
 			RoleNameColumn.AllowNulls = false;
 
-			LoweredRoleNameColumn = schema.Columns.AddValueColumn("LoweredRoleName", typeof(String), null);
+			LoweredRoleNameColumn = Schema.Columns.AddValueColumn("LoweredRoleName", typeof(String), null);
 			LoweredRoleNameColumn.AllowNulls = false;
 
-			DescriptionColumn = schema.Columns.AddValueColumn("Description", typeof(String), null);
+			DescriptionColumn = Schema.Columns.AddValueColumn("Description", typeof(String), null);
 			DescriptionColumn.AllowNulls = true;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "aspnet_Roles";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(ApplicationIdColumn, "ApplicationId");
+			SchemaMapping.Columns.AddMapping(RoleIdColumn, "RoleId");
+			SchemaMapping.Columns.AddMapping(RoleNameColumn, "RoleName");
+			SchemaMapping.Columns.AddMapping(LoweredRoleNameColumn, "LoweredRoleName");
+			SchemaMapping.Columns.AddMapping(DescriptionColumn, "Description");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -4628,85 +5296,116 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class Pledges : Row {
-		public static TypedTable<Pledges> CreateTable() { return new TypedTable<Pledges>(Schema, () => new Pledges()); }
-		///<summary>Creates a new  Pledges instance.</summary>
-		public Pledges() : base(Schema) { }
 
-		///<summary>Gets the PledgeId column.</summary>
+	public partial class Pledges : Row {
+		///<summary>Creates a new  Pledges instance.</summary>
+		public Pledges() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  Pledges table.</summary>
+		public static TypedTable<Pledges> CreateTable() { return new TypedTable<Pledges>(Schema, () => new Pledges()); }
+
+		///<summary>Gets the schema's PledgeId column.</summary>
 		public static ValueColumn PledgeIdColumn { get; private set; }
-		///<summary>Gets the PersonId column.</summary>
+		///<summary>Gets the schema's PersonId column.</summary>
 		public static ForeignKeyColumn PersonIdColumn { get; private set; }
-		///<summary>Gets the Date column.</summary>
+		///<summary>Gets the schema's Date column.</summary>
 		public static ValueColumn DateColumn { get; private set; }
-		///<summary>Gets the Type column.</summary>
+		///<summary>Gets the schema's Type column.</summary>
 		public static ValueColumn TypeColumn { get; private set; }
-		///<summary>Gets the SubType column.</summary>
+		///<summary>Gets the schema's SubType column.</summary>
 		public static ValueColumn SubTypeColumn { get; private set; }
-		///<summary>Gets the Account column.</summary>
+		///<summary>Gets the schema's Account column.</summary>
 		public static ValueColumn AccountColumn { get; private set; }
-		///<summary>Gets the Amount column.</summary>
+		///<summary>Gets the schema's Amount column.</summary>
 		public static ValueColumn AmountColumn { get; private set; }
-		///<summary>Gets the Note column.</summary>
+		///<summary>Gets the schema's Note column.</summary>
 		public static ValueColumn NoteColumn { get; private set; }
-		///<summary>Gets the Comments column.</summary>
+		///<summary>Gets the schema's Comments column.</summary>
 		public static ValueColumn CommentsColumn { get; private set; }
-		///<summary>Gets the Modified column.</summary>
+		///<summary>Gets the schema's Modified column.</summary>
 		public static ValueColumn ModifiedColumn { get; private set; }
-		///<summary>Gets the Modifier column.</summary>
+		///<summary>Gets the schema's Modifier column.</summary>
 		public static ValueColumn ModifierColumn { get; private set; }
-		///<summary>Gets the ExternalSource column.</summary>
+		///<summary>Gets the schema's ExternalSource column.</summary>
 		public static ValueColumn ExternalSourceColumn { get; private set; }
-		///<summary>Gets the ExternalID column.</summary>
+		///<summary>Gets the schema's ExternalID column.</summary>
 		public static ValueColumn ExternalIDColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the Pledges schema.</summary>
-		public static new TypedSchema<Pledges> Schema { get { return schema; } }
-		private static readonly TypedSchema<Pledges> schema = TypedSchema<Pledges>.Create("Pledges", schema => {
-			schema.PrimaryKey = PledgeIdColumn = schema.Columns.AddValueColumn("PledgeId", typeof(Guid), null);
+		///<summary>Gets the Pledges schema instance.</summary>
+		public static new TypedSchema<Pledges> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server Pledges table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static Pledges() {
+			#region Create Schema
+			Schema = new TypedSchema<Pledges>("Pledges");
+
+			Schema.PrimaryKey = PledgeIdColumn = Schema.Columns.AddValueColumn("PledgeId", typeof(Guid), null);
 			PledgeIdColumn.Unique = true;
 			PledgeIdColumn.AllowNulls = false;
 
-			PersonIdColumn = schema.Columns.AddForeignKey("PersonId", MasterDirectory.Schema, "MasterDirectory");
+			PersonIdColumn = Schema.Columns.AddForeignKey("PersonId", MasterDirectory.Schema, "MasterDirectory");
 			PersonIdColumn.AllowNulls = false;
 
-			DateColumn = schema.Columns.AddValueColumn("Date", typeof(DateTime), null);
+			DateColumn = Schema.Columns.AddValueColumn("Date", typeof(DateTime), null);
 			DateColumn.Unique = true;
 			DateColumn.AllowNulls = false;
 
-			TypeColumn = schema.Columns.AddValueColumn("Type", typeof(String), null);
+			TypeColumn = Schema.Columns.AddValueColumn("Type", typeof(String), null);
 			TypeColumn.AllowNulls = false;
 
-			SubTypeColumn = schema.Columns.AddValueColumn("SubType", typeof(String), null);
+			SubTypeColumn = Schema.Columns.AddValueColumn("SubType", typeof(String), null);
 			SubTypeColumn.AllowNulls = false;
 
-			AccountColumn = schema.Columns.AddValueColumn("Account", typeof(String), null);
+			AccountColumn = Schema.Columns.AddValueColumn("Account", typeof(String), null);
 			AccountColumn.Unique = true;
 			AccountColumn.AllowNulls = false;
 
-			AmountColumn = schema.Columns.AddValueColumn("Amount", typeof(Decimal), null);
+			AmountColumn = Schema.Columns.AddValueColumn("Amount", typeof(Decimal), null);
 			AmountColumn.AllowNulls = false;
 
-			NoteColumn = schema.Columns.AddValueColumn("Note", typeof(String), null);
+			NoteColumn = Schema.Columns.AddValueColumn("Note", typeof(String), null);
 			NoteColumn.AllowNulls = true;
 
-			CommentsColumn = schema.Columns.AddValueColumn("Comments", typeof(String), null);
+			CommentsColumn = Schema.Columns.AddValueColumn("Comments", typeof(String), null);
 			CommentsColumn.AllowNulls = true;
 
-			ModifiedColumn = schema.Columns.AddValueColumn("Modified", typeof(DateTime), null);
+			ModifiedColumn = Schema.Columns.AddValueColumn("Modified", typeof(DateTime), null);
 			ModifiedColumn.AllowNulls = false;
 
-			ModifierColumn = schema.Columns.AddValueColumn("Modifier", typeof(String), null);
+			ModifierColumn = Schema.Columns.AddValueColumn("Modifier", typeof(String), null);
 			ModifierColumn.AllowNulls = false;
 
-			ExternalSourceColumn = schema.Columns.AddValueColumn("ExternalSource", typeof(String), null);
+			ExternalSourceColumn = Schema.Columns.AddValueColumn("ExternalSource", typeof(String), null);
 			ExternalSourceColumn.AllowNulls = true;
 
-			ExternalIDColumn = schema.Columns.AddValueColumn("ExternalID", typeof(Int32), null);
+			ExternalIDColumn = Schema.Columns.AddValueColumn("ExternalID", typeof(Int32), null);
 			ExternalIDColumn.AllowNulls = true;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "Pledges";
+			SchemaMapping.SqlSchemaName = "Billing";
+
+			SchemaMapping.Columns.AddMapping(PledgeIdColumn, "PledgeId");
+			SchemaMapping.Columns.AddMapping(PersonIdColumn, "PersonId");
+			SchemaMapping.Columns.AddMapping(DateColumn, "Date");
+			SchemaMapping.Columns.AddMapping(TypeColumn, "Type");
+			SchemaMapping.Columns.AddMapping(SubTypeColumn, "SubType");
+			SchemaMapping.Columns.AddMapping(AccountColumn, "Account");
+			SchemaMapping.Columns.AddMapping(AmountColumn, "Amount");
+			SchemaMapping.Columns.AddMapping(NoteColumn, "Note");
+			SchemaMapping.Columns.AddMapping(CommentsColumn, "Comments");
+			SchemaMapping.Columns.AddMapping(ModifiedColumn, "Modified");
+			SchemaMapping.Columns.AddMapping(ModifierColumn, "Modifier");
+			SchemaMapping.Columns.AddMapping(ExternalSourceColumn, "ExternalSource");
+			SchemaMapping.Columns.AddMapping(ExternalIDColumn, "ExternalID");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -4920,28 +5619,48 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class aspnet_UsersInRoles : Row {
-		public static TypedTable<aspnet_UsersInRoles> CreateTable() { return new TypedTable<aspnet_UsersInRoles>(Schema, () => new aspnet_UsersInRoles()); }
-		///<summary>Creates a new  aspnet_UsersInRoles instance.</summary>
-		public aspnet_UsersInRoles() : base(Schema) { }
 
-		///<summary>Gets the UserId column.</summary>
+	public partial class aspnet_UsersInRoles : Row {
+		///<summary>Creates a new  aspnet_UsersInRoles instance.</summary>
+		public aspnet_UsersInRoles() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  aspnet_UsersInRoles table.</summary>
+		public static TypedTable<aspnet_UsersInRoles> CreateTable() { return new TypedTable<aspnet_UsersInRoles>(Schema, () => new aspnet_UsersInRoles()); }
+
+		///<summary>Gets the schema's UserId column.</summary>
 		public static ForeignKeyColumn UserIdColumn { get; private set; }
-		///<summary>Gets the RoleId column.</summary>
+		///<summary>Gets the schema's RoleId column.</summary>
 		public static ForeignKeyColumn RoleIdColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the aspnet_UsersInRoles schema.</summary>
-		public static new TypedSchema<aspnet_UsersInRoles> Schema { get { return schema; } }
-		private static readonly TypedSchema<aspnet_UsersInRoles> schema = TypedSchema<aspnet_UsersInRoles>.Create("aspnet_UsersInRoles", schema => {
-			UserIdColumn = schema.Columns.AddForeignKey("UserId", aspnet_Users.Schema, "aspnet_Users");
+		///<summary>Gets the aspnet_UsersInRoles schema instance.</summary>
+		public static new TypedSchema<aspnet_UsersInRoles> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server aspnet_UsersInRoles table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static aspnet_UsersInRoles() {
+			#region Create Schema
+			Schema = new TypedSchema<aspnet_UsersInRoles>("aspnet_UsersInRoles");
+
+			UserIdColumn = Schema.Columns.AddForeignKey("UserId", aspnet_Users.Schema, "aspnet_Users");
 			UserIdColumn.AllowNulls = false;
 
-			schema.PrimaryKey = RoleIdColumn = schema.Columns.AddForeignKey("RoleId", aspnet_Roles.Schema, "aspnet_Roles");
+			Schema.PrimaryKey = RoleIdColumn = Schema.Columns.AddForeignKey("RoleId", aspnet_Roles.Schema, "aspnet_Roles");
 			RoleIdColumn.Unique = true;
 			RoleIdColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "aspnet_UsersInRoles";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(UserIdColumn, "UserId");
+			SchemaMapping.Columns.AddMapping(RoleIdColumn, "RoleId");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -5001,95 +5720,128 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class Payments : Row {
-		public static TypedTable<Payments> CreateTable() { return new TypedTable<Payments>(Schema, () => new Payments()); }
-		///<summary>Creates a new  Payments instance.</summary>
-		public Payments() : base(Schema) { }
 
-		///<summary>Gets the PaymentId column.</summary>
+	public partial class Payments : Row {
+		///<summary>Creates a new  Payments instance.</summary>
+		public Payments() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  Payments table.</summary>
+		public static TypedTable<Payments> CreateTable() { return new TypedTable<Payments>(Schema, () => new Payments()); }
+
+		///<summary>Gets the schema's PaymentId column.</summary>
 		public static ValueColumn PaymentIdColumn { get; private set; }
-		///<summary>Gets the PersonId column.</summary>
+		///<summary>Gets the schema's PersonId column.</summary>
 		public static ForeignKeyColumn PersonIdColumn { get; private set; }
-		///<summary>Gets the Date column.</summary>
+		///<summary>Gets the schema's Date column.</summary>
 		public static ValueColumn DateColumn { get; private set; }
-		///<summary>Gets the Method column.</summary>
+		///<summary>Gets the schema's Method column.</summary>
 		public static ValueColumn MethodColumn { get; private set; }
-		///<summary>Gets the CheckNumber column.</summary>
+		///<summary>Gets the schema's CheckNumber column.</summary>
 		public static ValueColumn CheckNumberColumn { get; private set; }
-		///<summary>Gets the Account column.</summary>
+		///<summary>Gets the schema's Account column.</summary>
 		public static ValueColumn AccountColumn { get; private set; }
-		///<summary>Gets the Amount column.</summary>
+		///<summary>Gets the schema's Amount column.</summary>
 		public static ValueColumn AmountColumn { get; private set; }
-		///<summary>Gets the Comments column.</summary>
+		///<summary>Gets the schema's Comments column.</summary>
 		public static ValueColumn CommentsColumn { get; private set; }
-		///<summary>Gets the Modified column.</summary>
+		///<summary>Gets the schema's Modified column.</summary>
 		public static ValueColumn ModifiedColumn { get; private set; }
-		///<summary>Gets the Modifier column.</summary>
+		///<summary>Gets the schema's Modifier column.</summary>
 		public static ValueColumn ModifierColumn { get; private set; }
-		///<summary>Gets the DepositDate column.</summary>
+		///<summary>Gets the schema's DepositDate column.</summary>
 		public static ValueColumn DepositDateColumn { get; private set; }
-		///<summary>Gets the ExternalSource column.</summary>
+		///<summary>Gets the schema's ExternalSource column.</summary>
 		public static ValueColumn ExternalSourceColumn { get; private set; }
-		///<summary>Gets the ExternalID column.</summary>
+		///<summary>Gets the schema's ExternalID column.</summary>
 		public static ValueColumn ExternalIDColumn { get; private set; }
-		///<summary>Gets the DepositId column.</summary>
+		///<summary>Gets the schema's DepositId column.</summary>
 		public static ForeignKeyColumn DepositIdColumn { get; private set; }
-		///<summary>Gets the CheckInteger column.</summary>
+		///<summary>Gets the schema's CheckInteger column.</summary>
 		public static ValueColumn CheckIntegerColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the Payments schema.</summary>
-		public static new TypedSchema<Payments> Schema { get { return schema; } }
-		private static readonly TypedSchema<Payments> schema = TypedSchema<Payments>.Create("Payments", schema => {
-			schema.PrimaryKey = PaymentIdColumn = schema.Columns.AddValueColumn("PaymentId", typeof(Guid), null);
+		///<summary>Gets the Payments schema instance.</summary>
+		public static new TypedSchema<Payments> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server Payments table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static Payments() {
+			#region Create Schema
+			Schema = new TypedSchema<Payments>("Payments");
+
+			Schema.PrimaryKey = PaymentIdColumn = Schema.Columns.AddValueColumn("PaymentId", typeof(Guid), null);
 			PaymentIdColumn.Unique = true;
 			PaymentIdColumn.AllowNulls = false;
 
-			PersonIdColumn = schema.Columns.AddForeignKey("PersonId", MasterDirectory.Schema, "MasterDirectory");
+			PersonIdColumn = Schema.Columns.AddForeignKey("PersonId", MasterDirectory.Schema, "MasterDirectory");
 			PersonIdColumn.AllowNulls = false;
 
-			DateColumn = schema.Columns.AddValueColumn("Date", typeof(DateTime), null);
+			DateColumn = Schema.Columns.AddValueColumn("Date", typeof(DateTime), null);
 			DateColumn.Unique = true;
 			DateColumn.AllowNulls = false;
 
-			MethodColumn = schema.Columns.AddValueColumn("Method", typeof(String), null);
+			MethodColumn = Schema.Columns.AddValueColumn("Method", typeof(String), null);
 			MethodColumn.AllowNulls = false;
 
-			CheckNumberColumn = schema.Columns.AddValueColumn("CheckNumber", typeof(String), null);
+			CheckNumberColumn = Schema.Columns.AddValueColumn("CheckNumber", typeof(String), null);
 			CheckNumberColumn.AllowNulls = true;
 
-			AccountColumn = schema.Columns.AddValueColumn("Account", typeof(String), null);
+			AccountColumn = Schema.Columns.AddValueColumn("Account", typeof(String), null);
 			AccountColumn.Unique = true;
 			AccountColumn.AllowNulls = false;
 
-			AmountColumn = schema.Columns.AddValueColumn("Amount", typeof(Decimal), null);
+			AmountColumn = Schema.Columns.AddValueColumn("Amount", typeof(Decimal), null);
 			AmountColumn.AllowNulls = false;
 
-			CommentsColumn = schema.Columns.AddValueColumn("Comments", typeof(String), null);
+			CommentsColumn = Schema.Columns.AddValueColumn("Comments", typeof(String), null);
 			CommentsColumn.AllowNulls = true;
 
-			ModifiedColumn = schema.Columns.AddValueColumn("Modified", typeof(DateTime), null);
+			ModifiedColumn = Schema.Columns.AddValueColumn("Modified", typeof(DateTime), null);
 			ModifiedColumn.AllowNulls = false;
 
-			ModifierColumn = schema.Columns.AddValueColumn("Modifier", typeof(String), null);
+			ModifierColumn = Schema.Columns.AddValueColumn("Modifier", typeof(String), null);
 			ModifierColumn.AllowNulls = false;
 
-			DepositDateColumn = schema.Columns.AddValueColumn("DepositDate", typeof(DateTime), null);
+			DepositDateColumn = Schema.Columns.AddValueColumn("DepositDate", typeof(DateTime), null);
 			DepositDateColumn.AllowNulls = true;
 
-			ExternalSourceColumn = schema.Columns.AddValueColumn("ExternalSource", typeof(String), null);
+			ExternalSourceColumn = Schema.Columns.AddValueColumn("ExternalSource", typeof(String), null);
 			ExternalSourceColumn.AllowNulls = true;
 
-			ExternalIDColumn = schema.Columns.AddValueColumn("ExternalID", typeof(Int32), null);
+			ExternalIDColumn = Schema.Columns.AddValueColumn("ExternalID", typeof(Int32), null);
 			ExternalIDColumn.AllowNulls = true;
 
-			DepositIdColumn = schema.Columns.AddForeignKey("DepositId", Deposits.Schema, "Deposits");
+			DepositIdColumn = Schema.Columns.AddForeignKey("DepositId", Deposits.Schema, "Deposits");
 			DepositIdColumn.AllowNulls = true;
 
-			CheckIntegerColumn = schema.Columns.AddValueColumn("CheckInteger", typeof(Int32), null);
+			CheckIntegerColumn = Schema.Columns.AddValueColumn("CheckInteger", typeof(Int32), null);
 			CheckIntegerColumn.AllowNulls = true;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "Payments";
+			SchemaMapping.SqlSchemaName = "Billing";
+
+			SchemaMapping.Columns.AddMapping(PaymentIdColumn, "PaymentId");
+			SchemaMapping.Columns.AddMapping(PersonIdColumn, "PersonId");
+			SchemaMapping.Columns.AddMapping(DateColumn, "Date");
+			SchemaMapping.Columns.AddMapping(MethodColumn, "Method");
+			SchemaMapping.Columns.AddMapping(CheckNumberColumn, "CheckNumber");
+			SchemaMapping.Columns.AddMapping(AccountColumn, "Account");
+			SchemaMapping.Columns.AddMapping(AmountColumn, "Amount");
+			SchemaMapping.Columns.AddMapping(CommentsColumn, "Comments");
+			SchemaMapping.Columns.AddMapping(ModifiedColumn, "Modified");
+			SchemaMapping.Columns.AddMapping(ModifierColumn, "Modifier");
+			SchemaMapping.Columns.AddMapping(DepositDateColumn, "DepositDate");
+			SchemaMapping.Columns.AddMapping(ExternalSourceColumn, "ExternalSource");
+			SchemaMapping.Columns.AddMapping(ExternalIDColumn, "ExternalID");
+			SchemaMapping.Columns.AddMapping(DepositIdColumn, "DepositId");
+			SchemaMapping.Columns.AddMapping(CheckIntegerColumn, "CheckInteger");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -5331,42 +6083,65 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class vw_aspnet_Roles : Row {
-		public static TypedTable<vw_aspnet_Roles> CreateTable() { return new TypedTable<vw_aspnet_Roles>(Schema, () => new vw_aspnet_Roles()); }
-		///<summary>Creates a new  vw_aspnet_Roles instance.</summary>
-		public vw_aspnet_Roles() : base(Schema) { }
 
-		///<summary>Gets the ApplicationId column.</summary>
+	public partial class vw_aspnet_Roles : Row {
+		///<summary>Creates a new  vw_aspnet_Roles instance.</summary>
+		public vw_aspnet_Roles() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  vw_aspnet_Roles table.</summary>
+		public static TypedTable<vw_aspnet_Roles> CreateTable() { return new TypedTable<vw_aspnet_Roles>(Schema, () => new vw_aspnet_Roles()); }
+
+		///<summary>Gets the schema's ApplicationId column.</summary>
 		public static ValueColumn ApplicationIdColumn { get; private set; }
-		///<summary>Gets the RoleId column.</summary>
+		///<summary>Gets the schema's RoleId column.</summary>
 		public static ValueColumn RoleIdColumn { get; private set; }
-		///<summary>Gets the RoleName column.</summary>
+		///<summary>Gets the schema's RoleName column.</summary>
 		public static ValueColumn RoleNameColumn { get; private set; }
-		///<summary>Gets the LoweredRoleName column.</summary>
+		///<summary>Gets the schema's LoweredRoleName column.</summary>
 		public static ValueColumn LoweredRoleNameColumn { get; private set; }
-		///<summary>Gets the Description column.</summary>
+		///<summary>Gets the schema's Description column.</summary>
 		public static ValueColumn DescriptionColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the vw_aspnet_Roles schema.</summary>
-		public static new TypedSchema<vw_aspnet_Roles> Schema { get { return schema; } }
-		private static readonly TypedSchema<vw_aspnet_Roles> schema = TypedSchema<vw_aspnet_Roles>.Create("vw_aspnet_Roles", schema => {
-			ApplicationIdColumn = schema.Columns.AddValueColumn("ApplicationId", typeof(Guid), null);
+		///<summary>Gets the vw_aspnet_Roles schema instance.</summary>
+		public static new TypedSchema<vw_aspnet_Roles> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server vw_aspnet_Roles table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static vw_aspnet_Roles() {
+			#region Create Schema
+			Schema = new TypedSchema<vw_aspnet_Roles>("vw_aspnet_Roles");
+
+			ApplicationIdColumn = Schema.Columns.AddValueColumn("ApplicationId", typeof(Guid), null);
 			ApplicationIdColumn.AllowNulls = false;
 
-			RoleIdColumn = schema.Columns.AddValueColumn("RoleId", typeof(Guid), null);
+			RoleIdColumn = Schema.Columns.AddValueColumn("RoleId", typeof(Guid), null);
 			RoleIdColumn.AllowNulls = false;
 
-			RoleNameColumn = schema.Columns.AddValueColumn("RoleName", typeof(String), null);
+			RoleNameColumn = Schema.Columns.AddValueColumn("RoleName", typeof(String), null);
 			RoleNameColumn.AllowNulls = false;
 
-			LoweredRoleNameColumn = schema.Columns.AddValueColumn("LoweredRoleName", typeof(String), null);
+			LoweredRoleNameColumn = Schema.Columns.AddValueColumn("LoweredRoleName", typeof(String), null);
 			LoweredRoleNameColumn.AllowNulls = false;
 
-			DescriptionColumn = schema.Columns.AddValueColumn("Description", typeof(String), null);
+			DescriptionColumn = Schema.Columns.AddValueColumn("Description", typeof(String), null);
 			DescriptionColumn.AllowNulls = true;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "vw_aspnet_Roles";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(ApplicationIdColumn, "ApplicationId");
+			SchemaMapping.Columns.AddMapping(RoleIdColumn, "RoleId");
+			SchemaMapping.Columns.AddMapping(RoleNameColumn, "RoleName");
+			SchemaMapping.Columns.AddMapping(LoweredRoleNameColumn, "LoweredRoleName");
+			SchemaMapping.Columns.AddMapping(DescriptionColumn, "Description");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -5468,27 +6243,47 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class vw_aspnet_UsersInRoles : Row {
-		public static TypedTable<vw_aspnet_UsersInRoles> CreateTable() { return new TypedTable<vw_aspnet_UsersInRoles>(Schema, () => new vw_aspnet_UsersInRoles()); }
-		///<summary>Creates a new  vw_aspnet_UsersInRoles instance.</summary>
-		public vw_aspnet_UsersInRoles() : base(Schema) { }
 
-		///<summary>Gets the UserId column.</summary>
+	public partial class vw_aspnet_UsersInRoles : Row {
+		///<summary>Creates a new  vw_aspnet_UsersInRoles instance.</summary>
+		public vw_aspnet_UsersInRoles() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  vw_aspnet_UsersInRoles table.</summary>
+		public static TypedTable<vw_aspnet_UsersInRoles> CreateTable() { return new TypedTable<vw_aspnet_UsersInRoles>(Schema, () => new vw_aspnet_UsersInRoles()); }
+
+		///<summary>Gets the schema's UserId column.</summary>
 		public static ValueColumn UserIdColumn { get; private set; }
-		///<summary>Gets the RoleId column.</summary>
+		///<summary>Gets the schema's RoleId column.</summary>
 		public static ValueColumn RoleIdColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the vw_aspnet_UsersInRoles schema.</summary>
-		public static new TypedSchema<vw_aspnet_UsersInRoles> Schema { get { return schema; } }
-		private static readonly TypedSchema<vw_aspnet_UsersInRoles> schema = TypedSchema<vw_aspnet_UsersInRoles>.Create("vw_aspnet_UsersInRoles", schema => {
-			UserIdColumn = schema.Columns.AddValueColumn("UserId", typeof(Guid), null);
+		///<summary>Gets the vw_aspnet_UsersInRoles schema instance.</summary>
+		public static new TypedSchema<vw_aspnet_UsersInRoles> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server vw_aspnet_UsersInRoles table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static vw_aspnet_UsersInRoles() {
+			#region Create Schema
+			Schema = new TypedSchema<vw_aspnet_UsersInRoles>("vw_aspnet_UsersInRoles");
+
+			UserIdColumn = Schema.Columns.AddValueColumn("UserId", typeof(Guid), null);
 			UserIdColumn.AllowNulls = false;
 
-			RoleIdColumn = schema.Columns.AddValueColumn("RoleId", typeof(Guid), null);
+			RoleIdColumn = Schema.Columns.AddValueColumn("RoleId", typeof(Guid), null);
 			RoleIdColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "vw_aspnet_UsersInRoles";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(UserIdColumn, "UserId");
+			SchemaMapping.Columns.AddMapping(RoleIdColumn, "RoleId");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -5548,38 +6343,60 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class aspnet_Paths : Row {
-		public static TypedTable<aspnet_Paths> CreateTable() { return new TypedTable<aspnet_Paths>(Schema, () => new aspnet_Paths()); }
-		///<summary>Creates a new  aspnet_Paths instance.</summary>
-		public aspnet_Paths() : base(Schema) { }
 
-		///<summary>Gets the ApplicationId column.</summary>
+	public partial class aspnet_Paths : Row {
+		///<summary>Creates a new  aspnet_Paths instance.</summary>
+		public aspnet_Paths() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  aspnet_Paths table.</summary>
+		public static TypedTable<aspnet_Paths> CreateTable() { return new TypedTable<aspnet_Paths>(Schema, () => new aspnet_Paths()); }
+
+		///<summary>Gets the schema's ApplicationId column.</summary>
 		public static ForeignKeyColumn ApplicationIdColumn { get; private set; }
-		///<summary>Gets the PathId column.</summary>
+		///<summary>Gets the schema's PathId column.</summary>
 		public static ValueColumn PathIdColumn { get; private set; }
-		///<summary>Gets the Path column.</summary>
+		///<summary>Gets the schema's Path column.</summary>
 		public static ValueColumn PathColumn { get; private set; }
-		///<summary>Gets the LoweredPath column.</summary>
+		///<summary>Gets the schema's LoweredPath column.</summary>
 		public static ValueColumn LoweredPathColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the aspnet_Paths schema.</summary>
-		public static new TypedSchema<aspnet_Paths> Schema { get { return schema; } }
-		private static readonly TypedSchema<aspnet_Paths> schema = TypedSchema<aspnet_Paths>.Create("aspnet_Paths", schema => {
-			ApplicationIdColumn = schema.Columns.AddForeignKey("ApplicationId", aspnet_Applications.Schema, "aspnet_Applications");
+		///<summary>Gets the aspnet_Paths schema instance.</summary>
+		public static new TypedSchema<aspnet_Paths> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server aspnet_Paths table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static aspnet_Paths() {
+			#region Create Schema
+			Schema = new TypedSchema<aspnet_Paths>("aspnet_Paths");
+
+			ApplicationIdColumn = Schema.Columns.AddForeignKey("ApplicationId", aspnet_Applications.Schema, "aspnet_Applications");
 			ApplicationIdColumn.AllowNulls = false;
 
-			schema.PrimaryKey = PathIdColumn = schema.Columns.AddValueColumn("PathId", typeof(Guid), null);
+			Schema.PrimaryKey = PathIdColumn = Schema.Columns.AddValueColumn("PathId", typeof(Guid), null);
 			PathIdColumn.Unique = true;
 			PathIdColumn.AllowNulls = false;
 
-			PathColumn = schema.Columns.AddValueColumn("Path", typeof(String), null);
+			PathColumn = Schema.Columns.AddValueColumn("Path", typeof(String), null);
 			PathColumn.AllowNulls = false;
 
-			LoweredPathColumn = schema.Columns.AddValueColumn("LoweredPath", typeof(String), null);
+			LoweredPathColumn = Schema.Columns.AddValueColumn("LoweredPath", typeof(String), null);
 			LoweredPathColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "aspnet_Paths";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(ApplicationIdColumn, "ApplicationId");
+			SchemaMapping.Columns.AddMapping(PathIdColumn, "PathId");
+			SchemaMapping.Columns.AddMapping(PathColumn, "Path");
+			SchemaMapping.Columns.AddMapping(LoweredPathColumn, "LoweredPath");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -5667,33 +6484,54 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class aspnet_PersonalizationAllUsers : Row {
-		public static TypedTable<aspnet_PersonalizationAllUsers> CreateTable() { return new TypedTable<aspnet_PersonalizationAllUsers>(Schema, () => new aspnet_PersonalizationAllUsers()); }
-		///<summary>Creates a new  aspnet_PersonalizationAllUsers instance.</summary>
-		public aspnet_PersonalizationAllUsers() : base(Schema) { }
 
-		///<summary>Gets the PathId column.</summary>
+	public partial class aspnet_PersonalizationAllUsers : Row {
+		///<summary>Creates a new  aspnet_PersonalizationAllUsers instance.</summary>
+		public aspnet_PersonalizationAllUsers() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  aspnet_PersonalizationAllUsers table.</summary>
+		public static TypedTable<aspnet_PersonalizationAllUsers> CreateTable() { return new TypedTable<aspnet_PersonalizationAllUsers>(Schema, () => new aspnet_PersonalizationAllUsers()); }
+
+		///<summary>Gets the schema's PathId column.</summary>
 		public static ForeignKeyColumn PathIdColumn { get; private set; }
-		///<summary>Gets the PageSettings column.</summary>
+		///<summary>Gets the schema's PageSettings column.</summary>
 		public static ValueColumn PageSettingsColumn { get; private set; }
-		///<summary>Gets the LastUpdatedDate column.</summary>
+		///<summary>Gets the schema's LastUpdatedDate column.</summary>
 		public static ValueColumn LastUpdatedDateColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the aspnet_PersonalizationAllUsers schema.</summary>
-		public static new TypedSchema<aspnet_PersonalizationAllUsers> Schema { get { return schema; } }
-		private static readonly TypedSchema<aspnet_PersonalizationAllUsers> schema = TypedSchema<aspnet_PersonalizationAllUsers>.Create("aspnet_PersonalizationAllUsers", schema => {
-			schema.PrimaryKey = PathIdColumn = schema.Columns.AddForeignKey("PathId", aspnet_Paths.Schema, "aspnet_Paths");
+		///<summary>Gets the aspnet_PersonalizationAllUsers schema instance.</summary>
+		public static new TypedSchema<aspnet_PersonalizationAllUsers> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server aspnet_PersonalizationAllUsers table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static aspnet_PersonalizationAllUsers() {
+			#region Create Schema
+			Schema = new TypedSchema<aspnet_PersonalizationAllUsers>("aspnet_PersonalizationAllUsers");
+
+			Schema.PrimaryKey = PathIdColumn = Schema.Columns.AddForeignKey("PathId", aspnet_Paths.Schema, "aspnet_Paths");
 			PathIdColumn.Unique = true;
 			PathIdColumn.AllowNulls = false;
 
-			PageSettingsColumn = schema.Columns.AddValueColumn("PageSettings", typeof(Byte[]), null);
+			PageSettingsColumn = Schema.Columns.AddValueColumn("PageSettings", typeof(Byte[]), null);
 			PageSettingsColumn.AllowNulls = false;
 
-			LastUpdatedDateColumn = schema.Columns.AddValueColumn("LastUpdatedDate", typeof(DateTime), null);
+			LastUpdatedDateColumn = Schema.Columns.AddValueColumn("LastUpdatedDate", typeof(DateTime), null);
 			LastUpdatedDateColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "aspnet_PersonalizationAllUsers";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(PathIdColumn, "PathId");
+			SchemaMapping.Columns.AddMapping(PageSettingsColumn, "PageSettings");
+			SchemaMapping.Columns.AddMapping(LastUpdatedDateColumn, "LastUpdatedDate");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -5767,43 +6605,66 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class aspnet_PersonalizationPerUser : Row {
-		public static TypedTable<aspnet_PersonalizationPerUser> CreateTable() { return new TypedTable<aspnet_PersonalizationPerUser>(Schema, () => new aspnet_PersonalizationPerUser()); }
-		///<summary>Creates a new  aspnet_PersonalizationPerUser instance.</summary>
-		public aspnet_PersonalizationPerUser() : base(Schema) { }
 
-		///<summary>Gets the Id column.</summary>
+	public partial class aspnet_PersonalizationPerUser : Row {
+		///<summary>Creates a new  aspnet_PersonalizationPerUser instance.</summary>
+		public aspnet_PersonalizationPerUser() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  aspnet_PersonalizationPerUser table.</summary>
+		public static TypedTable<aspnet_PersonalizationPerUser> CreateTable() { return new TypedTable<aspnet_PersonalizationPerUser>(Schema, () => new aspnet_PersonalizationPerUser()); }
+
+		///<summary>Gets the schema's Id column.</summary>
 		public static ValueColumn IdColumn { get; private set; }
-		///<summary>Gets the PathId column.</summary>
+		///<summary>Gets the schema's PathId column.</summary>
 		public static ForeignKeyColumn PathIdColumn { get; private set; }
-		///<summary>Gets the UserId column.</summary>
+		///<summary>Gets the schema's UserId column.</summary>
 		public static ForeignKeyColumn UserIdColumn { get; private set; }
-		///<summary>Gets the PageSettings column.</summary>
+		///<summary>Gets the schema's PageSettings column.</summary>
 		public static ValueColumn PageSettingsColumn { get; private set; }
-		///<summary>Gets the LastUpdatedDate column.</summary>
+		///<summary>Gets the schema's LastUpdatedDate column.</summary>
 		public static ValueColumn LastUpdatedDateColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the aspnet_PersonalizationPerUser schema.</summary>
-		public static new TypedSchema<aspnet_PersonalizationPerUser> Schema { get { return schema; } }
-		private static readonly TypedSchema<aspnet_PersonalizationPerUser> schema = TypedSchema<aspnet_PersonalizationPerUser>.Create("aspnet_PersonalizationPerUser", schema => {
-			schema.PrimaryKey = IdColumn = schema.Columns.AddValueColumn("Id", typeof(Guid), null);
+		///<summary>Gets the aspnet_PersonalizationPerUser schema instance.</summary>
+		public static new TypedSchema<aspnet_PersonalizationPerUser> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server aspnet_PersonalizationPerUser table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static aspnet_PersonalizationPerUser() {
+			#region Create Schema
+			Schema = new TypedSchema<aspnet_PersonalizationPerUser>("aspnet_PersonalizationPerUser");
+
+			Schema.PrimaryKey = IdColumn = Schema.Columns.AddValueColumn("Id", typeof(Guid), null);
 			IdColumn.Unique = true;
 			IdColumn.AllowNulls = false;
 
-			PathIdColumn = schema.Columns.AddForeignKey("PathId", aspnet_Paths.Schema, "aspnet_Paths");
+			PathIdColumn = Schema.Columns.AddForeignKey("PathId", aspnet_Paths.Schema, "aspnet_Paths");
 			PathIdColumn.AllowNulls = true;
 
-			UserIdColumn = schema.Columns.AddForeignKey("UserId", aspnet_Users.Schema, "aspnet_Users");
+			UserIdColumn = Schema.Columns.AddForeignKey("UserId", aspnet_Users.Schema, "aspnet_Users");
 			UserIdColumn.AllowNulls = true;
 
-			PageSettingsColumn = schema.Columns.AddValueColumn("PageSettings", typeof(Byte[]), null);
+			PageSettingsColumn = Schema.Columns.AddValueColumn("PageSettings", typeof(Byte[]), null);
 			PageSettingsColumn.AllowNulls = false;
 
-			LastUpdatedDateColumn = schema.Columns.AddValueColumn("LastUpdatedDate", typeof(DateTime), null);
+			LastUpdatedDateColumn = Schema.Columns.AddValueColumn("LastUpdatedDate", typeof(DateTime), null);
 			LastUpdatedDateColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "aspnet_PersonalizationPerUser";
+			SchemaMapping.SqlSchemaName = "dbo";
+
+			SchemaMapping.Columns.AddMapping(IdColumn, "Id");
+			SchemaMapping.Columns.AddMapping(PathIdColumn, "PathId");
+			SchemaMapping.Columns.AddMapping(UserIdColumn, "UserId");
+			SchemaMapping.Columns.AddMapping(PageSettingsColumn, "PageSettings");
+			SchemaMapping.Columns.AddMapping(LastUpdatedDateColumn, "LastUpdatedDate");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
@@ -5905,54 +6766,79 @@ namespace ShomreiTorah {
 		}
 		#endregion
 	}
-	public partial class SSSponsors : Row {
-		public static TypedTable<SSSponsors> CreateTable() { return new TypedTable<SSSponsors>(Schema, () => new SSSponsors()); }
-		///<summary>Creates a new  SSSponsors instance.</summary>
-		public SSSponsors() : base(Schema) { }
 
-		///<summary>Gets the PledgeId column.</summary>
+	public partial class SSSponsors : Row {
+		///<summary>Creates a new  SSSponsors instance.</summary>
+		public SSSponsors() : base(Schema) { Initialize(); }
+		partial void Initialize();
+
+		///<summary>Creates a strongly-typed  SSSponsors table.</summary>
+		public static TypedTable<SSSponsors> CreateTable() { return new TypedTable<SSSponsors>(Schema, () => new SSSponsors()); }
+
+		///<summary>Gets the schema's PledgeId column.</summary>
 		public static ValueColumn PledgeIdColumn { get; private set; }
-		///<summary>Gets the Date column.</summary>
+		///<summary>Gets the schema's Date column.</summary>
 		public static ValueColumn DateColumn { get; private set; }
-		///<summary>Gets the FullName column.</summary>
+		///<summary>Gets the schema's FullName column.</summary>
 		public static ValueColumn FullNameColumn { get; private set; }
-		///<summary>Gets the Phone column.</summary>
+		///<summary>Gets the schema's Phone column.</summary>
 		public static ValueColumn PhoneColumn { get; private set; }
-		///<summary>Gets the Email column.</summary>
+		///<summary>Gets the schema's Email column.</summary>
 		public static ValueColumn EmailColumn { get; private set; }
-		///<summary>Gets the Amount column.</summary>
+		///<summary>Gets the schema's Amount column.</summary>
 		public static ValueColumn AmountColumn { get; private set; }
-		///<summary>Gets the Text column.</summary>
+		///<summary>Gets the schema's Text column.</summary>
 		public static ValueColumn TextColumn { get; private set; }
 
-		#region Create Schema
-		///<summary>Gets the SSSponsors schema.</summary>
-		public static new TypedSchema<SSSponsors> Schema { get { return schema; } }
-		private static readonly TypedSchema<SSSponsors> schema = TypedSchema<SSSponsors>.Create("SSSponsors", schema => {
-			PledgeIdColumn = schema.Columns.AddValueColumn("PledgeId", typeof(Guid), null);
+		///<summary>Gets the SSSponsors schema instance.</summary>
+		public static new TypedSchema<SSSponsors> Schema { get; private set; }
+		///<summary>Gets the SchemaMapping that maps this schema to the SQL Server SSSponsors table.</summary>
+		public static SchemaMapping SchemaMapping { get; private set; }
+
+		[DebuggerNonUserCode]
+		[GeneratedCode("ShomreiTorah.Singularity.Designer", "1.0")]
+		static SSSponsors() {
+			#region Create Schema
+			Schema = new TypedSchema<SSSponsors>("SSSponsors");
+
+			PledgeIdColumn = Schema.Columns.AddValueColumn("PledgeId", typeof(Guid), null);
 			PledgeIdColumn.Unique = true;
 			PledgeIdColumn.AllowNulls = false;
 
-			DateColumn = schema.Columns.AddValueColumn("Date", typeof(DateTime), null);
+			DateColumn = Schema.Columns.AddValueColumn("Date", typeof(DateTime), null);
 			DateColumn.Unique = true;
 			DateColumn.AllowNulls = false;
 
-			FullNameColumn = schema.Columns.AddValueColumn("FullName", typeof(String), null);
+			FullNameColumn = Schema.Columns.AddValueColumn("FullName", typeof(String), null);
 			FullNameColumn.AllowNulls = true;
 
-			PhoneColumn = schema.Columns.AddValueColumn("Phone", typeof(String), null);
+			PhoneColumn = Schema.Columns.AddValueColumn("Phone", typeof(String), null);
 			PhoneColumn.AllowNulls = false;
 
-			EmailColumn = schema.Columns.AddValueColumn("Email", typeof(String), null);
+			EmailColumn = Schema.Columns.AddValueColumn("Email", typeof(String), null);
 			EmailColumn.AllowNulls = false;
 
-			AmountColumn = schema.Columns.AddValueColumn("Amount", typeof(Decimal), null);
+			AmountColumn = Schema.Columns.AddValueColumn("Amount", typeof(Decimal), null);
 			AmountColumn.AllowNulls = false;
 
-			TextColumn = schema.Columns.AddValueColumn("Text", typeof(String), null);
+			TextColumn = Schema.Columns.AddValueColumn("Text", typeof(String), null);
 			TextColumn.AllowNulls = false;
-		});
-		#endregion
+			#endregion
+
+			#region Create SchemaMapping
+			SchemaMapping = new SchemaMapping(Schema, false);
+			SchemaMapping.SqlName = "SSSponsors";
+			SchemaMapping.SqlSchemaName = "Website";
+
+			SchemaMapping.Columns.AddMapping(PledgeIdColumn, "PledgeId");
+			SchemaMapping.Columns.AddMapping(DateColumn, "Date");
+			SchemaMapping.Columns.AddMapping(FullNameColumn, "FullName");
+			SchemaMapping.Columns.AddMapping(PhoneColumn, "Phone");
+			SchemaMapping.Columns.AddMapping(EmailColumn, "Email");
+			SchemaMapping.Columns.AddMapping(AmountColumn, "Amount");
+			SchemaMapping.Columns.AddMapping(TextColumn, "Text");
+			#endregion
+		}
 
 		#region Value Properties
 		[DebuggerNonUserCode]
