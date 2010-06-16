@@ -115,7 +115,7 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.grid.Location = new System.Drawing.Point(0, 0);
 			this.grid.MainView = this.schemaView;
 			this.grid.Name = "grid";
-			this.grid.Size = new System.Drawing.Size(639, 492);
+			this.grid.Size = new System.Drawing.Size(659, 512);
 			this.grid.TabIndex = 0;
 			this.grid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.schemaView,
@@ -184,16 +184,16 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.panelControl1.Controls.Add(this.ok);
 			this.panelControl1.Controls.Add(this.cancel);
 			this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panelControl1.Location = new System.Drawing.Point(0, 492);
+			this.panelControl1.Location = new System.Drawing.Point(0, 512);
 			this.panelControl1.Name = "panelControl1";
-			this.panelControl1.Size = new System.Drawing.Size(639, 41);
+			this.panelControl1.Size = new System.Drawing.Size(659, 41);
 			this.panelControl1.TabIndex = 1;
 			// 
 			// ok
 			// 
 			this.ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.ok.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.ok.Location = new System.Drawing.Point(471, 6);
+			this.ok.Location = new System.Drawing.Point(491, 6);
 			this.ok.Name = "ok";
 			this.ok.Size = new System.Drawing.Size(75, 23);
 			this.ok.TabIndex = 1;
@@ -203,7 +203,7 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			// 
 			this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancel.Location = new System.Drawing.Point(552, 6);
+			this.cancel.Location = new System.Drawing.Point(572, 6);
 			this.cancel.Name = "cancel";
 			this.cancel.Size = new System.Drawing.Size(75, 23);
 			this.cancel.TabIndex = 0;
@@ -215,7 +215,7 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancel;
-			this.ClientSize = new System.Drawing.Size(639, 533);
+			this.ClientSize = new System.Drawing.Size(659, 553);
 			this.ControlBox = false;
 			this.Controls.Add(this.grid);
 			this.Controls.Add(this.panelControl1);
