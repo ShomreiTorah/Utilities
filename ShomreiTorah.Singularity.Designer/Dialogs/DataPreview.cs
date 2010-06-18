@@ -116,14 +116,23 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 
 		private void loaderEdit_ButtonClick(object sender, ButtonPressedEventArgs e) {
 			var table = (LoadableTable)schemaTree.FocusedNode.Tag;
+			LoadTable(table);
+		}
+
+		void LoadTable(LoadableTable table, Action callback = null) {
 			var nodes = GetNodes(table).ToArray();
 
 			table.Load(delegate {
 				string caption = table.Table.Rows.Count == 1 ? "1 Row" : table.Table.Rows.Count + " Rows";
 				foreach (var node in nodes)
 					node.SetValue(colContent, caption);
+				UpdateLoadAllButton();
+
+				if (callback != null) callback();
 			});
+			schemaTree.HideEditor();
 			schemaTree.InvalidateNodes();
+			UpdateLoadAllButton();
 		}
 
 		private void schemaTree_CustomNodeCellEdit(object sender, GetCustomNodeCellEditEventArgs e) {
@@ -156,13 +165,17 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			}
 		}
 
-		private void schemaTree_ShowingEditor(object sender, CancelEventArgs e) {
-			if (schemaTree.FocusedColumn != colContent)
-				e.Cancel = false;
-			else {
-				var table = (LoadableTable)schemaTree.FocusedNode.Tag;
-				e.Cancel = table.State != TableState.NotLoaded;
-			}
+		private void loadAllTables_Click(object sender, EventArgs e) {
+			loaderEdit.Buttons[0].Enabled = false;
+			var tableQueue = new Queue<LoadableTable>(tables.SortDependencies(t => t.Schema).Where(t => t.State == TableState.NotLoaded));
+
+			Action callback = null;
+			callback = delegate { if (tableQueue.Any()) LoadTable(tableQueue.Dequeue(), callback); };
+			callback();
+		}
+		void UpdateLoadAllButton() {
+			if (loadAllTables.Visible = tables.Any(t => t.State == TableState.NotLoaded))
+				loadAllTables.Enabled = tables.All(t => t.State != TableState.Loading);
 		}
 	}
 }
