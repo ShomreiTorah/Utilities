@@ -59,6 +59,7 @@ namespace ShomreiTorah.Singularity.Designer {
 		private void generateCode_ItemClick(object sender, ItemClickEventArgs e) {
 			var writer = new StringWriter(CultureInfo.InvariantCulture);
 			context.WriteClasses(writer);
+			new Dialogs.DataPreview(Dialogs.DataPreview.Compile(context)).Show(this);
 		}
 	}
 }

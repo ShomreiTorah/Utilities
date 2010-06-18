@@ -116,7 +116,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					ForeignRelationName = ForeignRelationPropertyName = null;
 				} else {
 					DataType = typeof(Row);
-					ForeignRelationName = ForeignSchema.Name;
+					ForeignRelationName = Owner.RowClassName + "s";
 				}
 
 				Owner.Owner.OnTreeChanged();

@@ -70,6 +70,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\DataPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\DataPreview.Designer.cs">
+      <DependentUpon>DataPreview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\CodeGenerator.cs" />
     <Compile Include="Controls\SchemaTree.cs">
       <SubType>UserControl</SubType>
@@ -107,6 +113,9 @@
     <Compile Include="SqlReader.cs" />
     <EmbeddedResource Include="Controls\SchemaTree.resx">
       <DependentUpon>SchemaTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\DataPreview.resx">
+      <DependentUpon>DataPreview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\SchemaSelector.resx">
       <DependentUpon>SchemaSelector.cs</DependentUpon>
