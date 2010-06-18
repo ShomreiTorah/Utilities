@@ -13,6 +13,7 @@ SELECT
 	Tables.TABLE_SCHEMA		SchemaName,
 	PrimaryKeys.PrimaryKeyName
 FROM	INFORMATION_SCHEMA.Tables Tables
+		JOIN INFORMATION_SCHEMA.COLUMNS Columns ON Tables.TABLE_NAME = Columns.TABLE_NAME
 		LEFT JOIN (
 			SELECT
 				Tables.TABLE_NAME		TableName,
@@ -22,7 +23,8 @@ FROM	INFORMATION_SCHEMA.Tables Tables
 					JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS Constraints	ON Tables.TABLE_NAME = Constraints.TABLE_NAME
 					JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE KeyColumns		ON Constraints.CONSTRAINT_NAME = KeyColumns.CONSTRAINT_NAME
 			WHERE	CONSTRAINT_TYPE = 'PRIMARY KEY'
-		) PrimaryKeys ON (Tables.TABLE_NAME = PrimaryKeys.TableName AND Tables.TABLE_SCHEMA = PrimaryKeys.SchemaName)";
+		) PrimaryKeys ON (Tables.TABLE_NAME = PrimaryKeys.TableName AND Tables.TABLE_SCHEMA = PrimaryKeys.SchemaName)
+WHERE Columns.COLUMN_NAME = 'RowVersion';";
 
 		const string ColumnsSql = @"
 SELECT 
@@ -40,7 +42,7 @@ FROM	INFORMATION_SCHEMA.COLUMNS Columns
 				iColumns.COLUMN_NAME	ColumnName,
 				1 AS Included
 			FROM	INFORMATION_SCHEMA.COLUMNS iColumns
-					JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE KeyColumns		ON iColumns.COLUMN_NAME = KeyColumns.COLUMN_NAME
+					JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE KeyColumns		ON iColumns.COLUMN_NAME = KeyColumns.COLUMN_NAME AND KeyColumns.TABLE_NAME = iColumns.TABLE_NAME
 					JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS Constraints	ON KeyColumns.CONSTRAINT_NAME = Constraints.CONSTRAINT_NAME
 			WHERE Constraints.CONSTRAINT_TYPE = 'UNIQUE'
 		) UniqueColumns ON (UniqueColumns.TableName = Columns.TABLE_NAME AND UniqueColumns.ColumnName = Columns.COLUMN_NAME)
@@ -53,7 +55,8 @@ FROM	INFORMATION_SCHEMA.COLUMNS Columns
 			FROM	INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS Refs
 					JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE ChildColumns		ON Refs.CONSTRAINT_NAME = ChildColumns.CONSTRAINT_NAME
 					JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS ParentConstraints	ON Refs.UNIQUE_CONSTRAINT_NAME = ParentConstraints.CONSTRAINT_NAME
-		) ForeignKeyColumns ON (ForeignKeyColumns.ChildTable = Columns.TABLE_NAME AND ForeignKeyColumns.ChildColumn = Columns.COLUMN_NAME);";
+		) ForeignKeyColumns ON (ForeignKeyColumns.ChildTable = Columns.TABLE_NAME AND ForeignKeyColumns.ChildColumn = Columns.COLUMN_NAME)
+WHERE Columns.DATA_TYPE <> 'timestamp';";
 
 		public static IEnumerable<SchemaModel> ReadSchemas(DataContextModel owner, DBConnector database) {
 			if (database == null) throw new ArgumentNullException("database");
@@ -89,6 +92,7 @@ FROM	INFORMATION_SCHEMA.COLUMNS Columns
 				using (var reader = database.ExecuteReader(ColumnsSql)) {
 					while (reader.Read()) {
 						var table = Table((string)reader["TableName"]);
+						if (table == null) continue;	//Skip tables without RowVersion columns
 
 						table.Columns.Add(new ColumnModel(table) {
 							Name = (string)reader["ColumnName"],
