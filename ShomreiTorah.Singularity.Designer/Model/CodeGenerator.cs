@@ -85,13 +85,13 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			writer.WriteLine(schema.RowClassVisibility.ToString().ToLowerInvariant() + " partial class " + schema.RowClassName + " : Row {");
 			writer.Indent++;
 
-			writer.WriteLine(@"///<summary>Creates a new  " + schema.RowClassName + @" instance.</summary>");
+			writer.WriteLine(@"///<summary>Creates a new " + schema.RowClassName + @" instance.</summary>");
 			writer.WriteLine("public " + schema.RowClassName + " () : base(Schema) { Initialize(); }");
 			writer.WriteLine("partial void Initialize();");
 
 			writer.WriteLine();
 
-			writer.WriteLine(@"///<summary>Creates a strongly-typed  " + schema.Name + @" table.</summary>");
+			writer.WriteLine(@"///<summary>Creates a strongly-typed " + schema.Name + @" table.</summary>");
 			writer.WriteLine("public static TypedTable<" + schema.RowClassName + "> CreateTable() "
 								+ "{ return new TypedTable<" + schema.RowClassName + ">(Schema, () => new " + schema.RowClassName + "()); }");
 
