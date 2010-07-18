@@ -89,6 +89,7 @@ namespace ShomreiTorah.Singularity.Designer {
 
 		private void columnsVGrid_FocusedRecordChanged(object sender, IndexChangedEventArgs e) {
 			UpdateForeignSchemaEdit(false);
+			UpdateExpression();
 			UpdateColumnSqlNameEdit();
 		}
 		private void foreignSchemaEdit_EditValueChanged(object sender, EventArgs e) {
@@ -117,6 +118,19 @@ namespace ShomreiTorah.Singularity.Designer {
 		void UpdateColumnSqlNameEdit() {
 			rowColumnSqlName.Enabled = FocusedColumn == null || FocusedColumn.GenerateSqlMapping;
 		}
+		void UpdateExpression() {
+			if (FocusedColumn == null || String.IsNullOrEmpty(FocusedColumn.Expression)) {
+				rowDefaultValue.Enabled = true;
+				defaultValueEdit.NullText = null;
+			} else {
+				rowDefaultValue.Enabled = false;
+				defaultValueEdit.NullText = "(Calculated column)";
+			}
+		}
+		private void expressionEdit_Leave(object sender, EventArgs e) {
+			columnsVGrid.CloseEditor();
+			UpdateExpression();
+		}
 		#endregion
 		protected override void Dispose(bool disposing) {
 			if (disposing) {
@@ -136,5 +150,10 @@ namespace ShomreiTorah.Singularity.Designer {
 		private void deleteColumn_ItemClick(object sender, ItemClickEventArgs e) {
 			schema.Columns.Remove(FocusedColumn);
 		}
+
+		private void defaultValueEdit_EditValueChanged(object sender, EventArgs e) {
+			rowExpression.Enabled = FocusedColumn == null || FocusedColumn.DefaultValue == null;
+		}
+
 	}
 }

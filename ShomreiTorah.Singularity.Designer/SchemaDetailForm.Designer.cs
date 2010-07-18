@@ -48,6 +48,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.columnsVGrid = new DevExpress.XtraVerticalGrid.VGridControl();
 			this.columnSqlNameEdit = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
 			this.syncSqlEdit = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+			this.expressionEdit = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+			this.defaultValueEdit = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
 			this.categoryRow2 = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
 			this.rowName = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.rowDataType = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
@@ -57,18 +59,19 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.rowAllowNulls = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.rowIsUnique = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.rowDefaultValue = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.rowExpression = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.categoryRow5 = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
 			this.rowForeignSchema = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.rowForeignRelationName = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.categoryRow6 = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
 			this.editorRow6 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.editorRow7 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.rowForeignRelationPropertyName = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
 			this.addColumn = new DevExpress.XtraBars.BarButtonItem();
 			this.deleteColumn = new DevExpress.XtraBars.BarButtonItem();
 			this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
 			this.schemaGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-			this.rowForeignRelationPropertyName = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).BeginInit();
 			this.splitContainerControl1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.columnsGrid)).BeginInit();
@@ -87,6 +90,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			((System.ComponentModel.ISupportInitialize)(this.columnsVGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.columnSqlNameEdit)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.syncSqlEdit)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.expressionEdit)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.defaultValueEdit)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -290,7 +295,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.splitContainerControl2.Panel2.Controls.Add(this.columnsVGrid);
 			this.splitContainerControl2.Panel2.Text = "Panel2";
 			this.splitContainerControl2.Size = new System.Drawing.Size(347, 513);
-			this.splitContainerControl2.SplitterPosition = 159;
+			this.splitContainerControl2.SplitterPosition = 179;
 			this.splitContainerControl2.TabIndex = 0;
 			this.splitContainerControl2.Text = "splitContainerControl2";
 			// 
@@ -309,7 +314,7 @@ namespace ShomreiTorah.Singularity.Designer {
             this.categoryRow3,
             this.categoryRow4});
 			this.schemaVGrid.ShowButtonMode = DevExpress.XtraVerticalGrid.ShowButtonModeEnum.ShowAlways;
-			this.schemaVGrid.Size = new System.Drawing.Size(347, 159);
+			this.schemaVGrid.Size = new System.Drawing.Size(347, 179);
 			this.schemaVGrid.TabIndex = 0;
 			// 
 			// editorRow1
@@ -382,17 +387,20 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.columnsVGrid.OptionsBehavior.ResizeRowHeaders = false;
 			this.columnsVGrid.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.columnSqlNameEdit,
-            this.syncSqlEdit});
+            this.syncSqlEdit,
+            this.expressionEdit,
+            this.defaultValueEdit});
 			this.columnsVGrid.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
             this.categoryRow2,
             this.categoryRow1,
             this.rowAllowNulls,
             this.rowIsUnique,
             this.rowDefaultValue,
+            this.rowExpression,
             this.categoryRow5,
             this.categoryRow6});
 			this.columnsVGrid.ShowButtonMode = DevExpress.XtraVerticalGrid.ShowButtonModeEnum.ShowAlways;
-			this.columnsVGrid.Size = new System.Drawing.Size(347, 346);
+			this.columnsVGrid.Size = new System.Drawing.Size(347, 326);
 			this.columnsVGrid.TabIndex = 0;
 			this.columnsVGrid.FocusedRecordChanged += new DevExpress.XtraVerticalGrid.Events.IndexChangedEventHandler(this.columnsVGrid_FocusedRecordChanged);
 			// 
@@ -407,6 +415,21 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.syncSqlEdit.AutoHeight = false;
 			this.syncSqlEdit.Name = "syncSqlEdit";
 			this.syncSqlEdit.CheckedChanged += new System.EventHandler(this.syncSqlEdit_CheckedChanged);
+			// 
+			// expressionEdit
+			// 
+			this.expressionEdit.AutoHeight = false;
+			this.expressionEdit.Leave += expressionEdit_EditValueChanged;
+			this.expressionEdit.DisplayFormat.FormatString = "row => {0}";
+			this.expressionEdit.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+			this.expressionEdit.Name = "expressionEdit";
+			this.expressionEdit.NullText = "(Not calculated)";
+			// 
+			// defaultValueEdit
+			// 
+			this.defaultValueEdit.AutoHeight = false;
+			this.defaultValueEdit.Name = "defaultValueEdit";
+			this.defaultValueEdit.EditValueChanged += new System.EventHandler(this.defaultValueEdit_EditValueChanged);
 			// 
 			// categoryRow2
 			// 
@@ -476,6 +499,14 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.rowDefaultValue.Properties.Caption = "Default Value";
 			this.rowDefaultValue.Properties.CustomizationCaption = null;
 			this.rowDefaultValue.Properties.FieldName = "DefaultValue";
+			this.rowDefaultValue.Properties.RowEdit = this.defaultValueEdit;
+			// 
+			// rowExpression
+			// 
+			this.rowExpression.Name = "rowExpression";
+			this.rowExpression.Properties.Caption = "Expression";
+			this.rowExpression.Properties.FieldName = "Expression";
+			this.rowExpression.Properties.RowEdit = this.expressionEdit;
 			// 
 			// categoryRow5
 			// 
@@ -519,6 +550,13 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.editorRow7.Name = "editorRow7";
 			this.editorRow7.Properties.Caption = "Property Name";
 			this.editorRow7.Properties.FieldName = "PropertyName";
+			// 
+			// rowForeignRelationPropertyName
+			// 
+			this.rowForeignRelationPropertyName.Name = "rowForeignRelationPropertyName";
+			this.rowForeignRelationPropertyName.Properties.Caption = "Child Property Name";
+			this.rowForeignRelationPropertyName.Properties.CustomizationCaption = null;
+			this.rowForeignRelationPropertyName.Properties.FieldName = "ForeignRelationPropertyName";
 			// 
 			// ribbonControl1
 			// 
@@ -569,13 +607,6 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.schemaGroup.ShowCaptionButton = false;
 			this.schemaGroup.Text = "Schema";
 			// 
-			// rowForeignRelationPropertyName
-			// 
-			this.rowForeignRelationPropertyName.Name = "rowForeignRelationPropertyName";
-			this.rowForeignRelationPropertyName.Properties.Caption = "Child Property Name";
-			this.rowForeignRelationPropertyName.Properties.CustomizationCaption = null;
-			this.rowForeignRelationPropertyName.Properties.FieldName = "ForeignRelationPropertyName";
-			// 
 			// SchemaDetailForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -603,6 +634,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			((System.ComponentModel.ISupportInitialize)(this.columnsVGrid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.columnSqlNameEdit)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.syncSqlEdit)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.expressionEdit)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.defaultValueEdit)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
 			this.ResumeLayout(false);
 
@@ -666,5 +699,8 @@ namespace ShomreiTorah.Singularity.Designer {
 		private DevExpress.XtraVerticalGrid.Rows.EditorRow editorRow6;
 		private DevExpress.XtraVerticalGrid.Rows.EditorRow editorRow7;
 		private DevExpress.XtraVerticalGrid.Rows.EditorRow rowForeignRelationPropertyName;
+		private DevExpress.XtraVerticalGrid.Rows.EditorRow rowExpression;
+		private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit expressionEdit;
+		private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit defaultValueEdit;
 	}
 }

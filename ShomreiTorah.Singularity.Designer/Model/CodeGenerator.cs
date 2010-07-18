@@ -127,7 +127,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			writer.WriteLine("SchemaMapping.SqlName = " + schema.SqlName.Quote() + ";");
 			writer.WriteLine("SchemaMapping.SqlSchemaName = " + schema.SqlSchemaName.Quote() + ";");
 			writer.WriteLine();
-			foreach (var column in schema.Columns)
+			foreach (var column in schema.Columns.Where(c => c.GenerateSqlMapping))
 				writer.WriteLine("SchemaMapping.Columns.AddMapping(" + column.PropertyName + "Column, " + column.SqlName.Quote() + ");");
 			writer.WriteLine("#endregion");
 
@@ -161,7 +161,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			writer.WriteLine();
 
 			writer.Write("#region Partial Methods");
-			foreach (var column in schema.Columns) {	//TODO: Where not calculated
+			foreach (var column in schema.Columns.NonCalculated()) {
 				writer.WriteLine();
 				WriteColumnPartials(column, writer);
 			}
@@ -185,7 +185,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			writer.WriteLine();
 
 			bool first = true;
-			foreach (var column in schema.Columns) {	//TODO: Where not calculated
+			foreach (var column in schema.Columns.NonCalculated()) {
 				if (first)
 					first = false;
 				else
@@ -210,7 +210,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			writer.Indent++;
 
 			first = true;
-			foreach (var column in schema.Columns) {	//TODO: Where not calculated
+			foreach (var column in schema.Columns.NonCalculated()) {
 				if (first)
 					first = false;
 				else
@@ -231,20 +231,24 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		}
 
 		static void WriteColumnCreation(ColumnModel column, IndentedTextWriter writer) {
-			//TODO: Calculated Columns
-
 			if (column == column.Owner.PrimaryKey)
 				writer.Write("Schema.PrimaryKey = ");
-			if (column.ForeignSchema != null) {
+			if (!String.IsNullOrEmpty(column.Expression)) {
+				writer.WriteLine(column.ColumnPropertyName
+					+ " = Schema.Columns.AddCalculatedColumn<" + column.Owner.RowClassName + ", " + column.ActualType + ">(" + column.Name.Quote()
+					+ ", row => " + column.Expression + ");");
+			} else if (column.ForeignSchema != null) {
 				writer.WriteLine(column.ColumnPropertyName
 					+ " = Schema.Columns.AddForeignKey(" + column.Name.Quote() + ", " + column.ForeignSchema.RowClassName + ".Schema, " + column.ForeignRelationName.Quote() + ");");
 			} else {
 				writer.WriteLine(column.ColumnPropertyName
 					+ " = Schema.Columns.AddValueColumn(" + column.Name.Quote() + ", typeof(" + column.DataType.Name + "), " + column.DefaultValueCode + ");");
 			}
-			if (column.IsUnique)
-				writer.WriteLine(column.ColumnPropertyName + ".Unique = true;");
-			writer.WriteLine(column.ColumnPropertyName + ".AllowNulls = " + column.AllowNulls.ToString().ToLowerInvariant() + ";");
+			if (typeof(ValueColumn).IsAssignableFrom(column.ColumnType)) {
+				if (column.IsUnique)
+					writer.WriteLine(column.ColumnPropertyName + ".Unique = true;");
+				writer.WriteLine(column.ColumnPropertyName + ".AllowNulls = " + column.AllowNulls.ToString().ToLowerInvariant() + ";");
+			}
 		}
 
 		static void WriteColumnPartials(ColumnModel column, IndentedTextWriter writer) {
@@ -257,7 +261,9 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			writer.WriteLine(column.PropertyVisibility.ToString().ToLowerInvariant() + " " + column.ActualType + " " + column.PropertyName + " {");
 			writer.Indent++;
 			writer.WriteLine("get { return base.Field<" + column.ActualType + ">(" + column.ColumnPropertyName + "); }");
-			writer.WriteLine("set { base[" + column.ColumnPropertyName + "] = value; }");
+
+			if (string.IsNullOrEmpty(column.Expression))
+				writer.WriteLine("set { base[" + column.ColumnPropertyName + "] = value; }");
 			writer.Indent--;
 			writer.WriteLine("}");
 		}
@@ -271,9 +277,11 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		internal string ColumnPropertyName { get { return PropertyName + "Column"; } }
 		internal Type ColumnType {
 			get {
+				if (!String.IsNullOrEmpty(Expression))
+					return typeof(CalculatedColumn);
 				if (ForeignSchema != null)
 					return typeof(ForeignKeyColumn);
-				//TODO: Calculated Columns
+
 				return typeof(ValueColumn);
 			}
 		}

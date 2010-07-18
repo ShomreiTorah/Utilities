@@ -49,8 +49,27 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		public object DefaultValue {
 			get { return defaultValue; }
 			set {
-				defaultValue = DataType == null ? value : Convert.ChangeType(value, DataType, CultureInfo.CurrentCulture);
+				if (value != null)
+					Expression = null;
+				defaultValue = DataType == null || value == null ? value : Convert.ChangeType(value, DataType, CultureInfo.CurrentCulture);
 				OnPropertyChanged("DefaultValue");
+			}
+		}
+		string expression;
+		///<summary>Gets or sets the expression for a calculated column.</summary>
+		[Description("Gets or sets the expression for a calculated column.")]
+		[Category("Data")]
+		public string Expression {
+			get { return expression; }
+			set {
+				if (expression == value) return;
+				if (value == "") value = null;
+				if (!String.IsNullOrEmpty(value)) {
+					DefaultValue = null;
+					GenerateSqlMapping = false;
+				}
+				expression = value;
+				OnPropertyChanged("Expression");
 			}
 		}
 
@@ -78,6 +97,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		public bool GenerateSqlMapping {
 			get { return generateSqlMapping; }
 			set {
+				value = value && String.IsNullOrEmpty(Expression);
 				if (GenerateSqlMapping == value) return;
 
 				generateSqlMapping = value;
@@ -144,7 +164,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			set { foreignRelationPropertyName = value; OnPropertyChanged("ForeignRelationPropertyName"); }
 		}
 
-		MemberVisibility propertyVisibility=MemberVisibility.Public;
+		MemberVisibility propertyVisibility = MemberVisibility.Public;
 		///<summary>Gets or sets the access modifier for the column's property in the strongly-typed Row class.</summary>
 		[Description("Gets or sets the access modifier for the column's property in the strongly-typed Row class.")]
 		[Category("Code Generation")]
