@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Globalization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ShomreiTorah.Singularity.Designer.Model {
 	public partial class ColumnModel : INotifyPropertyChanged {
@@ -49,6 +50,8 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		public object DefaultValue {
 			get { return defaultValue; }
 			set {
+				if ("".Equals(value) && DataType != typeof(string))	//Fix for editor UI
+					value = null;
 				if (value != null)
 					Expression = null;
 				defaultValue = DataType == null || value == null ? value : Convert.ChangeType(value, DataType, CultureInfo.CurrentCulture);
@@ -57,7 +60,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		}
 		string expression;
 		///<summary>Gets or sets the expression for a calculated column.</summary>
-		[Description("Gets or sets the expression for a calculated column.")]
+		[SuppressMessage("Microsoft.Performance", "CA1820:TestForEmptyStringsUsingStringLength"), Description("Gets or sets the expression for a calculated column.")]
 		[Category("Data")]
 		public string Expression {
 			get { return expression; }

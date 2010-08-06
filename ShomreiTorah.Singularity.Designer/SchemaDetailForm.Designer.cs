@@ -419,7 +419,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			// expressionEdit
 			// 
 			this.expressionEdit.AutoHeight = false;
-			this.expressionEdit.Leave += expressionEdit_EditValueChanged;
+			this.expressionEdit.Leave += expressionEdit_Leave;
 			this.expressionEdit.DisplayFormat.FormatString = "row => {0}";
 			this.expressionEdit.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
 			this.expressionEdit.Name = "expressionEdit";
@@ -429,7 +429,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			this.defaultValueEdit.AutoHeight = false;
 			this.defaultValueEdit.Name = "defaultValueEdit";
-			this.defaultValueEdit.EditValueChanged += new System.EventHandler(this.defaultValueEdit_EditValueChanged);
+			this.defaultValueEdit.Leave += new System.EventHandler(this.defaultValueEdit_Leave);
 			// 
 			// categoryRow2
 			// 

@@ -88,13 +88,14 @@ namespace ShomreiTorah.Singularity.Designer {
 		EditorButton ClearForeignSchemaButton { get { return foreignSchemaEdit.Buttons[1]; } }
 
 		private void columnsVGrid_FocusedRecordChanged(object sender, IndexChangedEventArgs e) {
-			UpdateForeignSchemaEdit(false);
-			UpdateExpression();
-			UpdateColumnSqlNameEdit();
-		}
-		private void foreignSchemaEdit_EditValueChanged(object sender, EventArgs e) {
-			columnsVGrid.CloseEditor();
-			UpdateForeignSchemaEdit(false);
+			var invoker = IsHandleCreated ? new Action<Action>(a => BeginInvoke(a)) : a => a();
+
+			invoker(delegate {
+				UpdateForeignSchemaEdit(false);
+				UpdateExpression();
+				UpdateColumnSqlNameEdit();
+				UpdateDefaultValue();
+			});
 		}
 		private void foreignSchemaEdit_ButtonClick(object sender, ButtonPressedEventArgs e) {
 			if (e.Button.Index == ClearForeignSchemaButton.Index) {
@@ -103,6 +104,19 @@ namespace ShomreiTorah.Singularity.Designer {
 			}
 		}
 
+		private void expressionEdit_Leave(object sender, EventArgs e) {
+			columnsVGrid.CloseEditor();
+			UpdateExpression();
+			UpdateColumnSqlNameEdit();
+		}
+		private void defaultValueEdit_Leave(object sender, EventArgs e) {
+			columnsVGrid.CloseEditor();
+			UpdateDefaultValue();
+		}
+		private void foreignSchemaEdit_EditValueChanged(object sender, EventArgs e) {
+			columnsVGrid.CloseEditor();
+			UpdateForeignSchemaEdit(false);
+		}
 		private void syncSqlEdit_CheckedChanged(object sender, EventArgs e) {
 			columnsVGrid.CloseEditor();
 			UpdateColumnSqlNameEdit();
@@ -120,16 +134,15 @@ namespace ShomreiTorah.Singularity.Designer {
 		}
 		void UpdateExpression() {
 			if (FocusedColumn == null || String.IsNullOrEmpty(FocusedColumn.Expression)) {
+				defaultValueEdit.NullText = "(null)";
 				rowDefaultValue.Enabled = true;
-				defaultValueEdit.NullText = null;
 			} else {
-				rowDefaultValue.Enabled = false;
 				defaultValueEdit.NullText = "(Calculated column)";
+				rowDefaultValue.Enabled = false;
 			}
 		}
-		private void expressionEdit_Leave(object sender, EventArgs e) {
-			columnsVGrid.CloseEditor();
-			UpdateExpression();
+		void UpdateDefaultValue() {
+			rowExpression.Enabled = FocusedColumn == null || FocusedColumn.DefaultValue == null;
 		}
 		#endregion
 		protected override void Dispose(bool disposing) {
@@ -149,10 +162,6 @@ namespace ShomreiTorah.Singularity.Designer {
 
 		private void deleteColumn_ItemClick(object sender, ItemClickEventArgs e) {
 			schema.Columns.Remove(FocusedColumn);
-		}
-
-		private void defaultValueEdit_EditValueChanged(object sender, EventArgs e) {
-			rowExpression.Enabled = FocusedColumn == null || FocusedColumn.DefaultValue == null;
 		}
 
 	}
