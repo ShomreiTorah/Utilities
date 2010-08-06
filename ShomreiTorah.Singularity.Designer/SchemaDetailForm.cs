@@ -88,14 +88,11 @@ namespace ShomreiTorah.Singularity.Designer {
 		EditorButton ClearForeignSchemaButton { get { return foreignSchemaEdit.Buttons[1]; } }
 
 		private void columnsVGrid_FocusedRecordChanged(object sender, IndexChangedEventArgs e) {
-			var invoker = IsHandleCreated ? new Action<Action>(a => BeginInvoke(a)) : a => a();
-
-			invoker(delegate {
-				UpdateForeignSchemaEdit(false);
-				UpdateExpression();
-				UpdateColumnSqlNameEdit();
-				UpdateDefaultValue();
-			});
+			UpdateForeignSchemaEdit(false);
+			UpdateExpression();
+			UpdateColumnSqlNameEdit();
+			UpdateDefaultValue();
+			columnsVGrid.Refresh();
 		}
 		private void foreignSchemaEdit_ButtonClick(object sender, ButtonPressedEventArgs e) {
 			if (e.Button.Index == ClearForeignSchemaButton.Index) {
@@ -104,22 +101,33 @@ namespace ShomreiTorah.Singularity.Designer {
 			}
 		}
 
+		private void defaultValueEdit_ButtonClick(object sender, ButtonPressedEventArgs e) {
+			columnsVGrid.CloseEditor();
+			FocusedColumn.DefaultValue = null;
+			UpdateDefaultValue();
+			UpdateExpression();
+			columnsVGrid.Refresh();
+		}
 		private void expressionEdit_Leave(object sender, EventArgs e) {
 			columnsVGrid.CloseEditor();
-			UpdateExpression();
+			UpdateDefaultValue();
 			UpdateColumnSqlNameEdit();
+			columnsVGrid.Refresh();
 		}
 		private void defaultValueEdit_Leave(object sender, EventArgs e) {
 			columnsVGrid.CloseEditor();
 			UpdateDefaultValue();
+			columnsVGrid.Refresh();
 		}
 		private void foreignSchemaEdit_EditValueChanged(object sender, EventArgs e) {
 			columnsVGrid.CloseEditor();
 			UpdateForeignSchemaEdit(false);
+			columnsVGrid.Refresh();
 		}
 		private void syncSqlEdit_CheckedChanged(object sender, EventArgs e) {
 			columnsVGrid.CloseEditor();
 			UpdateColumnSqlNameEdit();
+			columnsVGrid.Refresh();
 		}
 		void UpdateForeignSchemaEdit(bool setDataSource) {
 			if (setDataSource) {
@@ -142,7 +150,9 @@ namespace ShomreiTorah.Singularity.Designer {
 			}
 		}
 		void UpdateDefaultValue() {
-			rowExpression.Enabled = FocusedColumn == null || FocusedColumn.DefaultValue == null;
+			var hasDefault = FocusedColumn != null && FocusedColumn.DefaultValue != null;
+			rowExpression.Enabled = !hasDefault;
+			defaultValueEdit.Buttons[0].Visible = hasDefault;
 		}
 		#endregion
 		protected override void Dispose(bool disposing) {
