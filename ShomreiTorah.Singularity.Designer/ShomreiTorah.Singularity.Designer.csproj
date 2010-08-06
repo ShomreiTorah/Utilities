@@ -70,20 +70,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dialogs\DataPreview.cs" />
+    <Compile Include="Dialogs\DataPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Dialogs\DataPreview.Designer.cs">
       <DependentUpon>DataPreview.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\CodeGenerator.cs" />
-    <Compile Include="Controls\SchemaTree.cs" />
+    <Compile Include="Controls\SchemaTree.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\SchemaTree.Designer.cs">
       <DependentUpon>SchemaTree.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\SchemaSelector.cs" />
+    <Compile Include="Dialogs\SchemaSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Dialogs\SchemaSelector.Designer.cs">
       <DependentUpon>SchemaSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
@@ -97,7 +105,9 @@
     <Compile Include="Model\Temp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SchemaDetailForm.cs" />
+    <Compile Include="SchemaDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SchemaDetailForm.Designer.cs">
       <DependentUpon>SchemaDetailForm.cs</DependentUpon>
     </Compile>
