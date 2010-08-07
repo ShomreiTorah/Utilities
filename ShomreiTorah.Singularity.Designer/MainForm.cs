@@ -57,9 +57,14 @@ namespace ShomreiTorah.Singularity.Designer {
 		}
 
 		private void generateCode_ItemClick(object sender, ItemClickEventArgs e) {
-			var writer = new StringWriter(CultureInfo.InvariantCulture);
-			context.WriteClasses(writer);
-			new Dialogs.DataPreview(Dialogs.DataPreview.Compile(context)).Show(this);
+			try {
+				var writer = new StringWriter(CultureInfo.InvariantCulture);
+				context.WriteClasses(writer);
+				new Dialogs.DataPreview(Dialogs.DataPreview.Compile(context)).Show(this);
+			} catch (Exception ex) {
+				XtraMessageBox.Show("An error occurred.\r\n" + ex,
+									"Generate Code", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 	}
 }
