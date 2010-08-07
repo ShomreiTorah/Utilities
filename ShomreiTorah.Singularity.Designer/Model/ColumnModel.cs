@@ -31,6 +31,9 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					SqlName = value;
 				if (PropertyName == Name)
 					PropertyName = value;
+				if (String.IsNullOrEmpty(Description) || Description == String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, Name, Owner.Name))
+					Description = String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, value, Owner.Name);
+
 				name = value;
 				OnPropertyChanged("Name");
 			}
@@ -154,6 +157,9 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			set {
 				if (ForeignRelationPropertyName == ForeignRelationName)
 					ForeignRelationPropertyName = value;
+				if (String.IsNullOrEmpty(ForeignRelationPropertyDescription)
+				 || ForeignRelationPropertyDescription == String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, ForeignRelationPropertyName, Owner.Name))
+					ForeignRelationPropertyDescription = String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, value, Owner.Name);
 				foreignRelationName = value;
 				OnPropertyChanged("ForeignRelationName");
 			}
@@ -166,6 +172,15 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			get { return foreignRelationPropertyName; }
 			set { foreignRelationPropertyName = value; OnPropertyChanged("ForeignRelationPropertyName"); }
 		}
+		string foreignRelationPropertyDescription;
+		///<summary>Gets or sets the XML comment for the property in the foreign schema that returns the child rows.</summary>
+		[Description("Gets or sets the XML comment for the property in the foreign schema that returns the child rows.")]
+		[Category("Code Generation")]
+		public string ForeignRelationPropertyDescription {
+			get { return foreignRelationPropertyDescription; }
+			set { foreignRelationPropertyDescription = value; OnPropertyChanged("ForeignRelationPropertyDescription"); }
+		}
+		const string DefaultFrpDescriptionFormat = "Gets the {0} of the {1}.";
 
 		MemberVisibility propertyVisibility = MemberVisibility.Public;
 		///<summary>Gets or sets the access modifier for the column's property in the strongly-typed Row class.</summary>
@@ -183,6 +198,15 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			get { return propertyName; }
 			set { propertyName = value; OnPropertyChanged("PropertyName"); }
 		}
+		string description;
+		///<summary>Gets or sets the description of the column.  This will be used as the XML comment for the column's accessor instance property.</summary>
+		[Description("Gets or sets the description of the column.  This will be used as the XML comment for the column's accessor instance property.")]
+		[Category("Code Generation")]
+		public string Description {
+			get { return description; }
+			set { description = value; OnPropertyChanged("Description"); }
+		}
+		const string DefaultDescriptionFormat = "Gets or sets the {0} of the {1}.";
 
 		public override string ToString() {
 			return Name;

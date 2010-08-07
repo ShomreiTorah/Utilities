@@ -62,6 +62,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			indentedWriter.WriteLine("using System;");
 			indentedWriter.WriteLine("using System.CodeDom.Compiler;");
 			indentedWriter.WriteLine("using System.Diagnostics;");
+			indentedWriter.WriteLine("using System.Linq;");
 			indentedWriter.WriteLine("using ShomreiTorah.Singularity;");
 			indentedWriter.WriteLine("using ShomreiTorah.Singularity.Sql;");
 			indentedWriter.WriteLine();
@@ -82,6 +83,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		}
 
 		static void WriteSchema(SchemaModel schema, IndentedTextWriter writer) {
+			writer.WriteLine(@"///<summary>" + schema.RowClassDescription + @"</summary>");
 			writer.WriteLine(schema.RowClassVisibility.ToString().ToLowerInvariant() + " partial class " + schema.RowClassName + " : Row {");
 			writer.Indent++;
 
@@ -151,6 +153,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					//Example:
 					//public IChildRowCollection<Pledge> Pledges { get { return TypedChildRows<Pledge>(Pledge.PersonIdColumn); } }
 
+					writer.WriteLine(@"///<summary>" + schema.RowClassDescription + @"</summary>");
 					writer.WriteLine(foreignColumn.Owner.RowClassVisibility.ToString().ToLowerInvariant()
 								   + " IChildRowCollection<" + foreignColumn.Owner.RowClassName + "> " + foreignColumn.ForeignRelationPropertyName
 								   + " { get { return TypedChildRows<" + foreignColumn.Owner.RowClassName + ">(" + foreignColumn.Owner.RowClassName + "." + foreignColumn.PropertyName + "Column); } }");
@@ -257,6 +260,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		}
 
 		static void WriteValueProperty(ColumnModel column, IndentedTextWriter writer) {
+			writer.WriteLine(@"///<summary>" + column.Description + @"</summary>");
 			writer.WriteGeneratedCodeAttribute();
 			writer.WriteLine(column.PropertyVisibility.ToString().ToLowerInvariant() + " " + column.ActualType + " " + column.PropertyName + " {");
 			writer.Indent++;

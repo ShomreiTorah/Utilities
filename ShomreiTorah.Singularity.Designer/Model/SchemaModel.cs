@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace ShomreiTorah.Singularity.Designer.Model {
 	public class SchemaModel : INotifyPropertyChanged {
@@ -52,6 +53,8 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					SqlName = value;
 				if (RowClassName == Name)
 					RowClassName = value;
+				if (String.IsNullOrEmpty(RowClassDescription) || RowClassDescription == String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, Name))
+					RowClassDescription = String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, value);
 				name = value;
 				OnPropertyChanged("Name");
 			}
@@ -103,6 +106,16 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			get { return rowClassVisibility; }
 			set { rowClassVisibility = value; OnPropertyChanged("RowClassVisibility"); }
 		}
+
+		string rowClassDescription;
+		///<summary>Gets or sets the XML comment for the strongly-typed Row class.</summary>
+		[Description("Gets or sets the XML comment for the strongly-typed Row class.")]
+		[Category("Code Generation")]
+		public string RowClassDescription {
+			get { return rowClassDescription; }
+			set { rowClassDescription = value; OnPropertyChanged("RowClassDescription"); }
+		}
+		const string DefaultDescriptionFormat = "Describes a {0}.";
 
 		public BindingList<ColumnModel> Columns { get; private set; }
 		public ReadOnlyObservableCollection<SchemaModel> ChildSchemas { get; private set; }
