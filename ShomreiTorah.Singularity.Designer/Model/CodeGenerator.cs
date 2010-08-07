@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace ShomreiTorah.Singularity.Designer.Model {
 	static class CodeGenerator {
@@ -53,6 +54,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 
 			return b.ToString();
 		}
+		public static string EscapeXml(this string value) { return new XText(value).ToString(); }
 
 		public static void WriteClasses(this DataContextModel model, TextWriter writer) {
 			if (model == null) throw new ArgumentNullException("model");
@@ -83,32 +85,32 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		}
 
 		static void WriteSchema(SchemaModel schema, IndentedTextWriter writer) {
-			writer.WriteLine(@"///<summary>" + schema.RowClassDescription + @"</summary>");
+			writer.WriteLine(@"///<summary>" + schema.RowClassDescription.EscapeXml() + @"</summary>");
 			writer.WriteLine(schema.RowClassVisibility.ToString().ToLowerInvariant() + " partial class " + schema.RowClassName + " : Row {");
 			writer.Indent++;
 
-			writer.WriteLine(@"///<summary>Creates a new " + schema.RowClassName + @" instance.</summary>");
+			writer.WriteLine(@"///<summary>Creates a new " + schema.RowClassName.EscapeXml() + @" instance.</summary>");
 			writer.WriteLine("public " + schema.RowClassName + " () : base(Schema) { Initialize(); }");
 			writer.WriteLine("partial void Initialize();");
 
 			writer.WriteLine();
 
-			writer.WriteLine(@"///<summary>Creates a strongly-typed " + schema.Name + @" table.</summary>");
+			writer.WriteLine(@"///<summary>Creates a strongly-typed " + schema.Name.EscapeXml() + @" table.</summary>");
 			writer.WriteLine("public static TypedTable<" + schema.RowClassName + "> CreateTable() "
 								+ "{ return new TypedTable<" + schema.RowClassName + ">(Schema, () => new " + schema.RowClassName + "()); }");
 
 			writer.WriteLine();
 			foreach (var column in schema.Columns) {
-				writer.WriteLine(@"///<summary>Gets the schema's " + column.Name + @" column.</summary>");
+				writer.WriteLine(@"///<summary>Gets the schema's " + column.Name.EscapeXml() + @" column.</summary>");
 				writer.WriteLine("public static " + column.ColumnType.Name + " " + column.ColumnPropertyName + " { get; private set; }");
 			}
 			writer.WriteLine();
 
 
-			writer.WriteLine(@"///<summary>Gets the " + schema.Name + @" schema instance.</summary>");
+			writer.WriteLine(@"///<summary>Gets the " + schema.Name.EscapeXml() + @" schema instance.</summary>");
 			writer.WriteLine("public static new TypedSchema<" + schema.RowClassName + "> Schema { get; private set; }");
 
-			writer.WriteLine(@"///<summary>Gets the SchemaMapping that maps this schema to the SQL Server " + schema.SqlName + @" table.</summary>");
+			writer.WriteLine(@"///<summary>Gets the SchemaMapping that maps this schema to the SQL Server " + schema.SqlName.EscapeXml() + @" table.</summary>");
 			writer.WriteLine("public static SchemaMapping SchemaMapping { get; private set; }");
 
 			writer.WriteLine();
@@ -153,7 +155,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					//Example:
 					//public IChildRowCollection<Pledge> Pledges { get { return TypedChildRows<Pledge>(Pledge.PersonIdColumn); } }
 
-					writer.WriteLine(@"///<summary>" + schema.RowClassDescription + @"</summary>");
+					writer.WriteLine(@"///<summary>" + schema.RowClassDescription.EscapeXml() + @"</summary>");
 					writer.WriteLine(foreignColumn.Owner.RowClassVisibility.ToString().ToLowerInvariant()
 								   + " IChildRowCollection<" + foreignColumn.Owner.RowClassName + "> " + foreignColumn.ForeignRelationPropertyName
 								   + " { get { return TypedChildRows<" + foreignColumn.Owner.RowClassName + ">(" + foreignColumn.Owner.RowClassName + "." + foreignColumn.PropertyName + "Column); } }");
@@ -260,7 +262,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		}
 
 		static void WriteValueProperty(ColumnModel column, IndentedTextWriter writer) {
-			writer.WriteLine(@"///<summary>" + column.Description + @"</summary>");
+			writer.WriteLine(@"///<summary>" + column.Description.EscapeXml() + @"</summary>");
 			writer.WriteGeneratedCodeAttribute();
 			writer.WriteLine(column.PropertyVisibility.ToString().ToLowerInvariant() + " " + column.ActualType + " " + column.PropertyName + " {");
 			writer.Indent++;
