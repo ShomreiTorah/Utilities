@@ -51,10 +51,8 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			set {
 				if (SqlName == Name)
 					SqlName = value;
-				if (RowClassName == Name)
-					RowClassName = value;
-				if (String.IsNullOrEmpty(RowClassDescription) || RowClassDescription == String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, Name))
-					RowClassDescription = String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, value);
+				if (RowClassName == Name.Depluralize())
+					RowClassName = value.Depluralize();
 				name = value;
 				OnPropertyChanged("Name");
 			}
@@ -96,7 +94,12 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		[Category("Code Generation")]
 		public string RowClassName {
 			get { return rowClassName; }
-			set { rowClassName = value.Replace(' ', '_'); OnPropertyChanged("RowClassName"); }
+			set {
+				if (String.IsNullOrEmpty(RowClassDescription) || RowClassDescription == String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, RowClassName.SplitWords()))
+					RowClassDescription = String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, value.SplitWords());
+				rowClassName = value.Replace(' ', '_');
+				OnPropertyChanged("RowClassName");
+			}
 		}
 		MemberVisibility rowClassVisibility = MemberVisibility.Public;
 		///<summary>Gets or sets the access modifiers of the strongly-typed Row class.</summary>

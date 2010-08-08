@@ -31,8 +31,8 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					SqlName = value;
 				if (PropertyName == Name)
 					PropertyName = value;
-				if (String.IsNullOrEmpty(Description) || Description == String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, Name, Owner.Name))
-					Description = String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, value, Owner.Name);
+				if (String.IsNullOrEmpty(Description) || Description == String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, Name.SplitWords(), Owner.RowClassName.SplitWords()))
+					Description = String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, value.SplitWords(), Owner.RowClassName.SplitWords());
 
 				name = value;
 				OnPropertyChanged("Name");
@@ -157,9 +157,11 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			set {
 				if (ForeignRelationPropertyName == ForeignRelationName)
 					ForeignRelationPropertyName = value;
+
 				if (String.IsNullOrEmpty(ForeignRelationPropertyDescription)
-				 || ForeignRelationPropertyDescription == String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, ForeignRelationPropertyName, Owner.Name))
-					ForeignRelationPropertyDescription = String.Format(CultureInfo.InvariantCulture, DefaultDescriptionFormat, value, Owner.Name);
+				 || ForeignRelationPropertyDescription == String.Format(CultureInfo.InvariantCulture, DefaultFrpDescriptionFormat, ForeignRelationName.SplitWords(), Owner.RowClassName.SplitWords()))
+					ForeignRelationPropertyDescription = String.Format(CultureInfo.InvariantCulture, DefaultFrpDescriptionFormat, value.SplitWords(), ForeignSchema.RowClassName.SplitWords());
+
 				foreignRelationName = value;
 				OnPropertyChanged("ForeignRelationName");
 			}
