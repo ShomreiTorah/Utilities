@@ -155,7 +155,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					//Example:
 					//public IChildRowCollection<Pledge> Pledges { get { return TypedChildRows<Pledge>(Pledge.PersonIdColumn); } }
 
-					writer.WriteLine(@"///<summary>" + schema.RowClassDescription.EscapeXml() + @"</summary>");
+					writer.WriteLine(@"///<summary>" + foreignColumn.ForeignRelationPropertyDescription.EscapeXml() + @"</summary>");
 					writer.WriteLine(foreignColumn.Owner.RowClassVisibility.ToString().ToLowerInvariant()
 								   + " IChildRowCollection<" + foreignColumn.Owner.RowClassName + "> " + foreignColumn.ForeignRelationPropertyName
 								   + " { get { return TypedChildRows<" + foreignColumn.Owner.RowClassName + ">(" + foreignColumn.Owner.RowClassName + "." + foreignColumn.PropertyName + "Column); } }");
