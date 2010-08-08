@@ -11,18 +11,19 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			return columns.Where(c => string.IsNullOrEmpty(c.Expression));
 		}
 
-		static readonly Regex CamelCaseSplitter = new Regex(@"(?<![A-Z])(?=[A-Z]+)|(?<=[A-Z])(?=[A-Z][^A-Z])");
+		static Regex SpaceTrimmer = new Regex(@"\s+");
+		static readonly Regex CamelCaseSplitter = new Regex(@"_|(?<![A-Z])(?=[A-Z]+)|(?<=[A-Z])(?=[A-Z][^A-Z_])");
 		public static string SplitWords(this string name) {
 			if (name == null) return null;
 
-			return String.Join(" ",
+			return SpaceTrimmer.Replace(String.Join(" ",
 				CamelCaseSplitter.Split(name)
 								 .Select(s => s.Any(Char.IsLower) ? s.ToLower(CultureInfo.CurrentCulture) : s)
-			).Trim();
+			), " ").Trim();
 		}
 		public static string Depluralize(this string name) {
 			if (name == null) return null;
-			return name.EndsWith("s") ? name.Remove(name.Length - 1) : name;
+			return name[name.Length - 1] == 's' ? name.Remove(name.Length - 1) : name;
 		}
 	}
 }
