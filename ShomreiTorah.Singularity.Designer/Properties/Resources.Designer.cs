@@ -102,6 +102,13 @@ namespace ShomreiTorah.Singularity.Designer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap PreviewCode32 {
+            get {
+                object obj = ResourceManager.GetObject("PreviewCode32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap RibbonIcon {
             get {
                 object obj = ResourceManager.GetObject("RibbonIcon", resourceCulture);

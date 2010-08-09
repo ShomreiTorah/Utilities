@@ -30,6 +30,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.addSchema = new DevExpress.XtraBars.BarButtonItem();
 			this.deleteSchema = new DevExpress.XtraBars.BarButtonItem();
 			this.generateCode = new DevExpress.XtraBars.BarButtonItem();
+			this.previewCode = new DevExpress.XtraBars.BarButtonItem();
 			this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
 			this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -44,9 +45,13 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dockPanel2_Container = new DevExpress.XtraBars.Docking.ControlContainer();
 			this.dataContextVGrid = new DevExpress.XtraVerticalGrid.VGridControl();
 			this.editorRow1 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-			this.xtraTabbedMdiManager = new DevExpress.XtraTabbedMdi.XtraTabbedMdiManager(this.components);
-			this.editorRow2 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.categoryRow1 = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
+			this.editorRow2 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.previewPanel = new DevExpress.XtraBars.Docking.DockPanel();
+			this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+			this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+			this.codeEditor = new ShomreiTorah.Singularity.Designer.Controls.CodeEditor();
+			this.xtraTabbedMdiManager = new DevExpress.XtraTabbedMdi.XtraTabbedMdiManager(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
 			this.panelContainer1.SuspendLayout();
@@ -55,6 +60,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dockPanel2.SuspendLayout();
 			this.dockPanel2_Container.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataContextVGrid)).BeginInit();
+			this.previewPanel.SuspendLayout();
+			this.dockPanel3_Container.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.xtraTabbedMdiManager)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -67,9 +74,10 @@ namespace ShomreiTorah.Singularity.Designer {
             this.sqlServerImport,
             this.addSchema,
             this.deleteSchema,
-            this.generateCode});
+            this.generateCode,
+            this.previewCode});
 			this.ribbon.Location = new System.Drawing.Point(0, 0);
-			this.ribbon.MaxItemId = 4;
+			this.ribbon.MaxItemId = 5;
 			this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Always;
 			this.ribbon.Name = "ribbon";
 			this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
@@ -110,6 +118,14 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.generateCode.Name = "generateCode";
 			this.generateCode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.generateCode_ItemClick);
 			// 
+			// previewCode
+			// 
+			this.previewCode.Caption = "Preview Code";
+			this.previewCode.Id = 4;
+			this.previewCode.LargeGlyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.PreviewCode32;
+			this.previewCode.Name = "previewCode";
+			this.previewCode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.previewCode_ItemClick);
+			// 
 			// ribbonPage1
 			// 
 			this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -138,6 +154,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			// ribbonPageGroup3
 			// 
+			this.ribbonPageGroup3.ItemLinks.Add(this.previewCode);
 			this.ribbonPageGroup3.ItemLinks.Add(this.generateCode);
 			this.ribbonPageGroup3.Name = "ribbonPageGroup3";
 			this.ribbonPageGroup3.ShowCaptionButton = false;
@@ -154,7 +171,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			this.dockManager.Form = this;
 			this.dockManager.RootPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] {
-            this.panelContainer1});
+            this.panelContainer1,
+            this.previewPanel});
 			this.dockManager.TopZIndexControls.AddRange(new string[] {
             "DevExpress.XtraBars.BarDockControl",
             "DevExpress.XtraBars.StandaloneBarDockControl",
@@ -248,10 +266,13 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.editorRow1.Properties.Caption = "DataContext Name";
 			this.editorRow1.Properties.FieldName = "Name";
 			// 
-			// xtraTabbedMdiManager
+			// categoryRow1
 			// 
-			this.xtraTabbedMdiManager.MdiParent = this;
-			this.xtraTabbedMdiManager.SetNextMdiChildMode = DevExpress.XtraTabbedMdi.SetNextMdiChildMode.TabControl;
+			this.categoryRow1.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
+            this.editorRow2});
+			this.categoryRow1.Name = "categoryRow1";
+			this.categoryRow1.Properties.Caption = "Code Generation";
+			this.categoryRow1.Properties.CustomizationCaption = null;
 			// 
 			// editorRow2
 			// 
@@ -260,13 +281,41 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.editorRow2.Properties.CustomizationCaption = null;
 			this.editorRow2.Properties.FieldName = "NamespaceName";
 			// 
-			// categoryRow1
+			// previewPanel
 			// 
-			this.categoryRow1.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
-            this.editorRow2});
-			this.categoryRow1.Name = "categoryRow1";
-			this.categoryRow1.Properties.Caption = "Code Generation";
-			this.categoryRow1.Properties.CustomizationCaption = null;
+			this.previewPanel.Controls.Add(this.dockPanel3_Container);
+			this.previewPanel.Dock = DevExpress.XtraBars.Docking.DockingStyle.Float;
+			this.previewPanel.FloatLocation = new System.Drawing.Point(890, 455);
+			this.previewPanel.FloatSize = new System.Drawing.Size(616, 560);
+			this.previewPanel.ID = new System.Guid("29ee1638-9cb1-404e-a28c-493b8264be98");
+			this.previewPanel.Location = new System.Drawing.Point(0, 0);
+			this.previewPanel.Name = "previewPanel";
+			this.previewPanel.OriginalSize = new System.Drawing.Size(200, 200);
+			this.previewPanel.Size = new System.Drawing.Size(616, 560);
+			this.previewPanel.Text = "Code Preview";
+			// 
+			// dockPanel3_Container
+			// 
+			this.dockPanel3_Container.Controls.Add(this.elementHost1);
+			this.dockPanel3_Container.Location = new System.Drawing.Point(2, 22);
+			this.dockPanel3_Container.Name = "dockPanel3_Container";
+			this.dockPanel3_Container.Size = new System.Drawing.Size(612, 536);
+			this.dockPanel3_Container.TabIndex = 0;
+			// 
+			// elementHost1
+			// 
+			this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.elementHost1.Location = new System.Drawing.Point(0, 0);
+			this.elementHost1.Name = "elementHost1";
+			this.elementHost1.Size = new System.Drawing.Size(612, 536);
+			this.elementHost1.TabIndex = 0;
+			this.elementHost1.Text = "elementHost1";
+			this.elementHost1.Child = this.codeEditor;
+			// 
+			// xtraTabbedMdiManager
+			// 
+			this.xtraTabbedMdiManager.MdiParent = this;
+			this.xtraTabbedMdiManager.SetNextMdiChildMode = DevExpress.XtraTabbedMdi.SetNextMdiChildMode.TabControl;
 			// 
 			// MainForm
 			// 
@@ -290,6 +339,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dockPanel2.ResumeLayout(false);
 			this.dockPanel2_Container.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dataContextVGrid)).EndInit();
+			this.previewPanel.ResumeLayout(false);
+			this.dockPanel3_Container.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.xtraTabbedMdiManager)).EndInit();
 			this.ResumeLayout(false);
 
@@ -319,5 +370,10 @@ namespace ShomreiTorah.Singularity.Designer {
 		private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
 		private DevExpress.XtraVerticalGrid.Rows.CategoryRow categoryRow1;
 		private DevExpress.XtraVerticalGrid.Rows.EditorRow editorRow2;
+		private DevExpress.XtraBars.BarButtonItem previewCode;
+		private DevExpress.XtraBars.Docking.DockPanel previewPanel;
+		private DevExpress.XtraBars.Docking.ControlContainer dockPanel3_Container;
+		private System.Windows.Forms.Integration.ElementHost elementHost1;
+		private Controls.CodeEditor codeEditor;
 	}
 }

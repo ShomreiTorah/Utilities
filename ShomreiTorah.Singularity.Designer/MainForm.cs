@@ -13,6 +13,7 @@ using DevExpress.XtraEditors;
 using ShomreiTorah.Singularity.Designer.Model;
 using System.IO;
 using System.Globalization;
+using DevExpress.XtraBars.Docking;
 
 namespace ShomreiTorah.Singularity.Designer {
 	partial class MainForm : RibbonForm {
@@ -22,6 +23,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			InitializeComponent();
 			schemaTree.Model = context;
 			dataContextVGrid.DataSource = context;
+			previewPanel.Visibility = DockVisibility.Hidden;
 		}
 
 		private void sqlServerImport_ItemClick(object sender, ItemClickEventArgs e) {
@@ -65,6 +67,13 @@ namespace ShomreiTorah.Singularity.Designer {
 				XtraMessageBox.Show("An error occurred.\r\n" + ex,
 									"Generate Code", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+		}
+
+		private void previewCode_ItemClick(object sender, ItemClickEventArgs e) {
+			var writer = new StringWriter(CultureInfo.InvariantCulture);
+			context.WriteClasses(writer);
+			codeEditor.Source = writer.ToString();
+			previewPanel.Show();
 		}
 	}
 }
