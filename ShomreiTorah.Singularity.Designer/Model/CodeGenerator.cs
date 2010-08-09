@@ -72,7 +72,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			indentedWriter.Indent++;
 
 			bool first = true;
-			foreach (var schema in model.Schemas) {
+			foreach (var schema in model.Schemas.OrderBy(s => s.Name)) {
 				if (first)
 					first = false;
 				else
