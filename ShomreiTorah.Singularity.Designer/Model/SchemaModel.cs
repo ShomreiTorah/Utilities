@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace ShomreiTorah.Singularity.Designer.Model {
-	public class SchemaModel : INotifyPropertyChanged {
+	public partial class SchemaModel : INotifyPropertyChanged {
 		public SchemaModel(DataContextModel owner) {
 			Owner = owner;
 
@@ -135,10 +135,10 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		public event PropertyChangedEventHandler PropertyChanged;
 		///<summary>Raises the PropertyChanged event.</summary>
 		///<param name="name">The name of the property that changed.</param>
-		protected virtual void OnPropertyChanged(string propertyName) { OnPropertyChanged(new PropertyChangedEventArgs(propertyName)); }
+		void OnPropertyChanged(string propertyName) { OnPropertyChanged(new PropertyChangedEventArgs(propertyName)); }
 		///<summary>Raises the PropertyChanged event.</summary>
 		///<param name="e">An EventArgs object that provides the event data.</param>
-		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) {
+		void OnPropertyChanged(PropertyChangedEventArgs e) {
 			if (PropertyChanged != null)
 				PropertyChanged(this, e);
 		}
