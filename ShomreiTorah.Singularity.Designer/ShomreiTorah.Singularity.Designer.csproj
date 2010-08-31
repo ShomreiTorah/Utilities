@@ -166,6 +166,14 @@
   <ItemGroup>
     <Content Include="App.ico" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <None Include="Resources\Save32.png" />
+    <None Include="Resources\XML32.png" />
+    <None Include="Resources\CS32.png" />
+    <None Include="Resources\ViewChanges32.png" />
+    <None Include="Resources\SaveAs32.png" />
+    <None Include="Resources\Open32.png" />
+    <None Include="Resources\NewFile32.png" />
+    <None Include="Resources\Save16.png" />
     <None Include="Resources\PreviewCode32.png" />
     <None Include="Resources\DeleteColumn32.png" />
     <None Include="Resources\AddColumn32.png" />

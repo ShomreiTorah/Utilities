@@ -74,6 +74,13 @@ namespace ShomreiTorah.Singularity.Designer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap CS32 {
+            get {
+                object obj = ResourceManager.GetObject("CS32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Database32 {
             get {
                 object obj = ResourceManager.GetObject("Database32", resourceCulture);
@@ -102,6 +109,20 @@ namespace ShomreiTorah.Singularity.Designer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap NewFile32 {
+            get {
+                object obj = ResourceManager.GetObject("NewFile32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Open32 {
+            get {
+                object obj = ResourceManager.GetObject("Open32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap PreviewCode32 {
             get {
                 object obj = ResourceManager.GetObject("PreviewCode32", resourceCulture);
@@ -112,6 +133,41 @@ namespace ShomreiTorah.Singularity.Designer.Properties {
         internal static System.Drawing.Bitmap RibbonIcon {
             get {
                 object obj = ResourceManager.GetObject("RibbonIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Save16 {
+            get {
+                object obj = ResourceManager.GetObject("Save16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Save32 {
+            get {
+                object obj = ResourceManager.GetObject("Save32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SaveAs32 {
+            get {
+                object obj = ResourceManager.GetObject("SaveAs32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ViewChanges32 {
+            get {
+                object obj = ResourceManager.GetObject("ViewChanges32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap XML32 {
+            get {
+                object obj = ResourceManager.GetObject("XML32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

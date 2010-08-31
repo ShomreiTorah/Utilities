@@ -26,6 +26,15 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
+			this.appMenu = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
+			this.newFile = new DevExpress.XtraBars.BarButtonItem();
+			this.openFile = new DevExpress.XtraBars.BarButtonItem();
+			this.saveFile = new DevExpress.XtraBars.BarButtonItem();
+			this.saveAs = new DevExpress.XtraBars.BarButtonItem();
+			this.viewChanges = new DevExpress.XtraBars.BarButtonItem();
+			this.diffFormatMenu = new DevExpress.XtraBars.PopupMenu(this.components);
+			this.diffXml = new DevExpress.XtraBars.BarButtonItem();
+			this.diffCode = new DevExpress.XtraBars.BarButtonItem();
 			this.sqlServerImport = new DevExpress.XtraBars.BarButtonItem();
 			this.addSchema = new DevExpress.XtraBars.BarButtonItem();
 			this.deleteSchema = new DevExpress.XtraBars.BarButtonItem();
@@ -53,6 +62,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.codeEditor = new ShomreiTorah.Singularity.Designer.Controls.CodeEditor();
 			this.xtraTabbedMdiManager = new DevExpress.XtraTabbedMdi.XtraTabbedMdiManager(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.appMenu)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.diffFormatMenu)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
 			this.panelContainer1.SuspendLayout();
 			this.dockPanel1.SuspendLayout();
@@ -67,25 +78,126 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			// ribbon
 			// 
-			this.ribbon.ApplicationButtonText = " ";
+			this.ribbon.ApplicationButtonDropDownControl = this.appMenu;
+			this.ribbon.ApplicationButtonText = "File";
 			this.ribbon.ApplicationCaption = "Singularity Designer";
 			this.ribbon.ApplicationIcon = global::ShomreiTorah.Singularity.Designer.Properties.Resources.RibbonIcon;
+			// 
+			// 
+			// 
+			this.ribbon.ExpandCollapseItem.Id = 0;
+			this.ribbon.ExpandCollapseItem.Name = "";
+			this.ribbon.ExpandCollapseItem.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.SmallWithoutText;
 			this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.ribbon.ExpandCollapseItem,
             this.sqlServerImport,
             this.addSchema,
             this.deleteSchema,
             this.generateCode,
-            this.previewCode});
+            this.previewCode,
+            this.saveFile,
+            this.newFile,
+            this.openFile,
+            this.saveAs,
+            this.viewChanges,
+            this.diffXml,
+            this.diffCode});
 			this.ribbon.Location = new System.Drawing.Point(0, 0);
-			this.ribbon.MaxItemId = 5;
+			this.ribbon.MaxItemId = 12;
 			this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Always;
 			this.ribbon.Name = "ribbon";
 			this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
+			this.ribbon.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2010;
 			this.ribbon.SelectedPage = this.ribbonPage1;
 			this.ribbon.ShowPageHeadersMode = DevExpress.XtraBars.Ribbon.ShowPageHeadersMode.ShowOnMultiplePages;
 			this.ribbon.Size = new System.Drawing.Size(938, 148);
 			this.ribbon.StatusBar = this.ribbonStatusBar;
+			this.ribbon.Toolbar.ItemLinks.Add(this.saveFile);
+			// 
+			// appMenu
+			// 
+			this.appMenu.BottomPaneControlContainer = null;
+			this.appMenu.ItemLinks.Add(this.newFile);
+			this.appMenu.ItemLinks.Add(this.openFile);
+			this.appMenu.ItemLinks.Add(this.saveFile);
+			this.appMenu.ItemLinks.Add(this.saveAs);
+			this.appMenu.ItemLinks.Add(this.viewChanges, true);
+			this.appMenu.MenuDrawMode = DevExpress.XtraBars.MenuDrawMode.LargeImagesText;
+			this.appMenu.Name = "appMenu";
+			this.appMenu.Ribbon = this.ribbon;
+			this.appMenu.RightPaneControlContainer = null;
+			this.appMenu.ShowRightPane = true;
+			// 
+			// newFile
+			// 
+			this.newFile.Caption = "&New DataContext";
+			this.newFile.Id = 6;
+			this.newFile.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N));
+			this.newFile.LargeGlyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.NewFile32;
+			this.newFile.Name = "newFile";
+			this.newFile.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.newFile_ItemClick);
+			// 
+			// openFile
+			// 
+			this.openFile.Caption = "&Open";
+			this.openFile.Id = 7;
+			this.openFile.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O));
+			this.openFile.LargeGlyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.Open32;
+			this.openFile.Name = "openFile";
+			this.openFile.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openFile_ItemClick);
+			// 
+			// saveFile
+			// 
+			this.saveFile.Caption = "Save";
+			this.saveFile.Glyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.Save16;
+			this.saveFile.Id = 5;
+			this.saveFile.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S));
+			this.saveFile.LargeGlyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.Save32;
+			this.saveFile.Name = "saveFile";
+			this.saveFile.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.saveFile_ItemClick);
+			// 
+			// saveAs
+			// 
+			this.saveAs.Caption = "Save &As";
+			this.saveAs.Id = 8;
+			this.saveAs.ItemShortcut = new DevExpress.XtraBars.BarShortcut(System.Windows.Forms.Keys.F12);
+			this.saveAs.LargeGlyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.SaveAs32;
+			this.saveAs.Name = "saveAs";
+			this.saveAs.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.saveAs_ItemClick);
+			// 
+			// viewChanges
+			// 
+			this.viewChanges.ActAsDropDown = true;
+			this.viewChanges.ButtonStyle = DevExpress.XtraBars.BarButtonStyle.DropDown;
+			this.viewChanges.Caption = "View &Changes";
+			this.viewChanges.DropDownControl = this.diffFormatMenu;
+			this.viewChanges.Id = 9;
+			this.viewChanges.LargeGlyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.ViewChanges32;
+			this.viewChanges.Name = "viewChanges";
+			// 
+			// diffFormatMenu
+			// 
+			this.diffFormatMenu.ItemLinks.Add(this.diffXml);
+			this.diffFormatMenu.ItemLinks.Add(this.diffCode);
+			this.diffFormatMenu.Name = "diffFormatMenu";
+			this.diffFormatMenu.Ribbon = this.ribbon;
+			// 
+			// diffXml
+			// 
+			this.diffXml.Caption = "&XML";
+			this.diffXml.Id = 10;
+			this.diffXml.LargeGlyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.XML32;
+			this.diffXml.Name = "diffXml";
+			this.diffXml.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.diffXml_ItemClick);
+			// 
+			// diffCode
+			// 
+			this.diffCode.Caption = "Generated &Code";
+			this.diffCode.Id = 11;
+			this.diffCode.LargeGlyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.CS32;
+			this.diffCode.Name = "diffCode";
+			this.diffCode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.diffCode_ItemClick);
 			// 
 			// sqlServerImport
 			// 
@@ -133,7 +245,7 @@ namespace ShomreiTorah.Singularity.Designer {
             this.ribbonPageGroup1,
             this.ribbonPageGroup3});
 			this.ribbonPage1.Name = "ribbonPage1";
-			this.ribbonPage1.Text = "ribbonPage1";
+			this.ribbonPage1.Text = "DataContext";
 			// 
 			// ribbonPageGroup2
 			// 
@@ -272,13 +384,11 @@ namespace ShomreiTorah.Singularity.Designer {
             this.editorRow2});
 			this.categoryRow1.Name = "categoryRow1";
 			this.categoryRow1.Properties.Caption = "Code Generation";
-			this.categoryRow1.Properties.CustomizationCaption = null;
 			// 
 			// editorRow2
 			// 
 			this.editorRow2.Name = "editorRow2";
 			this.editorRow2.Properties.Caption = "Namespace";
-			this.editorRow2.Properties.CustomizationCaption = null;
 			this.editorRow2.Properties.FieldName = "NamespaceName";
 			// 
 			// previewPanel
@@ -332,6 +442,8 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.StatusBar = this.ribbonStatusBar;
 			this.Text = "Singularity Designer";
 			((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.appMenu)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.diffFormatMenu)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dockManager)).EndInit();
 			this.panelContainer1.ResumeLayout(false);
 			this.dockPanel1.ResumeLayout(false);
@@ -375,5 +487,14 @@ namespace ShomreiTorah.Singularity.Designer {
 		private DevExpress.XtraBars.Docking.ControlContainer dockPanel3_Container;
 		private System.Windows.Forms.Integration.ElementHost elementHost1;
 		private Controls.CodeEditor codeEditor;
+		private DevExpress.XtraBars.BarButtonItem saveFile;
+		private DevExpress.XtraBars.BarButtonItem newFile;
+		private DevExpress.XtraBars.Ribbon.ApplicationMenu appMenu;
+		private DevExpress.XtraBars.BarButtonItem openFile;
+		private DevExpress.XtraBars.BarButtonItem saveAs;
+		private DevExpress.XtraBars.BarButtonItem viewChanges;
+		private DevExpress.XtraBars.PopupMenu diffFormatMenu;
+		private DevExpress.XtraBars.BarButtonItem diffXml;
+		private DevExpress.XtraBars.BarButtonItem diffCode;
 	}
 }
