@@ -27,7 +27,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 				if (Name == value) return;
 				if (Owner.Columns.Any(c => c.Name == value))
 					throw new ArgumentException("A column named " + value + " already exists.");
-				if (GenerateSqlMapping && SqlName == Name)
+				if (GenerateSqlMapping && String.IsNullOrWhiteSpace(SqlName))
 					SqlName = value;
 				if (PropertyName == Name)
 					PropertyName = value;
