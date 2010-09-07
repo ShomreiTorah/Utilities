@@ -244,7 +244,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					+ ", row => " + column.Expression + ");");
 			} else if (column.ForeignSchema != null) {
 				writer.WriteLine(column.ColumnPropertyName
-					+ " = Schema.Columns.AddForeignKey(" + column.Name.Quote() + ", " + column.ForeignSchema.RowClassName + ".Schema, " + column.ForeignRelationName.Quote() + ");");
+					+ " = Schema.Columns.AddForeignKey(" + column.Name.Quote() + ", " + column.Owner.Owner.Namespace + "." + column.ForeignSchema.RowClassName + ".Schema, " + column.ForeignRelationName.Quote() + ");");
 			} else {
 				writer.WriteLine(column.ColumnPropertyName
 					+ " = Schema.Columns.AddValueColumn(" + column.Name.Quote() + ", typeof(" + column.DataType.Name + "), " + column.DefaultValueCode + ");");
