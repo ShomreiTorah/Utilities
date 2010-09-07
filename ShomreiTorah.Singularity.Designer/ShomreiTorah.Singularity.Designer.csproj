@@ -114,7 +114,6 @@
     <Compile Include="Model\DataContextModel.cs" />
     <Compile Include="Model\ModelExtensions.cs" />
     <Compile Include="Model\SchemaModel.cs" />
-    <Compile Include="Model\Temp.cs" />
     <Compile Include="Model\XML Persistence.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
