@@ -21,13 +21,22 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		}
 		public BindingList<SchemaModel> Schemas { get; private set; }
 
-		string namespaceName="ShomreiTorah";
+		string namespaceName = "ShomreiTorah";
 		///<summary>Gets or sets the namespace for the generated code.</summary>
 		[Description("Gets or sets the namespace for the generated code.")]
 		[Category("Code Generation")]
 		public string Namespace {
 			get { return namespaceName; }
 			set { namespaceName = value; OnPropertyChanged("Namespace"); }
+		}
+
+		string codePath;
+		///<summary>Gets or sets the relative path to save the generated code.</summary>
+		[Description("Gets or sets the relative path to save the generated code.")]
+		[Category("General")]
+		public string CodePath {
+			get { return codePath; }
+			set { codePath = value; OnPropertyChanged("CodePath"); }
 		}
 
 		///<summary>Occurs when a property value is changed.</summary>

@@ -32,7 +32,7 @@ namespace ShomreiTorah.Singularity.Designer {
 
 		void BindToContext() {
 			schemaTree.Model = context;
-			dataContextVGrid.DataSource = context;
+			dataContextVGrid.DataSource = new[] { context };
 
 			schemaTree.RefreshList();
 			foreach (var child in MdiChildren)
@@ -204,6 +204,22 @@ namespace ShomreiTorah.Singularity.Designer {
 						File.Delete(path1);
 				} catch { }
 			});
+		}
+
+		private void saveCode_ItemClick(object sender, ItemClickEventArgs e) {
+			if (String.IsNullOrEmpty(CurrentFilePath)) {
+				XtraMessageBox.Show("Please save the XML file first.",
+									"Singularity Designer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			if (String.IsNullOrEmpty(context.CodePath)) {
+				XtraMessageBox.Show("Please enter the Code Path for the DataContext.",
+									"Singularity Designer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			using (var writer = File.CreateText(Path.Combine(Path.GetDirectoryName(CurrentFilePath), context.CodePath))) {
+				context.WriteClasses(writer);
+			}
 		}
 	}
 }

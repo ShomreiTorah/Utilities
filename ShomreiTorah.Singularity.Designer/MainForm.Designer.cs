@@ -23,16 +23,15 @@ namespace ShomreiTorah.Singularity.Designer {
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
-			this.appMenu = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
+			this.appMenu = new DevExpress.XtraBars.Ribbon.ApplicationMenu();
 			this.newFile = new DevExpress.XtraBars.BarButtonItem();
 			this.openFile = new DevExpress.XtraBars.BarButtonItem();
 			this.saveFile = new DevExpress.XtraBars.BarButtonItem();
 			this.saveAs = new DevExpress.XtraBars.BarButtonItem();
 			this.viewChanges = new DevExpress.XtraBars.BarButtonItem();
-			this.diffFormatMenu = new DevExpress.XtraBars.PopupMenu(this.components);
+			this.diffFormatMenu = new DevExpress.XtraBars.PopupMenu();
 			this.diffXml = new DevExpress.XtraBars.BarButtonItem();
 			this.diffCode = new DevExpress.XtraBars.BarButtonItem();
 			this.sqlServerImport = new DevExpress.XtraBars.BarButtonItem();
@@ -40,12 +39,13 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.deleteSchema = new DevExpress.XtraBars.BarButtonItem();
 			this.generateCode = new DevExpress.XtraBars.BarButtonItem();
 			this.previewCode = new DevExpress.XtraBars.BarButtonItem();
+			this.saveCode = new DevExpress.XtraBars.BarButtonItem();
 			this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
 			this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
-			this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
+			this.dockManager = new DevExpress.XtraBars.Docking.DockManager();
 			this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
 			this.dockPanel1 = new DevExpress.XtraBars.Docking.DockPanel();
 			this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
@@ -54,13 +54,14 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dockPanel2_Container = new DevExpress.XtraBars.Docking.ControlContainer();
 			this.dataContextVGrid = new DevExpress.XtraVerticalGrid.VGridControl();
 			this.editorRow1 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.editorRow3 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.categoryRow1 = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
 			this.editorRow2 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.previewPanel = new DevExpress.XtraBars.Docking.DockPanel();
 			this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
 			this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
 			this.codeEditor = new ShomreiTorah.Singularity.Designer.Controls.CodeEditor();
-			this.xtraTabbedMdiManager = new DevExpress.XtraTabbedMdi.XtraTabbedMdiManager(this.components);
+			this.xtraTabbedMdiManager = new DevExpress.XtraTabbedMdi.XtraTabbedMdiManager();
 			((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.appMenu)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.diffFormatMenu)).BeginInit();
@@ -101,9 +102,10 @@ namespace ShomreiTorah.Singularity.Designer {
             this.saveAs,
             this.viewChanges,
             this.diffXml,
-            this.diffCode});
+            this.diffCode,
+            this.saveCode});
 			this.ribbon.Location = new System.Drawing.Point(0, 0);
-			this.ribbon.MaxItemId = 12;
+			this.ribbon.MaxItemId = 13;
 			this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Always;
 			this.ribbon.Name = "ribbon";
 			this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
@@ -238,6 +240,14 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.previewCode.Name = "previewCode";
 			this.previewCode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.previewCode_ItemClick);
 			// 
+			// saveCode
+			// 
+			this.saveCode.Caption = "Save Code";
+			this.saveCode.Id = 12;
+			this.saveCode.LargeGlyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.SaveCS32;
+			this.saveCode.Name = "saveCode";
+			this.saveCode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.saveCode_ItemClick);
+			// 
 			// ribbonPage1
 			// 
 			this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -267,6 +277,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			// ribbonPageGroup3
 			// 
 			this.ribbonPageGroup3.ItemLinks.Add(this.previewCode);
+			this.ribbonPageGroup3.ItemLinks.Add(this.saveCode);
 			this.ribbonPageGroup3.ItemLinks.Add(this.generateCode);
 			this.ribbonPageGroup3.Name = "ribbonPageGroup3";
 			this.ribbonPageGroup3.ShowCaptionButton = false;
@@ -368,6 +379,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dataContextVGrid.RowHeaderWidth = 120;
 			this.dataContextVGrid.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
             this.editorRow1,
+            this.editorRow3,
             this.categoryRow1});
 			this.dataContextVGrid.Size = new System.Drawing.Size(194, 72);
 			this.dataContextVGrid.TabIndex = 0;
@@ -377,6 +389,12 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.editorRow1.Name = "editorRow1";
 			this.editorRow1.Properties.Caption = "DataContext Name";
 			this.editorRow1.Properties.FieldName = "Name";
+			// 
+			// editorRow3
+			// 
+			this.editorRow3.Name = "editorRow3";
+			this.editorRow3.Properties.Caption = "Code Path";
+			this.editorRow3.Properties.FieldName = "CodePath";
 			// 
 			// categoryRow1
 			// 
@@ -496,5 +514,7 @@ namespace ShomreiTorah.Singularity.Designer {
 		private DevExpress.XtraBars.PopupMenu diffFormatMenu;
 		private DevExpress.XtraBars.BarButtonItem diffXml;
 		private DevExpress.XtraBars.BarButtonItem diffCode;
+		private DevExpress.XtraBars.BarButtonItem saveCode;
+		private DevExpress.XtraVerticalGrid.Rows.EditorRow editorRow3;
 	}
 }

@@ -158,6 +158,13 @@ namespace ShomreiTorah.Singularity.Designer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap SaveCS32 {
+            get {
+                object obj = ResourceManager.GetObject("SaveCS32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap ViewChanges32 {
             get {
                 object obj = ResourceManager.GetObject("ViewChanges32", resourceCulture);

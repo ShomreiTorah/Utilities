@@ -19,6 +19,9 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			Name = element.Attribute("Name").Value;
 			Namespace = element.Attribute("Namespace").Value;
 
+			if (element.Attribute("CodePath") != null)	//This property was introduced later; I must accept older files
+				CodePath = element.Attribute("CodePath").Value;
+
 			Schemas.AddRange(element.Elements("Schema").Select(e => new SchemaModel(this, e)));
 		}
 
@@ -27,6 +30,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 				new XElement("DataContext",
 					new XAttribute("Name", this.Name ?? ""),
 					new XAttribute("Namespace", this.Namespace),
+					new XAttribute("CodePath", this.CodePath ?? ""),
 
 					Schemas.SortDependencies().Select(s => s.ToXml())
 				)

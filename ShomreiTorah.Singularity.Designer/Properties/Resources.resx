@@ -133,17 +133,20 @@
   <data name="RibbonIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RibbonIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Save16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Save16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Save32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Save32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DeleteColumn32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DeleteColumn32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="AddColumn32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AddColumn32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="NewFile32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewFile32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="AddTable32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AddTable32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Open32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Open32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Database32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Database32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -151,19 +154,19 @@
   <data name="CS32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CS32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="NewFile32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NewFile32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AddColumn32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddColumn32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SaveAs32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SaveAs32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Open32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Open32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Save16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Save16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ViewChanges32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ViewChanges32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Save32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Save32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SaveCS32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SaveCS32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
