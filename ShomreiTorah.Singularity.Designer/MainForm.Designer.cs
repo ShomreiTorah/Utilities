@@ -23,15 +23,16 @@ namespace ShomreiTorah.Singularity.Designer {
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
-			this.appMenu = new DevExpress.XtraBars.Ribbon.ApplicationMenu();
+			this.appMenu = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
 			this.newFile = new DevExpress.XtraBars.BarButtonItem();
 			this.openFile = new DevExpress.XtraBars.BarButtonItem();
 			this.saveFile = new DevExpress.XtraBars.BarButtonItem();
 			this.saveAs = new DevExpress.XtraBars.BarButtonItem();
 			this.viewChanges = new DevExpress.XtraBars.BarButtonItem();
-			this.diffFormatMenu = new DevExpress.XtraBars.PopupMenu();
+			this.diffFormatMenu = new DevExpress.XtraBars.PopupMenu(this.components);
 			this.diffXml = new DevExpress.XtraBars.BarButtonItem();
 			this.diffCode = new DevExpress.XtraBars.BarButtonItem();
 			this.sqlServerImport = new DevExpress.XtraBars.BarButtonItem();
@@ -45,7 +46,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
-			this.dockManager = new DevExpress.XtraBars.Docking.DockManager();
+			this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
 			this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
 			this.dockPanel1 = new DevExpress.XtraBars.Docking.DockPanel();
 			this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
@@ -61,7 +62,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
 			this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
 			this.codeEditor = new ShomreiTorah.Singularity.Designer.Controls.CodeEditor();
-			this.xtraTabbedMdiManager = new DevExpress.XtraTabbedMdi.XtraTabbedMdiManager();
+			this.xtraTabbedMdiManager = new DevExpress.XtraTabbedMdi.XtraTabbedMdiManager(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.appMenu)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.diffFormatMenu)).BeginInit();
@@ -407,7 +408,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			this.editorRow2.Name = "editorRow2";
 			this.editorRow2.Properties.Caption = "Namespace";
-			this.editorRow2.Properties.FieldName = "NamespaceName";
+			this.editorRow2.Properties.FieldName = "Namespace";
 			// 
 			// previewPanel
 			// 
