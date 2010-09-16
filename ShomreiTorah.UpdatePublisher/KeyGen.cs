@@ -130,7 +130,7 @@ namespace ShomreiTorah.UpdatePublisher {
 		void GenerateXml(RSA updateVerifier, SymmetricAlgorithm blobDecryptor) {
 			var element = new XElement("Updates", new XAttribute("BaseUri", baseUri.Text),
 				new XElement("Cryptography",
-					new XElement("BlobDecryptor", new XAttribute("Algorithm", blobDecryptorAlg.Text),
+					new XElement("FileDecryptor", new XAttribute("Algorithm", blobDecryptorAlg.Text),
 						new XElement("Key", Convert.ToBase64String(blobDecryptor.Key)),
 						new XElement("IV", Convert.ToBase64String(blobDecryptor.IV))
 					),
