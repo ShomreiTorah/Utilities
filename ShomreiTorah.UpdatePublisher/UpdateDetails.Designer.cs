@@ -27,6 +27,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition styleFormatCondition1 = new DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition();
 			DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition styleFormatCondition2 = new DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition();
 			DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition styleFormatCondition3 = new DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition();
+			DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition styleFormatCondition4 = new DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateDetails));
 			this.colState = new DevExpress.XtraTreeList.Columns.TreeListColumn();
 			this.descriptionText = new DevExpress.XtraEditors.MemoEdit();
@@ -98,10 +99,17 @@ namespace ShomreiTorah.UpdatePublisher {
 			styleFormatCondition3.Column = this.colState;
 			styleFormatCondition3.Condition = DevExpress.XtraGrid.FormatConditionEnum.Equal;
 			styleFormatCondition3.Value1 = 3;
+			styleFormatCondition4.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+			styleFormatCondition4.Appearance.Options.UseBackColor = true;
+			styleFormatCondition4.ApplyToRow = true;
+			styleFormatCondition4.Column = this.colState;
+			styleFormatCondition4.Condition = DevExpress.XtraGrid.FormatConditionEnum.Equal;
+			styleFormatCondition4.Value1 = 4;
 			this.files.FormatConditions.AddRange(new DevExpress.XtraTreeList.StyleFormatConditions.StyleFormatCondition[] {
             styleFormatCondition1,
             styleFormatCondition2,
-            styleFormatCondition3});
+            styleFormatCondition3,
+            styleFormatCondition4});
 			this.files.KeyFieldName = "FullPath";
 			this.files.Location = new System.Drawing.Point(12, 179);
 			this.files.Name = "files";

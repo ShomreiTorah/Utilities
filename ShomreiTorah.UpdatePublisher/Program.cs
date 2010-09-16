@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.IO.Compression;
+using System.Linq;
+using System.Net;
+using System.Reflection;
 using System.Security.Cryptography;
+using System.Windows.Forms;
+using System.Xml.Linq;
+using DevExpress.XtraEditors;
 using ShomreiTorah.Common;
 using ShomreiTorah.Common.Updates;
-using System.Net;
 using ShomreiTorah.WinForms.Forms;
-using DevExpress.XtraEditors;
-using System.Xml.Linq;
-using System.IO;
 
 namespace ShomreiTorah.UpdatePublisher {
 	static class Program {
@@ -40,11 +42,44 @@ namespace ShomreiTorah.UpdatePublisher {
 			}
 			Properties.Settings.Default.Save();
 
-			var element = EntryForm.Show(baseDir);
+			var product = Directory.GetFiles(baseDir, "*.exe")
+					   .Select(p => Assembly.LoadFile(p).GetCustomAttribute<UpdatableAttribute>())
+					   .FirstOrDefault(a => a != null);
+
+			if (product == null) {
+				XtraMessageBox.Show(baseDir + " does not contain any updatable assemblies.",
+									"Shomrei Torah Update Publisher", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			UpdateInfo oldUpdate = new UpdateChecker(product.ProductName, new Version()).FindUpdate();	//We want to find the last update, so I search for an update for version 0.
+			if (oldUpdate != null && product.CurrentVersion == oldUpdate.NewVersion
+			 && DialogResult.No == XtraMessageBox.Show("The version number has not changed.\r\nCurrent clients will not download this update.\r\nDo you wish to continue?",
+													   "Shomrei Torah Update Publisher", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+				return;
+
+			ReadOnlyCollection<string> updateFiles = GetUpdateFiles(baseDir).ReadOnlyCopy();
+			var element = EntryForm.Show(product, oldUpdate, updateFiles, baseDir);
 			if (element == null) return;
-			if (new Publisher(element, baseDir).Publish())
+			if (new Publisher(product, oldUpdate, element, updateFiles, baseDir).Publish())
 				XtraMessageBox.Show("The update has been uploaded to the server.",
 									"Shomrei Torah Update Publisher", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		static readonly string[] ignoredExtensions = { ".pdb", ".bak", ".LastCodeAnalysisSucceeded" };
+		static IEnumerable<string> GetUpdateFiles(string basePath) {
+			var allFiles = Directory.EnumerateFiles(basePath, "*.*", SearchOption.AllDirectories);
+
+			return allFiles
+					.Where(p => p.IndexOf(".vshost.", StringComparison.OrdinalIgnoreCase) < 0)
+					.Where(p => !ignoredExtensions.Contains(Path.GetExtension(p), StringComparer.OrdinalIgnoreCase))
+					.Where(p => !p.EndsWith(".CodeAnalysisLog.xml", StringComparison.OrdinalIgnoreCase))
+					.Where(p => !IsXmlDocFile(p));
+		}
+		static bool IsXmlDocFile(string path) {
+			if (!Path.GetExtension(path).Equals(".xml", StringComparison.OrdinalIgnoreCase))
+				return false;
+			return File.Exists(Path.ChangeExtension(path, ".dll"))
+				|| File.Exists(Path.ChangeExtension(path, ".exe"));
 		}
 	}
 }

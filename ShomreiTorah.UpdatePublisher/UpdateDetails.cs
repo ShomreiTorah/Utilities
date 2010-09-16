@@ -1,55 +1,79 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using System.Globalization;
-using System.IO;
 using DevExpress.XtraTreeList;
-using System.Diagnostics.CodeAnalysis;
 using ShomreiTorah.Common;
+using ShomreiTorah.Common.Updates;
 
 namespace ShomreiTorah.UpdatePublisher {
 	partial class UpdateDetails : XtraUserControl {
 		public UpdateDetails() {
 			InitializeComponent();
 		}
-		public void SetData(UpdateKind kind, Version version, string description, string baseDir, string oldBaseDir) {
-			caption.Text = (kind == UpdateKind.Old ? "Existing version: " : "New version: ") + version.ToString();
-			descriptionText.Text = description;
-			descriptionText.Properties.ReadOnly = kind == UpdateKind.Old;
+		public void ShowOldFiles(UpdateInfo oldUpdate, ReadOnlyCollection<string> updateFiles, string newBasePath) {
+			caption.Text = "Existing version: " + oldUpdate.NewVersion.ToString();
+			descriptionText.Text = String.Format(CultureInfo.CurrentCulture, "Published: {0:F}\r\n\r\n{1}", oldUpdate.PublishDate, oldUpdate.GetChanges(new Version()));
+			descriptionText.Properties.ReadOnly = true;
 
-			var filesData = new List<UpdateFile>(Directory.GetFiles(baseDir, "*.*", SearchOption.AllDirectories).Select(p => new UpdateFile(p)));
+			var filesData = new List<TreeFile>(oldUpdate.Files.Select(uf => new TreeFile(uf, updateFiles, newBasePath)).OrderBy(tf => tf.Name));
+			filesData.AddRange(
+				oldUpdate.Files.Select(uf => Path.GetDirectoryName(uf.RelativePath))
+							   .Distinct()
+							   .Where(p => !String.IsNullOrEmpty(p))
+							   .Select(d => new TreeFile(d, isFolder: true))
+							   .OrderBy(tf => tf.Name)
+			);
 
-			if (!string.IsNullOrEmpty(oldBaseDir)) {
-				if (!baseDir.EndsWith("/", StringComparison.OrdinalIgnoreCase))
-					baseDir += "/";
-				var baseUri = new Uri(baseDir, UriKind.Absolute);
-
-				foreach (var file in filesData) {
-					var relativePath = Uri.UnescapeDataString(baseUri.MakeRelativeUri(new Uri(file.FullPath, UriKind.Absolute)).ToString());
-
-					var oldPath = Path.Combine(oldBaseDir, relativePath);
-					if (!File.Exists(oldPath))
-						file.State = (int)FileState.Added;
-					else {
-						using (var newFile = File.Open(file.FullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-						using (var oldFile = File.OpenRead(oldPath))
-							file.State = (int)(newFile.IsEqualTo(oldFile) ? FileState.Identical : FileState.Changed);
-					}
-				}
-			}
-			//The directories must be added after setting the State properties
-			filesData.AddRange(Directory.GetDirectories(baseDir, "*.*", SearchOption.AllDirectories).Select(p => new UpdateFile(p)));
-
-			files.RootValue = baseDir;
+			files.RootValue = "/";
 			files.DataSource = filesData;
 			files.ExpandAll();
 		}
+		public void ShowNewFiles(Version version, string description, ReadOnlyCollection<string> updateFiles, string basePath, UpdateInfo oldUpdate) {
+			caption.Text = "New version: " + version.ToString();
+			descriptionText.Text = description;
+			descriptionText.Properties.ReadOnly = false;
+
+			//If there are old files, set everything to Added, then refine later.
+			int defaultState = (int)(oldUpdate == null ? FileState.None : FileState.Added);
+
+			var filesData = new List<TreeFile>(
+				updateFiles
+					.Select(p => new TreeFile(p, isFolder: false) { State = defaultState })
+					.OrderBy(tf => tf.Name)
+			);
+
+			if (oldUpdate != null) {
+				foreach (var oldFile in oldUpdate.Files) {
+					var newPath = Path.Combine(basePath, oldFile.RelativePath);
+
+					var newFile = filesData.FirstOrDefault(f => f.FullPath.Equals(newPath, StringComparison.OrdinalIgnoreCase));
+					if (newFile == null) continue;
+
+					if (oldFile.Matches(basePath))
+						newFile.State = (int)FileState.Identical;
+					else
+						newFile.State = (int)FileState.Changed;
+				}
+			}
+
+			//The directories must be added after setting the State properties so I don't set their's too.
+			filesData.AddRange(Directory.EnumerateDirectories(basePath, "*.*", SearchOption.AllDirectories).Select(p => new TreeFile(p, isFolder: true)));
+
+			files.RootValue = basePath;
+			files.DataSource = filesData;
+			files.ExpandAll();
+		}
+
 		protected override void OnVisibleChanged(EventArgs e) {
 			base.OnVisibleChanged(e);
 			files.BestFitColumns();
@@ -57,15 +81,36 @@ namespace ShomreiTorah.UpdatePublisher {
 
 		public string Description { get { return descriptionText.Text; } }
 
-		sealed class UpdateFile {
-			public UpdateFile(string path) {
+		sealed class TreeFile {
+			public TreeFile(UpdateFile uf, ReadOnlyCollection<string> updateFiles, string newBasePath) {
+				FullPath = uf.RelativePath.Replace('/', '\\');
+				Size = uf.Length;
+
+				if (!updateFiles.Contains(Path.Combine(newBasePath, uf.RelativePath), StringComparer.OrdinalIgnoreCase))
+					State = (int)FileState.Deleted;
+				else if (uf.Matches(newBasePath))
+					State = (int)FileState.Identical;
+				else
+					State = (int)FileState.Changed;
+			}
+			public TreeFile(string path, bool isFolder) {
 				FullPath = path.Replace('/', '\\');
-				Size = Directory.Exists(path) ? -1 : (int)new FileInfo(path).Length;
+
+				if (isFolder)
+					Size = -1;
+				else
+					Size = new FileInfo(FullPath).Length;
 			}
 
 			[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Data Binding")]
-			public string ParentDirectory { get { return Path.GetDirectoryName(FullPath); } }
-			[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Data Binding")]
+			public string ParentDirectory {
+				get {
+					var retVal = Path.GetDirectoryName(FullPath);
+					if (String.IsNullOrEmpty(retVal))
+						return "/";
+					return retVal;
+				}
+			}
 			public string Name { get { return Path.GetFileName(FullPath); } }
 			[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Data Binding")]
 			public string Extension { get { return Path.GetExtension(FullPath); } }
@@ -74,14 +119,15 @@ namespace ShomreiTorah.UpdatePublisher {
 			public int State { get; set; }
 
 			public string FullPath { get; private set; }
-			public int Size { get; private set; }
+			public long Size { get; private set; }
 			public string SizeString { get { return Size == -1 ? "" : ToSizeString(Size); } }
 		}
 		enum FileState {
 			None,
 			Identical,
 			Changed,
-			Added
+			Added,
+			Deleted
 		}
 		static string ToSizeString(double bytes) {
 			var culture = CultureInfo.CurrentCulture;
@@ -102,12 +148,18 @@ namespace ShomreiTorah.UpdatePublisher {
 		Dictionary<string, int> loadedIcons = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
 		private void files_GetStateImage(object sender, GetStateImageEventArgs e) {
-			var file = files.GetDataRecordByNode(e.Node) as UpdateFile;
+			var file = files.GetDataRecordByNode(e.Node) as TreeFile;
 
 			int index;
 
 			if (!loadedIcons.TryGetValue(file.FullPath, out index)) {
-				using (var icon = IconReader.GetFileIcon(file.FullPath, IconSize.Small, false))
+				Icon icon;
+				if (file.Size < 0 && !Directory.Exists(file.FullPath))	//Handle non-existant directories in the current (old) version tree.
+					icon = IconReader.GetFolderIcon(IconSize.Small, FolderType.Open);
+				else
+					icon = IconReader.GetPathIcon(file.FullPath, IconSize.Small, false);
+
+				using (icon)
 					index = loadedIcons[file.FullPath] = icons.Images.Add(icon.ToBitmap());
 			}
 			e.NodeImageIndex = index;
@@ -115,7 +167,7 @@ namespace ShomreiTorah.UpdatePublisher {
 
 		private void files_GetNodeDisplayValue(object sender, GetNodeDisplayValueEventArgs e) {
 			if (e.Column == colSize)
-				e.Value = (files.GetDataRecordByNode(e.Node) as UpdateFile).SizeString;
+				e.Value = (files.GetDataRecordByNode(e.Node) as TreeFile).SizeString;
 		}
 
 		private void descriptionText_KeyUp(object sender, KeyEventArgs e) {

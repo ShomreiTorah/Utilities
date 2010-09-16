@@ -14,65 +14,37 @@ using ShomreiTorah.Common;
 using ShomreiTorah.Common.Updates;
 using ShomreiTorah.WinForms.Forms;
 using System.Globalization;
+using System.Collections.ObjectModel;
 
 namespace ShomreiTorah.UpdatePublisher {
 	partial class EntryForm : XtraForm {
-		const string DefaultDescription = @"This update provides the following features:
-  • TBA
-";
-		public static XElement Show(string baseDir) {
-			var product = Directory.GetFiles(baseDir, "*.exe")
-								   .Select(p => Assembly.LoadFile(p).GetCustomAttribute<UpdatableAttribute>())
-								   .FirstOrDefault(a => a != null);
+		const string DefaultDescription = @"  • TBA";
+		public static XElement Show(UpdatableAttribute product, UpdateInfo oldUpdate, ReadOnlyCollection<string> updateFiles, string baseDir) {
+			using (var form = new EntryForm()) {
+				if (oldUpdate == null) {
+					form.ClientSize = new Size(form.splitContainerControl1.Panel2.Width, form.ClientSize.Height);
+					form.splitContainerControl1.PanelVisibility = SplitPanelVisibility.Panel2;
+				} else {
+					form.oldUpdate.ShowOldFiles(oldUpdate, updateFiles, baseDir);
+				}
+				form.newUpdate.ShowNewFiles(product.CurrentVersion, DefaultDescription, updateFiles, baseDir, oldUpdate);
 
-			if (product == null) {
-				XtraMessageBox.Show(baseDir + " does not contain any updatable assemblies.",
-									"Shomrei Torah Update Publisher", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return null;
-			}
-			UpdateInfo oldUpdate = null;
-			string oldFilesPath = null;
-			try {
-				try {
-					ProgressWorker.Execute(ui => {
-						ui.Caption = "Searching for existing updates...";
-						oldUpdate = new UpdateChecker(product.ProductName, new Version()).FindUpdate();	//We want to find the last update, so I search for an update for version 0.
-						if (ui.WasCanceled || oldUpdate == null) return;
-						oldFilesPath = oldUpdate.ExtractFiles(ui);
-					}, true);
-				} catch (TargetInvocationException) { }
+				form.Text = "Update " + product.ProductName;
 
-				if (oldUpdate != null && product.CurrentVersion == oldUpdate.NewVersion
-				 && DialogResult.No == XtraMessageBox.Show("The version number has not changed.\r\nCurrent clients will not download this update.\r\nDo you wish to continue?",
-														   "Shomrei Torah Update Publisher", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+				if (form.ShowDialog() == DialogResult.Cancel)
 					return null;
 
+				var newVersion = new UpdateVersion(DateTime.Now, product.CurrentVersion, form.newUpdate.Description);
 
-				using (var form = new EntryForm()) {
-					if (oldUpdate == null || String.IsNullOrEmpty(oldFilesPath)) {
-						form.ClientSize = new Size(form.splitContainerControl1.Panel2.Width, form.ClientSize.Height);
-						form.splitContainerControl1.PanelVisibility = SplitPanelVisibility.Panel2;
-					} else {
-						form.oldUpdate.SetData(UpdateKind.Old, oldUpdate.NewVersion, 
-											   String.Format(CultureInfo.CurrentCulture, "Published: {0:F}\r\n\r\n{1}", oldUpdate.PublishDate, oldUpdate.Description), 
-											   oldFilesPath, null);
-					}
-					form.newUpdate.SetData(UpdateKind.New, product.CurrentVersion, DefaultDescription, baseDir, oldFilesPath);
+				return new XElement("Update",
+					new XAttribute("Name", product.ProductName),
 
-					form.Text = "Update " + product.ProductName;
-
-					if (form.ShowDialog() == DialogResult.Cancel)
-						return null;
-					return new XElement("Update",
-						new XAttribute("Name", product.ProductName),
-						new XAttribute("NewVersion", product.CurrentVersion.ToString()),
-						new XAttribute("PublishDate", DateTime.Now.ToString("F", CultureInfo.InvariantCulture)),
-						new XElement("Description", form.newUpdate.Description)
-					);
-				}
-			} finally {
-				if (oldFilesPath != null)
-					Directory.Delete(oldFilesPath, true);
+					new XElement("Versions",
+						newVersion.ToXml(),
+						oldUpdate == null ? null : oldUpdate.Versions.Select(v => v.ToXml())
+					)
+					//The new files are added later
+				);
 			}
 		}
 

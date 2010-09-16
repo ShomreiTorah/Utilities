@@ -1,86 +1,132 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Linq;
-using ShomreiTorah.Common.Updates;
-using System.Security.Cryptography;
 using ShomreiTorah.Common;
-using System.Net;
-using System.IO.Compression;
+using ShomreiTorah.Common.Updates;
 using ShomreiTorah.WinForms.Forms;
-using System.IO;
 
 namespace ShomreiTorah.UpdatePublisher {
 	class Publisher {
 		readonly XElement xml;
 		readonly string basePath;
-		public Publisher(XElement xml, string basePath) {
+		readonly UpdateInfo oldUpdate;
+		///<summary>The absolute URL on the website to the folder containing the update files for this product.</summary>
+		readonly Uri remoteBaseFolder;
+		readonly ReadOnlyCollection<string> updateFiles;
+
+		readonly List<UpdateFile> allFiles = new List<UpdateFile>();
+		readonly List<UpdateFile> newFiles = new List<UpdateFile>();
+		readonly List<Uri> deleteFiles = new List<Uri>();
+
+		public Publisher(UpdatableAttribute product, UpdateInfo oldUpdate, XElement xml, ReadOnlyCollection<string> updateFiles, string basePath) {
+			this.oldUpdate = oldUpdate;
 			this.xml = xml;
+			this.updateFiles = updateFiles;
 			this.basePath = basePath;
+
+			remoteBaseFolder = new Uri(UpdateChecker.BaseUri, product.ProductName + "/");
 		}
 
-		SymmetricAlgorithm updateAlg;
-		byte[] updateHash;
 		public bool Publish() {
 			if (!Password.ShowPrompt()) return false;
 
 			bool succeeded = false;
 			ProgressWorker.Execute(ui => {
-				updateAlg = new RijndaelManaged { BlockSize = UpdateChecker.UpdateBlockSize, KeySize = UpdateChecker.UpdateKeySize };
+				ui.Caption = "Creating directory...";
+				FtpClient.Default.CreateDirectory(CreateFtpUri(remoteBaseFolder));
 
-				UploadArchive(ui);
-				ui.CanCancel = false;
+				GatherFiles(ui);
+
+				xml.Add(new XElement("Files", allFiles.Select(uf => uf.ToXml())));
+
+				DeleteOldFiles(ui);
+
+				UploadFiles(ui);
 
 				UploadXml(ui);
 
 				succeeded = true;
-			}, true);
+			}, false);
 			return succeeded;
 		}
-		void UploadArchive(IProgressReporter ui) {
-			var ftpRequest = FtpClient.Default.CreateRequest(CreateFtpUri(xml.Attribute("Name").Value + ".Update"));
-			ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
-			if (ui.WasCanceled) return;
 
-			ui.Caption = "Connecting...";
-			using (var transform = updateAlg.CreateEncryptor())
-			using (var hasher = new SHA512Managed())
-
-			using (var requestStream = ftpRequest.GetRequestStream())
-			using (var hashingStream = new CryptoStream(requestStream, hasher, CryptoStreamMode.Write))
-			using (var encryptingStream = new CryptoStream(hashingStream, transform, CryptoStreamMode.Write)) {
-				using (var zipper = new GZipStream(encryptingStream, CompressionMode.Compress, true)) {
-					UpdateStreamer.WriteArchive(zipper, basePath, ui);
-				} //Close the GZipStream now, forcing it to write the end of the data.
-				encryptingStream.FlushFinalBlock();
-
-				updateHash = hasher.Hash;
-			}
-			if (ui.WasCanceled)
-				return;
-			ui.Caption = "Uploading update...";
+		void GatherFiles(IProgressReporter ui) {
+			ui.Caption = "Processing files...";
 			ui.Maximum = -1;
-			ftpRequest.GetResponse().Close();
+
+			using (var rsa = PrivateKey.CreateRSA()) {
+				var rootUri = new Uri(basePath + "\\", UriKind.Absolute);
+
+				var pendingFiles = updateFiles.ToList();
+
+				if (oldUpdate != null) {
+					foreach (var oldFile in oldUpdate.Files) {
+						var absolutePath = Path.Combine(basePath, oldFile.RelativePath);
+
+						if (updateFiles.Contains(absolutePath, StringComparer.OrdinalIgnoreCase)
+						 && oldFile.Matches(basePath)) {
+							//Since the file hasn't changed, we don't need to re-upload it.
+							pendingFiles.RemoveAll(p => p.Equals(absolutePath, StringComparison.OrdinalIgnoreCase));
+
+							allFiles.Add(UpdateFile.Create(basePath, oldFile.RelativePath, oldFile.RemoteUrl, rsa));	//Re-sign the file to allow for key changes.
+						} else
+							deleteFiles.Add(oldFile.RemoteUrl);
+					}
+				}
+
+				foreach (var newFile in pendingFiles) {
+					var uri = new Uri(newFile, UriKind.Absolute);
+					var relativePath = Uri.UnescapeDataString(rootUri.MakeRelativeUri(uri).ToString()).Replace('/', '\\');
+
+					var remotePath = new Uri(remoteBaseFolder, relativePath.Replace('\\', '$'));
+					var uf = UpdateFile.Create(basePath, relativePath, remotePath, rsa);
+
+					allFiles.Add(uf);
+					newFiles.Add(uf);	//We need to upload it
+				}
+			}
+		}
+
+		void DeleteOldFiles(IProgressReporter ui) {
+			ui.Maximum = deleteFiles.Count;
+			for (int i = 0; i < deleteFiles.Count; i++) {
+				ui.Progress = i;
+				ui.Caption = "Deleting " + deleteFiles[i].PathAndQuery;
+
+				FtpClient.Default.DeleteFile(CreateFtpUri(deleteFiles[i]));
+			}
+		}
+
+		void UploadFiles(IProgressReporter ui) {
+			ui.Maximum = newFiles.Sum(uf => uf.Length);
+			foreach (var file in newFiles) {
+				ui.Caption = "Uploading " + file.RelativePath;
+
+				var ftpRequest = FtpClient.Default.CreateRequest(CreateFtpUri(file.RemoteUrl));
+				ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
+
+				using (var transform = UpdateChecker.CreateFileEncryptor())
+
+				using (var requestStream = ftpRequest.GetRequestStream())
+				using (var encryptingStream = new CryptoStream(requestStream, transform, CryptoStreamMode.Write))
+				using (var zipper = new GZipStream(encryptingStream, CompressionMode.Compress, true))
+
+				using (var fileStream = File.Open(Path.Combine(basePath, file.RelativePath), FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
+					fileStream.CopyTo(zipper, file.Length, ui.ChildOperation());
+				}
+
+				ftpRequest.GetResponse().Close();
+			}
 		}
 
 		void UploadXml(IProgressReporter ui) {
-			ui.Caption = "Encrypting blob...";
-			byte[] signature;
-			using (var rsa = PrivateKey.CreateRSA())
-				signature = rsa.SignHash(updateHash, CryptoConfig.MapNameToOID("SHA512"));
-
-			var key = updateAlg.Key;
-			var iv = updateAlg.IV;
-			byte[] blob = new byte[key.Length + iv.Length + signature.Length];
-
-			Buffer.BlockCopy(key, 0, blob, 0, key.Length);
-			Buffer.BlockCopy(iv, 0, blob, key.Length, iv.Length);
-			Buffer.BlockCopy(signature, 0, blob, key.Length + iv.Length, signature.Length);
-
-			using(var transform=UpdateChecker.CreateBlobEncryptor())
-				xml.Add(new XElement("Blob", Convert.ToBase64String(transform.TransformBytes(blob))));
-
 			ui.Caption = "Uploading XML...";
 
 			using (var stream = new MemoryStream())
@@ -88,13 +134,14 @@ namespace ShomreiTorah.UpdatePublisher {
 				xml.Save(writer);
 				writer.Flush();
 				stream.Position = 0;
-				FtpClient.Default.UploadFile(CreateFtpUri(xml.Attribute("Name").Value + ".xml"), stream, ui);
+				FtpClient.Default.UploadFile(CreateFtpUri(new Uri(remoteBaseFolder, "Manifest.xml")), stream, ui);
 			}
 		}
 
 		static readonly Uri UpdateHostName = new Uri(UpdateChecker.BaseUri.GetLeftPart(UriPartial.Authority), UriKind.Absolute);
-		static Uri CreateFtpUri(string relativePath) {
-			return UpdateHostName.MakeRelativeUri(new Uri(UpdateChecker.BaseUri, new Uri(relativePath, UriKind.Relative)));
+		///<summary>Converts an absolute URL on the website to an relative URL on the FTP site.</summary>
+		static Uri CreateFtpUri(Uri relativeUrl) {
+			return UpdateHostName.MakeRelativeUri(new Uri(UpdateChecker.BaseUri, relativeUrl));
 		}
 	}
 }

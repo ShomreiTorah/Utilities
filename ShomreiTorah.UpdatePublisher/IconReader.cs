@@ -22,7 +22,7 @@ namespace ShomreiTorah.UpdatePublisher {
 		/// <param name="size">Large or small</param>
 		/// <param name="linkOverlay">Whether to include the link icon</param>
 		/// <returns>System.Drawing.Icon</returns>
-		public static Icon GetFileIcon(string name, IconSize size, bool linkOverlay) {
+		public static Icon GetPathIcon(string name, IconSize size, bool linkOverlay) {
 			NativeMethods.SHFILEINFO shfi = new NativeMethods.SHFILEINFO();
 			uint flags = NativeMethods.SHGFI_ICON | NativeMethods.SHGFI_USEFILEATTRIBUTES;
 
@@ -40,6 +40,37 @@ namespace ShomreiTorah.UpdatePublisher {
 
 			// Copy (clone) the returned icon to a new object, thus allowing us to clean-up properly
 			Icon icon = (Icon)Icon.FromHandle(shfi.hIcon).Clone();
+			if (NativeMethods.DestroyIcon(shfi.hIcon) == 0)		// Cleanup
+				throw new Win32Exception();
+			return icon;
+		}
+		/// <summary>
+		/// Used to access system folder icons.
+		/// </summary>
+		/// <param name="size">Specify large or small icons.</param>
+		/// <param name="folderType">Specify open or closed FolderType.</param>
+		/// <returns>System.Drawing.Icon</returns>
+		public static Icon GetFolderIcon(IconSize size, FolderType folderType) {
+			// Need to add size check, although errors generated at present!
+			uint flags = NativeMethods.SHGFI_ICON | NativeMethods.SHGFI_USEFILEATTRIBUTES;
+
+			if (folderType == FolderType.Open)
+				flags += NativeMethods.SHGFI_OPENICON;
+
+			flags += size == IconSize.Small ? NativeMethods.SHGFI_SMALLICON : NativeMethods.SHGFI_LARGEICON;
+
+			// Get the folder icon
+			NativeMethods.SHFILEINFO shfi = new NativeMethods.SHFILEINFO();
+			NativeMethods.SHGetFileInfo(@"Q:\Temp",	//Must be a valid path, even if the drive doesn't exist
+				NativeMethods.FILE_ATTRIBUTE_DIRECTORY,
+				ref shfi,
+				(uint)Marshal.SizeOf(shfi),
+				flags);
+
+
+			// Now clone the icon, so that it can be successfully stored in an ImageList
+			var icon = (Icon)Icon.FromHandle(shfi.hIcon).Clone();
+
 			if (NativeMethods.DestroyIcon(shfi.hIcon) == 0)		// Cleanup
 				throw new Win32Exception();
 			return icon;
