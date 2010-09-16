@@ -85,7 +85,8 @@ namespace ShomreiTorah.UpdatePublisher {
 					var uri = new Uri(newFile, UriKind.Absolute);
 					var relativePath = Uri.UnescapeDataString(rootUri.MakeRelativeUri(uri).ToString()).Replace('/', '\\');
 
-					var remotePath = new Uri(remoteBaseFolder, relativePath.Replace('\\', '$'));
+					//Hide the actual extensions from the server to prevent ASP.Net from interfering
+					var remotePath = new Uri(remoteBaseFolder, relativePath.Replace('\\', '$') + ".bin");
 					var uf = UpdateFile.Create(basePath, relativePath, remotePath, rsa);
 
 					allFiles.Add(uf);
