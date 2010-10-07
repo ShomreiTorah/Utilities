@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -62,9 +63,11 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 								 .Select(s => s.Any(Char.IsLower) ? s.ToLower(CultureInfo.CurrentCulture) : s)
 			), " ").Trim();
 		}
+
+		static PluralizationService pluralizer = PluralizationService.CreateService(CultureInfo.CurrentCulture);
 		public static string Depluralize(this string name) {
 			if (name == null) return null;
-			return name[name.Length - 1] == 's' ? name.Remove(name.Length - 1) : name;
+			return pluralizer.Singularize(name);
 		}
 	}
 }
