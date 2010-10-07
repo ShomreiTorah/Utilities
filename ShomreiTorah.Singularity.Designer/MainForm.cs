@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -71,6 +72,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			}
 		}
 
+		[SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Ignore errors in compilation or execution")]
 		private void generateCode_ItemClick(object sender, ItemClickEventArgs e) {
 			try {
 				new Dialogs.DataPreview(Dialogs.DataPreview.Compile(context)).Show(this);
@@ -81,9 +83,7 @@ namespace ShomreiTorah.Singularity.Designer {
 		}
 
 		private void previewCode_ItemClick(object sender, ItemClickEventArgs e) {
-			var writer = new StringWriter(CultureInfo.InvariantCulture);
-			context.WriteClasses(writer);
-			codeEditor.Source = writer.ToString();
+			codeEditor.Source = context.GenerateSource();
 			previewPanel.Show();
 		}
 
@@ -193,6 +193,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			context.ToXml().Save(path2);
 			ShowDiff(CurrentFilePath, path2, false);
 		}
+		[SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Ignore IO errors")]
 		static void ShowDiff(string path1, string path2, bool deleteFirst) {
 			ThreadPool.QueueUserWorkItem(delegate {
 				var proc = Process.Start("P4Merge", "\"" + path1.Replace("\"", "\"\"") + "\" \"" + path2.Replace("\"", "\"\"") + "\"");
