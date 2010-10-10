@@ -134,6 +134,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			foreach (var column in schema.Columns.Where(c => c.GenerateSqlMapping))
 				writer.WriteLine("SchemaMapping.Columns.AddMapping(" + column.PropertyName + "Column, " + column.SqlName.Quote() + ");");
 			writer.WriteLine("#endregion");
+			writer.WriteLine("SchemaMapping.SetPrimaryMapping(SchemaMapping);");
 
 			writer.Indent--;
 			writer.WriteLine("}");
