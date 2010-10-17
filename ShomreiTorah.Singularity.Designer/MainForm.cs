@@ -116,10 +116,7 @@ namespace ShomreiTorah.Singularity.Designer {
 
 			switch (XtraMessageBox.Show("Do you want to save your changes?", "Singularity Designer", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning)) {
 				case DialogResult.Yes:
-					if (string.IsNullOrEmpty(CurrentFilePath))
-						return DoSaveAs();	//In case the user cancels the Save As dialog
-					SaveFile();
-					return true;
+					return SaveFile();
 				case DialogResult.No:
 					return true;
 				case DialogResult.Cancel:
@@ -140,13 +137,14 @@ namespace ShomreiTorah.Singularity.Designer {
 			SaveFile();
 			return true;
 		}
-		void SaveFile() {
-			if (string.IsNullOrEmpty(CurrentFilePath)) {
-				DoSaveAs();
-				return;
-			}
+		bool SaveFile() {
+			if (string.IsNullOrEmpty(CurrentFilePath))
+				return DoSaveAs();
+			if (!Program.EnsureWritable(CurrentFilePath))
+				return false;
 
 			context.ToXml().Save(CurrentFilePath);
+			return true;
 		}
 
 		private void newFile_ItemClick(object sender, ItemClickEventArgs e) {
@@ -218,7 +216,9 @@ namespace ShomreiTorah.Singularity.Designer {
 									"Singularity Designer", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			using (var writer = File.CreateText(Path.Combine(Path.GetDirectoryName(CurrentFilePath), context.CodePath))) {
+			var path = Path.Combine(Path.GetDirectoryName(CurrentFilePath), context.CodePath);
+			if (!Program.EnsureWritable(path)) return;
+			using (var writer = File.CreateText(path)) {
 				context.WriteClasses(writer);
 			}
 		}
