@@ -166,7 +166,10 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 
 			writer.WriteLine();
 
-			writer.Write("#region Partial Methods");
+			writer.WriteLine("#region Partial Methods");
+			writer.WriteLine("partial void OnColumnChanged(Column column, object oldValue, object newValue);");
+
+
 			foreach (var column in schema.Columns.NonCalculated()) {
 				writer.WriteLine();
 				WriteColumnPartials(column, writer);
@@ -214,7 +217,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			writer.WriteGeneratedCodeAttribute();
 			writer.WriteLine("protected override void OnValueChanged(Column column, object oldValue, object newValue) {");
 			writer.Indent++;
-
+			writer.WriteLine("OnColumnChanged(column, oldValue, newValue);");
 			first = true;
 			foreach (var column in schema.Columns.NonCalculated()) {
 				if (first)
