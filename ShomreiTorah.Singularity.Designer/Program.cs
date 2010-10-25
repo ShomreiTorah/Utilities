@@ -25,7 +25,11 @@ namespace ShomreiTorah.Singularity.Designer {
 			if (!new FileInfo(path).IsReadOnly)
 				return true;
 			try {
-				var proc = Process.Start(new ProcessStartInfo("p4", "edit \"" + path + "\"") { RedirectStandardError = true });
+				var proc = Process.Start(new ProcessStartInfo("p4", "edit \"" + path + "\"") {
+					RedirectStandardError = true,
+					UseShellExecute = false,
+					CreateNoWindow = true
+				});
 				proc.WaitForExit();
 				var error = proc.StandardError.ReadToEnd();
 				if (!String.IsNullOrWhiteSpace(error)) {
