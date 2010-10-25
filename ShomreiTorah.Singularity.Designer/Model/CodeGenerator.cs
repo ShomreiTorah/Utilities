@@ -297,6 +297,8 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		}
 		internal string ActualType {
 			get {
+				if (DataType == typeof(Row) && ForeignSchema != null)
+					return ForeignSchema.RowClassName;
 				if (AllowNulls && DataType.IsValueType)
 					return DataType.Name + "?";
 				return DataType.Name;
