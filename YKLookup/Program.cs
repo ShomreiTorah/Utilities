@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using ShomreiTorah.Data.UI;
-using ShomreiTorah.Singularity.Sql;
-using ShomreiTorah.Singularity;
-using ShomreiTorah.Data;
+using DevExpress.LookAndFeel;
+using DevExpress.Skins;
 using ShomreiTorah.Common;
+using ShomreiTorah.Data;
+using ShomreiTorah.Data.UI;
+using ShomreiTorah.Singularity;
+using ShomreiTorah.Singularity.Sql;
 using ShomreiTorah.WinForms;
 
 namespace YKLookup {
@@ -17,6 +19,8 @@ namespace YKLookup {
 		protected override ISplashScreen CreateSplash() { return null; }
 		protected override void RegisterSettings() {
 			Dialog.DefaultTitle = "YK Lookup";
+			SkinManager.EnableFormSkins();
+			UserLookAndFeel.Default.SkinName = "Blue";// "Office 2010 Blue";
 		}
 
 		protected override Form CreateMainForm() {
