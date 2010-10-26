@@ -23,6 +23,10 @@ namespace YKLookup {
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
 			this.groupControl = new DevExpress.XtraEditors.PanelControl();
 			this.map = new ShomreiTorah.WinForms.Controls.GoogleMapControl();
 			this.personDetails = new DevExpress.XtraEditors.MemoEdit();
@@ -42,14 +46,13 @@ namespace YKLookup {
 			this.groupControl.Name = "groupControl";
 			this.groupControl.Size = new System.Drawing.Size(520, 154);
 			this.groupControl.TabIndex = 0;
-			this.groupControl.Text = "groupControl1";
 			// 
 			// map
 			// 
 			this.map.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.map.Location = new System.Drawing.Point(181, 22);
+			this.map.Location = new System.Drawing.Point(202, 2);
 			this.map.Name = "map";
-			this.map.Size = new System.Drawing.Size(337, 130);
+			this.map.Size = new System.Drawing.Size(316, 150);
 			this.map.TabIndex = 0;
 			this.map.Text = "googleMapControl1";
 			// 
@@ -57,7 +60,7 @@ namespace YKLookup {
 			// 
 			this.personDetails.Dock = System.Windows.Forms.DockStyle.Left;
 			this.personDetails.EditValue = "Address Goes Here";
-			this.personDetails.Location = new System.Drawing.Point(2, 22);
+			this.personDetails.Location = new System.Drawing.Point(2, 2);
 			this.personDetails.Name = "personDetails";
 			this.personDetails.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
 			this.personDetails.Properties.Appearance.Options.UseFont = true;
@@ -66,7 +69,7 @@ namespace YKLookup {
 			this.personDetails.Properties.ReadOnly = true;
 			this.personDetails.Properties.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.personDetails.Properties.UseParentBackground = true;
-			this.personDetails.Size = new System.Drawing.Size(200, 130);
+			this.personDetails.Size = new System.Drawing.Size(200, 150);
 			this.personDetails.TabIndex = 1;
 			// 
 			// selector
@@ -74,9 +77,16 @@ namespace YKLookup {
 			this.selector.Dock = System.Windows.Forms.DockStyle.Top;
 			this.selector.Location = new System.Drawing.Point(0, 0);
 			this.selector.Name = "selector";
+			toolTipTitleItem1.Text = "Close";
+			toolTipItem1.LeftIndent = 6;
+			toolTipItem1.Text = "Closes the details pane";
+			superToolTip1.Items.Add(toolTipTitleItem1);
+			superToolTip1.Items.Add(toolTipItem1);
 			this.selector.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo),
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Close, "", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.Escape), serializableAppearanceObject1, "", null, superToolTip1, true)});
 			this.selector.Properties.NullValuePrompt = "Click here to select a person, or type to search";
+			this.selector.Properties.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.selector_Properties_ButtonClick);
 			this.selector.Size = new System.Drawing.Size(520, 20);
 			this.selector.TabIndex = 1;
 			this.selector.EditValueChanged += new System.EventHandler(this.selector_EditValueChanged);

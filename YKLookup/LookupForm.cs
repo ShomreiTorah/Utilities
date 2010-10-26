@@ -7,30 +7,43 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using ShomreiTorah.Data.UI.DisplaySettings;
+using DevExpress.XtraEditors.Controls;
 using ShomreiTorah.Data;
+using ShomreiTorah.Data.UI.DisplaySettings;
 
 namespace YKLookup {
 	public partial class LookupForm : XtraForm {
 		public LookupForm() {
 			InitializeComponent();
 			EditorRepository.PersonLookup.Apply(selector.Properties);
+			//KeyPreview = true;
+		}
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+			if (keyData == Keys.Escape) {
+				SetState(null);
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
+		private void selector_Properties_ButtonClick(object sender, ButtonPressedEventArgs e) {
+			if (e.Button.Index == 1)
+				SetState(null);
 		}
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
 			SetState(null);
-		}
-		protected override void OnShown(EventArgs e) {
-			base.OnShown(e);
 		}
 		private void selector_EditValueChanged(object sender, EventArgs e) {
 			SetState((Person)selector.EditValue);
 		}
 
 		void SetState(Person person) {
+			selector.EditValue = person;
 			if (person == null) {
 				SetHeight(selector.Height);
+				selector.Properties.Buttons[1].Visible = false;
 			} else {
+				selector.Properties.Buttons[1].Visible = true;
 				map.Text = person.FullName;
 
 				var address = new StringBuilder();
@@ -42,7 +55,7 @@ namespace YKLookup {
 				}
 				map.AddressString = address.ToString();
 
-				string body =person.VeryFullName+Environment.NewLine + Environment.NewLine+ person.MailingAddress;
+				string body = Environment.NewLine + person.VeryFullName + Environment.NewLine + Environment.NewLine + person.MailingAddress;
 				if (!string.IsNullOrEmpty(person.Phone))
 					body += Environment.NewLine + Environment.NewLine + person.Phone;
 				personDetails.Text = body;
