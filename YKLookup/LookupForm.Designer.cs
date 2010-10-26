@@ -27,6 +27,7 @@ namespace YKLookup {
 			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LookupForm));
 			this.groupControl = new System.Windows.Forms.Panel();
 			this.map = new ShomreiTorah.WinForms.Controls.GoogleMapControl();
 			this.personDetails = new DevExpress.XtraEditors.MemoEdit();
@@ -49,9 +50,9 @@ namespace YKLookup {
 			// map
 			// 
 			this.map.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.map.Location = new System.Drawing.Point(202, 2);
+			this.map.Location = new System.Drawing.Point(200, 0);
 			this.map.Name = "map";
-			this.map.Size = new System.Drawing.Size(316, 150);
+			this.map.Size = new System.Drawing.Size(320, 154);
 			this.map.TabIndex = 0;
 			this.map.Text = "googleMapControl1";
 			// 
@@ -59,7 +60,7 @@ namespace YKLookup {
 			// 
 			this.personDetails.Dock = System.Windows.Forms.DockStyle.Left;
 			this.personDetails.EditValue = "Address Goes Here";
-			this.personDetails.Location = new System.Drawing.Point(2, 2);
+			this.personDetails.Location = new System.Drawing.Point(0, 0);
 			this.personDetails.Name = "personDetails";
 			this.personDetails.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
 			this.personDetails.Properties.Appearance.Options.UseFont = true;
@@ -68,7 +69,7 @@ namespace YKLookup {
 			this.personDetails.Properties.ReadOnly = true;
 			this.personDetails.Properties.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.personDetails.Properties.UseParentBackground = true;
-			this.personDetails.Size = new System.Drawing.Size(200, 150);
+			this.personDetails.Size = new System.Drawing.Size(200, 154);
 			this.personDetails.TabIndex = 1;
 			// 
 			// selector
@@ -97,6 +98,7 @@ namespace YKLookup {
 			this.ClientSize = new System.Drawing.Size(520, 174);
 			this.Controls.Add(this.groupControl);
 			this.Controls.Add(this.selector);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.Name = "LookupForm";
 			this.Text = "YK Lookup";

@@ -55,7 +55,7 @@ namespace YKLookup {
 				}
 				map.AddressString = address.ToString();
 
-				string body = Environment.NewLine + person.VeryFullName + Environment.NewLine + Environment.NewLine + person.MailingAddress;
+				string body = person.VeryFullName + Environment.NewLine + Environment.NewLine + person.MailingAddress;
 				if (!string.IsNullOrEmpty(person.Phone))
 					body += Environment.NewLine + Environment.NewLine + person.Phone;
 				personDetails.Text = body;
