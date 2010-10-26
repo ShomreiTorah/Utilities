@@ -16,7 +16,6 @@ namespace YKLookup {
 		public LookupForm() {
 			InitializeComponent();
 			EditorRepository.PersonLookup.Apply(selector.Properties);
-			//KeyPreview = true;
 		}
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
 			if (keyData == Keys.Escape) {

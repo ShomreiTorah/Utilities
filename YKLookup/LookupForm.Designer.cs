@@ -27,11 +27,10 @@ namespace YKLookup {
 			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
-			this.groupControl = new DevExpress.XtraEditors.PanelControl();
+			this.groupControl = new System.Windows.Forms.Panel();
 			this.map = new ShomreiTorah.WinForms.Controls.GoogleMapControl();
 			this.personDetails = new DevExpress.XtraEditors.MemoEdit();
 			this.selector = new ShomreiTorah.WinForms.Controls.Lookup.ItemSelector();
-			((System.ComponentModel.ISupportInitialize)(this.groupControl)).BeginInit();
 			this.groupControl.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.personDetails.Properties)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.selector.Properties)).BeginInit();
@@ -101,7 +100,6 @@ namespace YKLookup {
 			this.MaximizeBox = false;
 			this.Name = "LookupForm";
 			this.Text = "YK Lookup";
-			((System.ComponentModel.ISupportInitialize)(this.groupControl)).EndInit();
 			this.groupControl.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.personDetails.Properties)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.selector.Properties)).EndInit();
@@ -111,7 +109,7 @@ namespace YKLookup {
 
 		#endregion
 
-		private DevExpress.XtraEditors.PanelControl groupControl;
+		private System.Windows.Forms.Panel groupControl;
 		private ShomreiTorah.WinForms.Controls.GoogleMapControl map;
 		private DevExpress.XtraEditors.MemoEdit personDetails;
 		private ShomreiTorah.WinForms.Controls.Lookup.ItemSelector selector;
