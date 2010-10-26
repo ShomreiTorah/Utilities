@@ -31,7 +31,8 @@ namespace YKLookup {
 		}
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
-			SetState(null);
+			SetState(null);	//Fix sizing issue
+			BeginInvoke(new Action<Person>(SetState), new object[] { null });
 		}
 		private void selector_EditValueChanged(object sender, EventArgs e) {
 			SetState((Person)selector.EditValue);
@@ -68,6 +69,38 @@ namespace YKLookup {
 			ClientSize = new Size(ClientSize.Width, clientHeight);
 			MaximumSize = new Size(Screen.FromControl(this).WorkingArea.Width, Height);
 			MinimumSize = new Size(75, Height);
+		}
+
+		protected override void WndProc(ref Message m) {
+			switch (m.Msg) {
+				case 0x84:	//WM_NCHITTEST
+					base.WndProc(ref m);
+					var result = (HitTest)m.Result.ToInt32();
+					if (result == HitTest.Bottom || result == HitTest.Top)
+						m.Result = new IntPtr((int)HitTest.Caption);
+					if (result == HitTest.BottomLeft || result == HitTest.TopLeft)
+						m.Result = new IntPtr((int)HitTest.Left);
+					if (result == HitTest.BottomRight || result == HitTest.TopRight)
+						m.Result = new IntPtr((int)HitTest.Right);
+
+					return;
+			}
+			base.WndProc(ref m);
+		}
+		enum HitTest {
+			Caption = 2,
+			Transparent = -1,
+			Nowhere = 0,
+			Client = 1,
+			Left = 10,
+			Right = 11,
+			Top = 12,
+			TopLeft = 13,
+			TopRight = 14,
+			Bottom = 15,
+			BottomLeft = 16,
+			BottomRight = 17,
+			Border = 18
 		}
 	}
 }
