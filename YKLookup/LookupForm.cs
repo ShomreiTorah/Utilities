@@ -19,8 +19,8 @@ namespace YKLookup {
 		}
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
 			if (keyData == Keys.Escape) {
-				SetState(null);
-				return true;
+				if (selector.EditValue != null)
+					SetState(null);
 			}
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
