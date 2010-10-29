@@ -87,9 +87,6 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			allowNulls = (bool)element.Attribute("AllowNulls");
 			description = element.Attribute("Description").Value;
 			expression = element.Attribute("Expression").Value.NonEmpty();
-			foreignRelationName = element.Attribute("ForeignRelationName").Value.NonEmpty();
-			foreignRelationPropertyDescription = element.Attribute("ForeignRelationPropertyDescription").Value.NonEmpty();
-			foreignRelationPropertyName = element.Attribute("ForeignRelationPropertyName").Value.NonEmpty();
 			generateSqlMapping = (bool)element.Attribute("GenerateSqlMapping");
 			isUnique = (bool)element.Attribute("IsUnique");
 			propertyName = element.Attribute("PropertyName").Value;
@@ -99,6 +96,10 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			var pSchema = element.Attribute("ForeignSchemaName");
 			if (pSchema != null)
 				ForeignSchema = Owner.Owner.Schemas.Single(c => c.Name == pSchema.Value);
+			//The ForeignSchema resets these properties
+			foreignRelationName = element.Attribute("ForeignRelationName").Value.NonEmpty();
+			foreignRelationPropertyDescription = element.Attribute("ForeignRelationPropertyDescription").Value.NonEmpty();
+			foreignRelationPropertyName = element.Attribute("ForeignRelationPropertyName").Value.NonEmpty();
 		}
 
 		public XElement ToXml() {
