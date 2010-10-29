@@ -69,5 +69,9 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			if (name == null) return null;
 			return pluralizer.Singularize(name);
 		}
+		public static string Pluralize(this string name) {
+			if (name == null) return null;
+			return pluralizer.Pluralize(name);
+		}
 	}
 }
