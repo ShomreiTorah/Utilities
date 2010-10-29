@@ -217,6 +217,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			writer.WriteGeneratedCodeAttribute();
 			writer.WriteLine("protected override void OnValueChanged(Column column, object oldValue, object newValue) {");
 			writer.Indent++;
+			writer.WriteLine("base.OnValueChanged(column, oldValue, newValue);");
 			writer.WriteLine("OnColumnChanged(column, oldValue, newValue);");
 			first = true;
 			foreach (var column in schema.Columns.NonCalculated()) {
@@ -227,9 +228,6 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 				writer.WriteLine("if (column == " + column.PropertyName + "Column)");
 				writer.WriteLine("\tOn" + column.PropertyName + "Changed((" + column.ActualType + ")oldValue, (" + column.ActualType + ")newValue);");
 			}
-			writer.WriteLine();
-			writer.WriteLine("base.OnValueChanged(column, oldValue, newValue);");
-
 			writer.Indent--;
 			writer.WriteLine("}");
 			#endregion
