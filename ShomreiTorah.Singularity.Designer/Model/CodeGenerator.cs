@@ -309,6 +309,10 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					return "null";
 				if (dataType == typeof(bool))
 					return DefaultValue.ToString().ToLowerInvariant();
+				if (dataType == typeof(int))	//TODO: Other numerics
+					return defaultValue.ToString();
+				if (DefaultValue.ToString() == @"""""")
+					return @"""""";	//Empty string - ""
 				//TODO: Improve
 				return defaultValue.ToString().Quote();
 			}
