@@ -307,6 +307,8 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			get {
 				if (defaultValue == null)
 					return "null";
+				if (dataType == typeof(bool))
+					return DefaultValue.ToString().ToLowerInvariant();
 				//TODO: Improve
 				return defaultValue.ToString().Quote();
 			}
