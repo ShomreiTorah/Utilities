@@ -141,6 +141,10 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 
 			writer.WriteLine();
 
+			writer.WriteLine(@"///<summary>Gets the typed table that contains this row, if any.</summary>");
+			writer.WriteGeneratedCodeAttribute();
+			writer.WriteLine("public new TypedTable<" + schema.RowClassName + "> Table { get { return (TypedTable<" + schema.RowClassName + ">)base.Table; } }");
+
 			writer.WriteLine("#region Value Properties");
 			foreach (var column in schema.Columns)
 				WriteValueProperty(column, writer);
