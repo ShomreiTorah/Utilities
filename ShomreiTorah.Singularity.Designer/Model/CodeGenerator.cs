@@ -226,7 +226,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 				else
 					writer.Write("else ");
 				writer.WriteLine("if (column == " + column.PropertyName + "Column)");
-				writer.WriteLine("\tOn" + column.PropertyName + "Changed((" + column.ActualType + ")oldValue, (" + column.ActualType + ")newValue);");
+				writer.WriteLine("\tOn" + column.PropertyName + "Changed((" + column.NullableType + ")oldValue, (" + column.NullableType + ")newValue);");
 			}
 			writer.Indent--;
 			writer.WriteLine("}");
@@ -260,7 +260,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 
 		static void WriteColumnPartials(ColumnModel column, IndentedTextWriter writer) {
 			writer.WriteLine("partial void Validate" + column.PropertyName + "(" + column.ActualType + " newValue, Action<string> error);");
-			writer.WriteLine("partial void On" + column.PropertyName + "Changed(" + column.ActualType + " oldValue, " + column.ActualType + " newValue);");
+			writer.WriteLine("partial void On" + column.PropertyName + "Changed(" + column.NullableType + " oldValue, " + column.NullableType + " newValue);");
 		}
 
 		static void WriteValueProperty(ColumnModel column, IndentedTextWriter writer) {
@@ -301,7 +301,16 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					return DataType.Name + "?";
 				return DataType.Name;
 			}
-
+		}
+		///<summary>Gets a nullable type for the column, whether or not it supports nulls.</summary>
+		///<remarks>OnColumnChanged can be called on detached rows with nulls in non-nullable
+		///columns.</remarks>
+		internal string NullableType {
+			get {
+				if (DataType.IsValueType)
+					return DataType.Name + "?";
+				return ActualType;
+			}
 		}
 		internal string DefaultValueCode {
 			get {
