@@ -1,15 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
 using ShomreiTorah.Singularity.Designer.Model;
 
 namespace ShomreiTorah.Singularity.Designer.Dialogs {
@@ -56,6 +52,29 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 						selectedSchemas.Remove(schema);
 				}
 			}
+		}
+
+		private void schemaView_BeforeLeaveRow(object sender, RowAllowEventArgs e) {
+			if (MouseButtons == MouseButtons.Left) {	//Don't change focus when a checkbox is clicked
+				var hitInfo = schemaView.CalcHitInfo(grid.PointToClient(MousePosition));
+				if (hitInfo.Column == colSelected)
+					e.Allow = false;
+			}
+		}
+		private void schemaView_KeyDown(object sender, KeyEventArgs e) {
+			if (e.KeyData == Keys.Space) {
+				foreach (var handle in schemaView.GetSelectedRows())
+					Invert(handle);
+			}
+		}
+
+		private void schemaView_MouseUp(object sender, MouseEventArgs e) {
+			var hitInfo = schemaView.CalcHitInfo(e.Location);
+			if (hitInfo.InRowCell && hitInfo.Column == colSelected && hitInfo.RowHandle >= 0)
+				Invert(hitInfo.RowHandle);
+		}
+		void Invert(int rowHandle) {
+			schemaView.SetRowCellValue(rowHandle, colSelected, !(bool)schemaView.GetRowCellValue(rowHandle, colSelected));
 		}
 	}
 }

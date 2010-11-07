@@ -61,6 +61,7 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.columnsView.GridControl = this.grid;
 			this.columnsView.Name = "columnsView";
 			this.columnsView.OptionsBehavior.Editable = false;
+			this.columnsView.OptionsSelection.MultiSelect = true;
 			this.columnsView.OptionsView.ColumnAutoWidth = false;
 			this.columnsView.OptionsView.ShowGroupPanel = false;
 			// 
@@ -115,7 +116,7 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.grid.Location = new System.Drawing.Point(0, 0);
 			this.grid.MainView = this.schemaView;
 			this.grid.Name = "grid";
-			this.grid.Size = new System.Drawing.Size(659, 512);
+			this.grid.Size = new System.Drawing.Size(665, 518);
 			this.grid.TabIndex = 0;
 			this.grid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.schemaView,
@@ -135,9 +136,13 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.schemaView.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.MouseDown;
 			this.schemaView.OptionsDetail.AllowZoomDetail = false;
 			this.schemaView.OptionsDetail.ShowDetailTabs = false;
+			this.schemaView.OptionsSelection.MultiSelect = true;
 			this.schemaView.OptionsView.ColumnAutoWidth = false;
 			this.schemaView.OptionsView.ShowGroupPanel = false;
+			this.schemaView.BeforeLeaveRow += new DevExpress.XtraGrid.Views.Base.RowAllowEventHandler(this.schemaView_BeforeLeaveRow);
 			this.schemaView.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.schemaView_CustomUnboundColumnData);
+			this.schemaView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.schemaView_KeyDown);
+			this.schemaView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.schemaView_MouseUp);
 			this.schemaView.DoubleClick += new System.EventHandler(this.schemaView_DoubleClick);
 			// 
 			// colSelected
@@ -145,6 +150,9 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.colSelected.Caption = " ";
 			this.colSelected.FieldName = "colSelected";
 			this.colSelected.Name = "colSelected";
+			this.colSelected.OptionsColumn.AllowEdit = false;
+			this.colSelected.OptionsColumn.AllowMove = false;
+			this.colSelected.OptionsColumn.AllowSize = false;
 			this.colSelected.OptionsColumn.FixedWidth = true;
 			this.colSelected.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
 			this.colSelected.UnboundType = DevExpress.Data.UnboundColumnType.Boolean;
@@ -184,16 +192,16 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.panelControl1.Controls.Add(this.ok);
 			this.panelControl1.Controls.Add(this.cancel);
 			this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panelControl1.Location = new System.Drawing.Point(0, 512);
+			this.panelControl1.Location = new System.Drawing.Point(0, 518);
 			this.panelControl1.Name = "panelControl1";
-			this.panelControl1.Size = new System.Drawing.Size(659, 41);
+			this.panelControl1.Size = new System.Drawing.Size(665, 41);
 			this.panelControl1.TabIndex = 1;
 			// 
 			// ok
 			// 
 			this.ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.ok.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.ok.Location = new System.Drawing.Point(491, 6);
+			this.ok.Location = new System.Drawing.Point(497, 6);
 			this.ok.Name = "ok";
 			this.ok.Size = new System.Drawing.Size(75, 23);
 			this.ok.TabIndex = 1;
@@ -203,7 +211,7 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			// 
 			this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancel.Location = new System.Drawing.Point(572, 6);
+			this.cancel.Location = new System.Drawing.Point(578, 6);
 			this.cancel.Name = "cancel";
 			this.cancel.Size = new System.Drawing.Size(75, 23);
 			this.cancel.TabIndex = 0;
@@ -215,7 +223,7 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancel;
-			this.ClientSize = new System.Drawing.Size(659, 553);
+			this.ClientSize = new System.Drawing.Size(665, 559);
 			this.ControlBox = false;
 			this.Controls.Add(this.grid);
 			this.Controls.Add(this.panelControl1);
