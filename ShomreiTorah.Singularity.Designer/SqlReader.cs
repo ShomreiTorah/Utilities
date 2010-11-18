@@ -28,12 +28,14 @@ WHERE Columns.COLUMN_NAME = 'RowVersion';";
 
 		const string ColumnsSql = @"
 SELECT 
-	Columns.TABLE_NAME	TableName,
-	Columns.COLUMN_NAME	ColumnName,
-	Columns.DATA_TYPE	DataType,
+	Columns.TABLE_SCHEMA	SchemaName,
+	Columns.TABLE_NAME		TableName,
+	Columns.COLUMN_NAME		ColumnName,
+	Columns.DATA_TYPE		DataType,
 	CASE Columns.IS_NULLABLE WHEN 'YES' THEN 1 ELSE 0 END	AllowNulls,
 
 	ISNULL(UniqueColumns.Included, 0)	IsUnique,
+	ForeignKeyColumns.ParentSchema		ForeignSchema,
 	ForeignKeyColumns.ParentTable		ForeignTable
 FROM	INFORMATION_SCHEMA.COLUMNS Columns
 		LEFT OUTER JOIN (
@@ -51,6 +53,7 @@ FROM	INFORMATION_SCHEMA.COLUMNS Columns
 			SELECT
 				ChildColumns.TABLE_NAME 		ChildTable,
 				ChildColumns.COLUMN_NAME		ChildColumn,
+				ParentConstraints.TABLE_SCHEMA	ParentSchema,
 				ParentConstraints.TABLE_NAME 	ParentTable
 			FROM	INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS Refs
 					JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE ChildColumns		ON Refs.CONSTRAINT_NAME = ChildColumns.CONSTRAINT_NAME
@@ -64,7 +67,9 @@ WHERE Columns.DATA_TYPE <> 'timestamp';";
 			List<SchemaModel> tables = new List<SchemaModel>();
 			List<Action> postColumnActions = new List<Action>();
 
-			Func<string, SchemaModel> Table = name => String.IsNullOrEmpty(name) ? null : tables.SingleOrDefault(t => t.SqlName == name);
+			Func<string, string, SchemaModel> Table = (schema, name) =>	//First look for a new table from SQL Server, then for an existing one.
+				String.IsNullOrEmpty(name) ? null : tables.SingleOrDefault(t => t.SqlSchemaName == schema && t.SqlName == name)
+												 ?? owner.Schemas.SingleOrDefault(t => t.SqlSchemaName == schema && t.SqlName == name);
 
 			using (var connection = database.OpenConnection()) {
 				#region Read Tables
@@ -76,7 +81,8 @@ WHERE Columns.DATA_TYPE <> 'timestamp';";
 							SqlSchemaName = reader["SchemaName"] as string
 						};
 
-						if (Table(table.SqlName) != null) continue;
+						if (Table(table.SqlSchemaName, table.SqlName) != null) continue;	//TODO: Import column
+
 						string keyName = reader["PrimaryKeyName"] as string;
 						if (!String.IsNullOrEmpty(keyName)) {
 							postColumnActions.Add(
@@ -91,18 +97,22 @@ WHERE Columns.DATA_TYPE <> 'timestamp';";
 
 				using (var reader = database.ExecuteReader(ColumnsSql)) {
 					while (reader.Read()) {
-						var table = Table((string)reader["TableName"]);
+						var table = Table((string)reader["SchemaName"], (string)reader["TableName"]);
 						if (table == null) continue;	//Skip tables without RowVersion columns
 
+						var name = (string)reader["ColumnName"];
+						if (table.Columns.Any(c => c.SqlName == name))
+							continue;	//Don't add duplicate columns to existing tables.
+
 						table.Columns.Add(new ColumnModel(table) {
-							Name = (string)reader["ColumnName"],
-							SqlName = (string)reader["ColumnName"],
+							Name = name,
+							SqlName = name,
 							DataType = SqlTypes[(string)reader["DataType"]],
 
 							AllowNulls = 1 == (int)reader["AllowNulls"],
 							IsUnique = 1 == (int)reader["IsUnique"],
 
-							ForeignSchema = Table(reader["ForeignTable"] as string)
+							ForeignSchema = Table(reader["ForeignSchema"] as string, reader["ForeignTable"] as string)
 						});
 					}
 				}
