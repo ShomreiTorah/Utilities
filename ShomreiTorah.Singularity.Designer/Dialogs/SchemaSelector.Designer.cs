@@ -139,10 +139,7 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.schemaView.OptionsSelection.MultiSelect = true;
 			this.schemaView.OptionsView.ColumnAutoWidth = false;
 			this.schemaView.OptionsView.ShowGroupPanel = false;
-			this.schemaView.BeforeLeaveRow += new DevExpress.XtraGrid.Views.Base.RowAllowEventHandler(this.schemaView_BeforeLeaveRow);
 			this.schemaView.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.schemaView_CustomUnboundColumnData);
-			this.schemaView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.schemaView_KeyDown);
-			this.schemaView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.schemaView_MouseUp);
 			this.schemaView.DoubleClick += new System.EventHandler(this.schemaView_DoubleClick);
 			// 
 			// colSelected

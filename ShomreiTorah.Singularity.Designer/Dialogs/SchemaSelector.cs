@@ -7,6 +7,7 @@ using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using ShomreiTorah.Singularity.Designer.Model;
+using ShomreiTorah.WinForms;
 
 namespace ShomreiTorah.Singularity.Designer.Dialogs {
 	partial class SchemaSelector : XtraForm {
@@ -27,6 +28,8 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			grid.DataSource = this.schemas = schemas.ToArray();
 			selectedSchemas = new HashSet<SchemaModel>(this.schemas);
 			schemaView.BestFitColumns();
+
+			CheckableGridController.Handle(colSelected);
 		}
 
 		private void grid_ViewRegistered(object sender, ViewOperationEventArgs e) {
@@ -52,29 +55,6 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 						selectedSchemas.Remove(schema);
 				}
 			}
-		}
-
-		private void schemaView_BeforeLeaveRow(object sender, RowAllowEventArgs e) {
-			if (MouseButtons == MouseButtons.Left) {	//Don't change focus when a checkbox is clicked
-				var hitInfo = schemaView.CalcHitInfo(grid.PointToClient(MousePosition));
-				if (hitInfo.Column == colSelected)
-					e.Allow = false;
-			}
-		}
-		private void schemaView_KeyDown(object sender, KeyEventArgs e) {
-			if (e.KeyData == Keys.Space) {
-				foreach (var handle in schemaView.GetSelectedRows())
-					Invert(handle);
-			}
-		}
-
-		private void schemaView_MouseUp(object sender, MouseEventArgs e) {
-			var hitInfo = schemaView.CalcHitInfo(e.Location);
-			if (hitInfo.InRowCell && hitInfo.Column == colSelected && hitInfo.RowHandle >= 0)
-				Invert(hitInfo.RowHandle);
-		}
-		void Invert(int rowHandle) {
-			schemaView.SetRowCellValue(rowHandle, colSelected, !(bool)schemaView.GetRowCellValue(rowHandle, colSelected));
 		}
 	}
 }
