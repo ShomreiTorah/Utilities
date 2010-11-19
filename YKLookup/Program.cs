@@ -20,7 +20,7 @@ namespace YKLookup {
 		protected override void RegisterSettings() {
 			Dialog.DefaultTitle = "YK Lookup";
 			SkinManager.EnableFormSkins();
-			UserLookAndFeel.Default.SkinName = "Blue";// "Office 2010 Blue";
+			UserLookAndFeel.Default.SkinName = "Black";// "Office 2010 Blue";
 		}
 
 		protected override Form CreateMainForm() {
