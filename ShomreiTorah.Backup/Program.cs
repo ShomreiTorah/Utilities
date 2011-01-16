@@ -10,7 +10,7 @@ namespace ShomreiTorah.Backup {
 	class Program {
 		static void Main() {
 			try {
-				ExecOperation(JournalBackup.DoBackup(), "Journal");
+				ExecOperation(LegacyJournalBackup.DoBackup(), "Journal");
 				ExecOperation(DbBackup.DoBackup(), "Database");
 			} catch (Exception ex) {
 				Email.Warn("Backup Exception", ex.ToString());
