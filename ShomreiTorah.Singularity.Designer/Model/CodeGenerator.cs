@@ -156,7 +156,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 				writer.WriteLine("#region ChildRows Properties");
 				//Support schemas with two foreign keys
 				//that reference the same parent schema
-				foreach (var foreignColumn in schema.ChildSchemas.SelectMany(fs => fs.Columns.Where(c => c.ForeignSchema == schema))) {
+				foreach (var foreignColumn in schema.ChildSchemas.Distinct().SelectMany(fs => fs.Columns.Where(c => c.ForeignSchema == schema))) {
 					//Example:
 					//public IChildRowCollection<Pledge> Pledges { get { return TypedChildRows<Pledge>(Pledge.PersonIdColumn); } }
 
