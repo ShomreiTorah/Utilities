@@ -26,18 +26,38 @@ namespace ShomreiTorah.UpdatePublisher {
 			descriptionText.Properties.ReadOnly = true;
 
 			var filesData = new List<TreeFile>(oldUpdate.Files.Select(uf => new TreeFile(uf, updateFiles, newBasePath)).OrderBy(tf => tf.Name));
+
 			filesData.AddRange(
-				oldUpdate.Files.Select(uf => Path.GetDirectoryName(uf.RelativePath))
-							   .Distinct()
-							   .Where(p => !String.IsNullOrEmpty(p))
-							   .Select(d => new TreeFile(d, isFolder: true))
-							   .OrderBy(tf => tf.Name)
+				GetFolders(filesData.Select(f => f.FullPath))
+					.Select(d => new TreeFile(d, isFolder: true))
+					.OrderBy(tf => tf.Name)
 			);
 
 			files.RootValue = "/";
 			files.DataSource = filesData;
 			files.ExpandAll();
 		}
+		static IEnumerable<string> GetFolders(IEnumerable<string> fileNames) {
+			//Recursively crawl up each path to add
+			//all folders.  We need the loop to get
+			//folders which have subfolders but not
+			//files.
+			var allFolders = new HashSet<string>();
+
+			//Gather the unique parent folders.  We
+			//can reach the same folder in multiple
+			//iterations if it has multiple levels 
+			//of nesting.
+			IEnumerable<string> parentFolders = fileNames;
+			do {
+				parentFolders = parentFolders.Select(Path.GetDirectoryName)
+											 .Where(p => !String.IsNullOrEmpty(p))
+											 .ToList();	//We're about to add this to allFolders, so I need to materialize it.
+				allFolders.UnionWith(parentFolders);
+			} while (parentFolders.Any());				//The query was already materialized, so this is OK.
+			return allFolders;
+		}
+
 		public void ShowNewFiles(Version version, string description, ReadOnlyCollection<string> updateFiles, string basePath, UpdateInfo oldUpdate) {
 			caption.Text = "New version: " + version.ToString();
 			descriptionText.Text = description;
@@ -121,6 +141,13 @@ namespace ShomreiTorah.UpdatePublisher {
 			public string FullPath { get; private set; }
 			public long Size { get; private set; }
 			public string SizeString { get { return Size == -1 ? "" : ToSizeString(Size); } }
+
+			public override string ToString() {	//For debugging
+				if (Size < 0)
+					return "(folder:) " + FullPath;
+				return FullPath;
+
+			}
 		}
 		enum FileState {
 			None,
