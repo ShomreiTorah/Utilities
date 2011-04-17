@@ -22,7 +22,7 @@ namespace OmerCreator {
 					new OmerDisplay((int)hebrewYear.Value, includeנקודות.Checked).Show(this);
 					break;
 				case "Word Document":
-					new WordExporter((int)hebrewYear.Value, includeנקודות.Checked).Show(this);
+					WordExporter.Export((int)hebrewYear.Value, includeנקודות.Checked);
 					break;
 			}
 		}

@@ -10,23 +10,17 @@ using System.Threading;
 using Microsoft.Office.Interop.Word.Extensions;
 using Microsoft.Office.Interop.Word;
 using ShomreiTorah.Common;
+using ShomreiTorah.WinForms.Forms;
 using System.Globalization;
 namespace OmerCreator {
-	public partial class WordExporter : Form {
-		readonly int hebrewYear;
-		readonly bool includeנקודות;
-		public WordExporter(int year, bool נקודות) {
-			InitializeComponent();
-
-			hebrewYear = year;
-			includeנקודות = נקודות;
-		}
+	public static class WordExporter {
 		static Microsoft.Office.Interop.Word.Application MSWord { get { return Office<ApplicationClass>.App; } }
-		protected override void OnShown(EventArgs e) {
-			base.OnShown(e);
-			ThreadPool.QueueUserWorkItem(delegate {
+		public static void Export(int hebrewYear, bool includeנקודות) {
+			ProgressWorker.Execute(ui => {
 				MSWord.Visible = true;
 				var document = MSWord.Documents.Add();
+
+				ui.Caption = "Creating document";
 
 				Range range;
 				try {
@@ -74,20 +68,20 @@ namespace OmerCreator {
 					}
 					MSWord.ScreenRefresh();
 
+					ui.Maximum = 49;
+					ui.Caption = "Writing chart";
 					for (var date = Program.OmerStart(hebrewYear); date.Info.OmerDay != -1; date++) {
-						var day = date.Info.OmerDay;
+						var index = date.Info.OmerDay;
 						var text = includeנקודות ? date.Info.OmerTextנקוד : date.Info.OmerText;
 
-						BeginInvoke(new Action(delegate {
-							progress.Style = ProgressBarStyle.Continuous;
-							label.Text = text;
-							progress.Value = day;
-						}));
+						if (ui.WasCanceled) return;
 
-						table.Rows[day].Range.Font.Color = (WdColor)ColorTranslator.ToOle(Program.GetColor(day));
-						table.Cell(day, 1).Range.Text = day.ToString(CultureInfo.CurrentCulture);
-						table.Cell(day, 2).Range.Text = date.EnglishDate.AddDays(-1).ToString("dddd \"night\", MMMM d", CultureInfo.CurrentCulture);
-						table.Cell(day, 3).Range.Text = text;
+						ui.Progress = index;
+
+						table.Rows[index].Range.Font.Color = (WdColor)ColorTranslator.ToOle(Program.GetColor(index));
+						table.Cell(index, 1).Range.Text = index.ToString(CultureInfo.CurrentCulture);
+						table.Cell(index, 2).Range.Text = date.EnglishDate.AddDays(-1).ToString("dddd \"night\", MMMM d", CultureInfo.CurrentCulture);
+						table.Cell(index, 3).Range.Text = text;
 					}
 				} finally { MSWord.ScreenUpdating = true; }
 				range = document.Range();
@@ -99,8 +93,7 @@ namespace OmerCreator {
 				WriteFooter(range, hebrewYear);
 
 				MSWord.Activate();
-				BeginInvoke(new Action(Close));
-			});
+			}, cancellable: true);
 		}
 		static void WriteFooter(Range target, int hebrewYear) {
 			target.Text = "ספירת העומר for " + (hebrewYear - 5000).ToHebrewString(HebrewNumberFormat.LetterQuoted);
