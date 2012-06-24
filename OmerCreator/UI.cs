@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using ShomreiTorah.Common.Calendar;
 
 namespace OmerCreator {
-	public partial class UI : Form {
+	partial class UI : Form {
 		public UI() {
 			InitializeComponent();
 			hebrewYear.Value = HebrewDate.Today.HebrewYear;

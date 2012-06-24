@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
-using Microsoft.Office.Interop.Word.Extensions;
+//using Microsoft.Office.Interop.Word.Extensions;
 using Microsoft.Office.Interop.Word;
 using ShomreiTorah.Common;
 using ShomreiTorah.WinForms.Forms;
 using System.Globalization;
 namespace OmerCreator {
-	public static class WordExporter {
+	static class WordExporter {
 		static Microsoft.Office.Interop.Word.Application MSWord { get { return Office<ApplicationClass>.App; } }
 		public static void Export(int hebrewYear, bool includeנקודות) {
 			ProgressWorker.Execute(ui => {

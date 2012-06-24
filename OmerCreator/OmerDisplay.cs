@@ -10,7 +10,7 @@ using ShomreiTorah.Common.Calendar.Holidays;
 using System.Globalization;
 
 namespace OmerCreator {
-	public partial class OmerDisplay : Form {
+	partial class OmerDisplay : Form {
 		static readonly Font omerFont = new Font("David", 14);
 
 
