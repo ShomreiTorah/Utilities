@@ -25,11 +25,13 @@ namespace ShomreiTorah.Backup {
 
 				using (var dataSet = new DataSet(dbName) { Locale = CultureInfo.InvariantCulture })
 				using (var original = db.OpenConnection()) {
-					var tables = dbElem.Element("Backup").Elements("Table")
-						.Select(xe => new {
-							Name = xe.Value,
-							Adapter = DB.Default.Factory.CreateDataAdapter(original, "SELECT * FROM " + xe.Value)
-						});
+					var tables = original.ExecuteReader("SELECT name FROM sysobjects WHERE type = 'U'")
+										 .Cast<IDataRecord>()
+										 .Select(dr => dr.GetString(0))
+										 .Select(name => new {
+											 Name = name,
+											 Adapter = DB.Default.Factory.CreateDataAdapter(original, "SELECT * FROM " + name)
+										 });
 
 					foreach (var table in tables) {
 						table.Adapter.TableMappings.Add("Table", table.Name);
