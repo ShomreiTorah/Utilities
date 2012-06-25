@@ -13,10 +13,9 @@ namespace ShomreiTorah.Backup {
 				ExecOperation(LegacyJournalBackup.DoBackup(), "Journal");
 				ExecOperation(DbBackup.DoBackup(), "Database");
 			} catch (Exception ex) {
-				Email.Warn("Backup Exception", ex.ToString());
+				Email.Default.Send(Email.AlertsAddress, Email.AdminAddress, "Shomrei Torah Backup Exception", ex.ToString(), false);
 			}
 			Console.WriteLine("Finished");
-			Thread.Sleep(TimeSpan.FromSeconds(10));	//Give the async error emails time to finish.  Yes, I know that this is a horrible thing to do.
 		}
 		static void ExecOperation(IEnumerator<string> operation, string name) {
 			Console.WriteLine("Starting " + name);
@@ -28,7 +27,7 @@ namespace ShomreiTorah.Backup {
 						current = operation.Current;
 						Console.WriteLine("  " + current);
 					} catch (Exception ex) {
-						Email.Warn(name + " Backup Exception: " + current, ex.ToString());
+						Email.Default.Send(Email.AlertsAddress, Email.AdminAddress, "Shomrei Torah " + name + " Backup Exception: " + current, ex.ToString(), false);
 					}
 				}
 			}
