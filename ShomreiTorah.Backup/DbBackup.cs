@@ -25,18 +25,18 @@ namespace ShomreiTorah.Backup {
 
 				using (var dataSet = new DataSet(dbName) { Locale = CultureInfo.InvariantCulture })
 				using (var original = db.OpenConnection()) {
-					var tables = original.ExecuteReader("SELECT s.name + '.' + o.name FROM sys.objects o JOIN sys.schemas s ON o.schema_id = s.schema_id WHERE type = 'U'")
-										 .Cast<IDataRecord>()
-										 .Select(dr => dr.GetString(0))
-										 .Select(name => new {
-											 Name = name,
-											 Adapter = DB.Default.Factory.CreateDataAdapter(original, "SELECT * FROM " + name)
-										 });
+					List<string> tableNames;
+					using (var reader = original.ExecuteReader("SELECT s.name + '.' + o.name FROM sys.objects o JOIN sys.schemas s ON o.schema_id = s.schema_id WHERE type = 'U'")) {
+						tableNames = reader.Cast<IDataRecord>()
+										   .Select(dr => dr.GetString(0))
+										   .ToList();
+					}
 
-					foreach (var table in tables) {
-						table.Adapter.TableMappings.Add("Table", table.Name);
-						table.Adapter.Fill(dataSet);
-						table.Adapter.Dispose();
+					foreach (var name in tableNames) {
+						using (var adapter = DB.Default.Factory.CreateDataAdapter(original, "SELECT * FROM " + name)) {
+							adapter.TableMappings.Add("Table", name);
+							adapter.Fill(dataSet);
+						}
 					}
 
 					using (var stream = new GZipStream(File.Create(backupPath), CompressionMode.Compress)) {
