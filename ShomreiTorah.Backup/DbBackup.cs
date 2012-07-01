@@ -26,7 +26,7 @@ namespace ShomreiTorah.Backup {
 				using (var dataSet = new DataSet(dbName) { Locale = CultureInfo.InvariantCulture })
 				using (var original = db.OpenConnection()) {
 					List<string> tableNames;
-					using (var reader = original.ExecuteReader("SELECT s.name + '.' + o.name FROM sys.objects o JOIN sys.schemas s ON o.schema_id = s.schema_id WHERE type = 'U'")) {
+					using (var reader = original.ExecuteReader("SELECT QUOTENAME(s.name) + '.' + QUOTENAME(o.name) FROM sys.objects o JOIN sys.schemas s ON o.schema_id = s.schema_id WHERE type = 'U'")) {
 						tableNames = reader.Cast<IDataRecord>()
 										   .Select(dr => dr.GetString(0))
 										   .ToList();
