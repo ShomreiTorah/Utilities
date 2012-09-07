@@ -59,14 +59,15 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.oldUpdate.Name = "oldUpdate";
 			this.oldUpdate.Size = new System.Drawing.Size(333, 551);
 			this.oldUpdate.TabIndex = 0;
+			this.oldUpdate.TabStop = false;
 			// 
 			// newUpdate
 			// 
 			this.newUpdate.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.newUpdate.Location = new System.Drawing.Point(0, 0);
 			this.newUpdate.Name = "newUpdate";
-			this.newUpdate.Size = new System.Drawing.Size(333, 511);
-			this.newUpdate.TabIndex = 1;
+			this.newUpdate.Size = new System.Drawing.Size(336, 511);
+			this.newUpdate.TabIndex = 0;
 			// 
 			// panelControl1
 			// 
@@ -76,8 +77,8 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.panelControl1.Location = new System.Drawing.Point(0, 511);
 			this.panelControl1.Name = "panelControl1";
-			this.panelControl1.Size = new System.Drawing.Size(333, 40);
-			this.panelControl1.TabIndex = 0;
+			this.panelControl1.Size = new System.Drawing.Size(336, 40);
+			this.panelControl1.TabIndex = 1;
 			// 
 			// ok
 			// 
@@ -85,7 +86,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.ok.Location = new System.Drawing.Point(152, 5);
 			this.ok.Name = "ok";
 			this.ok.Size = new System.Drawing.Size(88, 23);
-			this.ok.TabIndex = 1;
+			this.ok.TabIndex = 0;
 			this.ok.Text = "Publish Update";
 			this.ok.Click += new System.EventHandler(this.ok_Click);
 			// 
@@ -96,7 +97,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.cancel.Location = new System.Drawing.Point(246, 5);
 			this.cancel.Name = "cancel";
 			this.cancel.Size = new System.Drawing.Size(75, 23);
-			this.cancel.TabIndex = 0;
+			this.cancel.TabIndex = 1;
 			this.cancel.Text = "Quit";
 			// 
 			// EntryForm
