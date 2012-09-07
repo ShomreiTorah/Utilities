@@ -24,12 +24,6 @@ namespace ShomreiTorah.UpdatePublisher {
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			if (args.Length == 1 && args[0].Equals("KeyGen", StringComparison.OrdinalIgnoreCase)) {
-				if (Password.ShowPrompt())
-					Application.Run(new KeyGen());
-				return;
-			}
-
 			string baseDir = Properties.Settings.Default.LastBaseDir;
 			if (String.IsNullOrEmpty(baseDir)) baseDir = Environment.CurrentDirectory;
 			using (var dialog = new FolderBrowserDialog {
