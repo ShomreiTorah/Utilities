@@ -17,7 +17,7 @@ namespace ShomreiTorah.UpdatePublisher {
 		readonly XElement xml;
 		readonly string basePath;
 		readonly UpdateInfo oldUpdate;
-		///<summary>The absolute URL on the website to the folder containing the update files for this product.</summary>
+		///<summary>The absolute path on the FTP server to the folder containing the update files for this product.</summary>
 		readonly Uri remoteBaseFolder;
 		readonly ReadOnlyCollection<string> updateFiles;
 
@@ -31,7 +31,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			this.updateFiles = updateFiles;
 			this.basePath = basePath;
 
-			remoteBaseFolder = new Uri(UpdateChecker.BaseUri, product.ProductName + "/");
+			remoteBaseFolder = new Uri(UpdateConfig.Standard.RemotePath, product.ProductName + "/");
 		}
 
 		public bool Publish() {
@@ -40,7 +40,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			bool succeeded = false;
 			ProgressWorker.Execute(ui => {
 				ui.Caption = "Creating directory...";
-				FtpClient.Default.CreateDirectory(CreateFtpUri(remoteBaseFolder));
+				FtpClient.Default.CreateDirectory(remoteBaseFolder);
 
 				GatherFiles(ui);
 
@@ -101,7 +101,7 @@ namespace ShomreiTorah.UpdatePublisher {
 				ui.Progress = i;
 				ui.Caption = "Deleting " + deleteFiles[i].PathAndQuery;
 
-				FtpClient.Default.DeleteFile(CreateFtpUri(deleteFiles[i]));
+				FtpClient.Default.DeleteFile(deleteFiles[i]);
 			}
 		}
 
@@ -110,7 +110,7 @@ namespace ShomreiTorah.UpdatePublisher {
 			foreach (var file in newFiles) {
 				ui.Caption = "Uploading " + file.RelativePath;
 
-				var ftpRequest = FtpClient.Default.CreateRequest(CreateFtpUri(file.RemoteUrl));
+				var ftpRequest = FtpClient.Default.CreateRequest(new Uri(UpdateConfig.Standard.RemotePath, file.RemoteUrl));
 				ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
 
 				using (var transform = UpdateChecker.CreateFileEncryptor())
@@ -135,14 +135,8 @@ namespace ShomreiTorah.UpdatePublisher {
 				xml.Save(writer);
 				writer.Flush();
 				stream.Position = 0;
-				FtpClient.Default.UploadFile(CreateFtpUri(new Uri(remoteBaseFolder, "Manifest.xml")), stream, ui);
+				FtpClient.Default.UploadFile(new Uri(remoteBaseFolder, "Manifest.xml"), stream, ui);
 			}
-		}
-
-		static readonly Uri UpdateHostName = new Uri(UpdateChecker.BaseUri.GetLeftPart(UriPartial.Authority), UriKind.Absolute);
-		///<summary>Converts an absolute URL on the website to an relative URL on the FTP site.</summary>
-		static Uri CreateFtpUri(Uri relativeUrl) {
-			return UpdateHostName.MakeRelativeUri(new Uri(UpdateChecker.BaseUri, relativeUrl));
 		}
 	}
 }

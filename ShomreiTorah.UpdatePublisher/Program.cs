@@ -51,7 +51,7 @@ namespace ShomreiTorah.UpdatePublisher {
 									"Shomrei Torah Update Publisher", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			UpdateInfo oldUpdate = new UpdateChecker(product.ProductName, new Version()).FindUpdate();	//We want to find the last update, so I search for an update for version 0.
+			UpdateInfo oldUpdate = UpdateChecker.Create(product.ProductName, new Version()).FindUpdate();	//We want to find the last update, so I search for an update for version 0.
 			if (oldUpdate != null && product.CurrentVersion == oldUpdate.NewVersion
 			 && DialogResult.No == XtraMessageBox.Show("The version number has not changed.\r\nCurrent clients will not download this update.\r\nDo you wish to continue?",
 													   "Shomrei Torah Update Publisher", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
