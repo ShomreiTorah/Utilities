@@ -46,7 +46,8 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 							results.CompiledAssembly
 								   .GetType(model.Namespace + "." + s.RowClassName)
 								   .GetProperty("SchemaMapping").GetValue(null, null)
-					).ToArray();
+					).SortDependencies(sm => sm.Schema)
+					 .ToArray();
 			} finally { options.TempFiles.Delete(); }
 		}
 		#endregion
