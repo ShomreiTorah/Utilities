@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ShomreiTorah.Common;
 using ShomreiTorah.Singularity.Designer.Model;
 
@@ -40,7 +39,7 @@ SELECT
 FROM	INFORMATION_SCHEMA.COLUMNS Columns
 		LEFT OUTER JOIN (
 			SELECT
- 				iColumns.TABLE_NAME	TableName,
+				iColumns.TABLE_NAME	TableName,
 				iColumns.COLUMN_NAME	ColumnName,
 				1 AS Included
 			FROM	INFORMATION_SCHEMA.COLUMNS iColumns
@@ -124,32 +123,32 @@ WHERE Columns.DATA_TYPE <> 'timestamp';";
 		}
 
 		static readonly Dictionary<string, Type> SqlTypes = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase) {
-		    { "UNIQUEIDENTIFIER", typeof(Guid)		},
+			{ "UNIQUEIDENTIFIER", typeof(Guid)		},
 
-		    { "VARBINARY",		typeof(byte[])		},
-		    { "BINARY",			typeof(byte[])		},
-		    { "IMAGE",			typeof(byte[])		},
+			{ "VARBINARY",		typeof(byte[])		},
+			{ "BINARY",			typeof(byte[])		},
+			{ "IMAGE",			typeof(byte[])		},
 
-		    { "NVARCHAR",		typeof(String)		},
-		    { "VARCHAR",		typeof(String)		},
-		    { "NTEXT",			typeof(String)		},
-		    { "NCHAR",			typeof(String)		},
-		    { "CHAR",			typeof(String)		},
-		    { "TEXT",			typeof(String)		},
-			  
-		    { "DATETIME",		typeof(DateTime)	},
-			  
-		    { "TINYINT",		typeof(Byte)		},
-		    { "SMALLINT",		typeof(Int16)		},
-		    { "INTEGER",		typeof(Int32)		},
-		    { "BIGINT",			typeof(Int64)		},
-		    { "INT",			typeof(Int32)		},
-			  
-		    { "DECIMAL",		typeof(Decimal)		},
-		    { "MONEY",			typeof(Decimal)		},
-		    { "FLOAT",			typeof(Double)		},
-		    { "REAL",			typeof(Single)		},
-		    { "BIT",			typeof(Boolean)		},
+			{ "NVARCHAR",		typeof(String)		},
+			{ "VARCHAR",		typeof(String)		},
+			{ "NTEXT",			typeof(String)		},
+			{ "NCHAR",			typeof(String)		},
+			{ "CHAR",			typeof(String)		},
+			{ "TEXT",			typeof(String)		},
+			
+			{ "DATETIME",		typeof(DateTime)	},
+			
+			{ "TINYINT",		typeof(Byte)		},
+			{ "SMALLINT",		typeof(Int16)		},
+			{ "INTEGER",		typeof(Int32)		},
+			{ "BIGINT",			typeof(Int64)		},
+			{ "INT",			typeof(Int32)		},
+			
+			{ "DECIMAL",		typeof(Decimal)		},
+			{ "MONEY",			typeof(Decimal)		},
+			{ "FLOAT",			typeof(Double)		},
+			{ "REAL",			typeof(Single)		},
+			{ "BIT",			typeof(Boolean)		},
 		};
 	}
 }
