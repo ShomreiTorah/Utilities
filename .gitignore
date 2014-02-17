@@ -68,6 +68,7 @@ publish
 # Others
 [Bb]in
 [Oo]bj
+*.ide
 sql
 TestResults
 *.Cache

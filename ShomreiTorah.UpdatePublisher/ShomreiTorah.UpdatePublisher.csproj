@@ -55,13 +55,14 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Printing.v12.1.Core, Version=12.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -152,6 +153,18 @@
     <ProjectReference Include="..\..\Libraries\ShomreiTorah.Common\ShomreiTorah.Common.csproj">
       <Project>{1308A6E1-7787-49F6-A19C-8AF327DAF9B5}</Project>
       <Name>ShomreiTorah.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\ShomreiTorah.Data.UI\ShomreiTorah.Data.UI.csproj">
+      <Project>{43AD72A0-F262-4561-B5C4-2686AE0B5E03}</Project>
+      <Name>ShomreiTorah.Data.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\ShomreiTorah.Data\ShomreiTorah.Data.csproj">
+      <Project>{88D62EF0-7A6C-403E-80EF-6CEFE734DD53}</Project>
+      <Name>ShomreiTorah.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\ShomreiTorah.Singularity\ShomreiTorah.Singularity.csproj">
+      <Project>{53C1A3A0-B443-4C28-895B-5E4DFE803A1C}</Project>
+      <Name>ShomreiTorah.Singularity</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libraries\ShomreiTorah.WinForms\ShomreiTorah.WinForms.csproj">
       <Project>{0B927F97-8CDD-47CB-B775-CA1E0AB2409C}</Project>
