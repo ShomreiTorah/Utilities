@@ -7,6 +7,7 @@ namespace ShomreiTorah.DirectoryManager {
 		public MainForm(ExternalDataManager data) {
 			InitializeComponent();
 			this.data = data;
+			personSelector.Properties.Buttons.RemoveAt(1);
 		}
 
 		///<summary>Releases the unmanaged resources used by the MainForm and optionally releases the managed resources.</summary>
