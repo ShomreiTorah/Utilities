@@ -24,14 +24,19 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
-			this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
-			this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-			this.tabs = new DevExpress.XtraTab.XtraTabControl();
 			this.deletePerson = new DevExpress.XtraBars.BarButtonItem();
 			this.mergePerson = new DevExpress.XtraBars.BarButtonItem();
+			this.infoSource = new DevExpress.XtraBars.BarStaticItem();
+			this.infoStripeId = new DevExpress.XtraBars.BarStaticItem();
+			this.infoYKID = new DevExpress.XtraBars.BarStaticItem();
+			this.personInfo = new DevExpress.XtraBars.BarEditItem();
+			this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
+			this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
 			this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-			this.personInfo = new DevExpress.XtraBars.BarStaticItem();
+			this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+			this.tabs = new DevExpress.XtraTab.XtraTabControl();
 			((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tabs)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -43,13 +48,71 @@
             this.ribbonControl1.ExpandCollapseItem,
             this.deletePerson,
             this.mergePerson,
+            this.infoSource,
+            this.infoStripeId,
+            this.infoYKID,
             this.personInfo});
 			this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-			this.ribbonControl1.MaxItemId = 4;
+			this.ribbonControl1.MaxItemId = 8;
 			this.ribbonControl1.Name = "ribbonControl1";
 			this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
+			this.ribbonControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemMemoEdit1});
 			this.ribbonControl1.Size = new System.Drawing.Size(927, 142);
+			// 
+			// deletePerson
+			// 
+			this.deletePerson.Caption = "Delete";
+			this.deletePerson.Id = 1;
+			this.deletePerson.Name = "deletePerson";
+			// 
+			// mergePerson
+			// 
+			this.mergePerson.Caption = "Merge into other";
+			this.mergePerson.Id = 2;
+			this.mergePerson.Name = "mergePerson";
+			// 
+			// infoSource
+			// 
+			this.infoSource.Caption = "Source: ";
+			this.infoSource.Id = 4;
+			this.infoSource.Name = "infoSource";
+			this.infoSource.TextAlignment = System.Drawing.StringAlignment.Near;
+			// 
+			// infoStripeId
+			// 
+			this.infoStripeId.Caption = "Stripe ID: ";
+			this.infoStripeId.Id = 5;
+			this.infoStripeId.Name = "infoStripeId";
+			this.infoStripeId.TextAlignment = System.Drawing.StringAlignment.Near;
+			// 
+			// infoYKID
+			// 
+			this.infoYKID.Caption = "YKID: ";
+			this.infoYKID.Id = 6;
+			this.infoYKID.Name = "infoYKID";
+			this.infoYKID.TextAlignment = System.Drawing.StringAlignment.Near;
+			// 
+			// personInfo
+			// 
+			this.personInfo.CanOpenEdit = false;
+			this.personInfo.Edit = this.repositoryItemMemoEdit1;
+			this.personInfo.EditHeight = 60;
+			this.personInfo.Id = 7;
+			this.personInfo.ItemAppearance.Normal.BackColor = System.Drawing.Color.Transparent;
+			this.personInfo.ItemAppearance.Normal.Options.UseBackColor = true;
+			this.personInfo.Name = "personInfo";
+			this.personInfo.Width = 160;
+			// 
+			// repositoryItemMemoEdit1
+			// 
+			this.repositoryItemMemoEdit1.AllowFocused = false;
+			this.repositoryItemMemoEdit1.Appearance.BackColor = System.Drawing.Color.Transparent;
+			this.repositoryItemMemoEdit1.Appearance.Options.UseBackColor = true;
+			this.repositoryItemMemoEdit1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+			this.repositoryItemMemoEdit1.Name = "repositoryItemMemoEdit1";
+			this.repositoryItemMemoEdit1.ReadOnly = true;
 			// 
 			// ribbonPage1
 			// 
@@ -58,6 +121,16 @@
             this.ribbonPageGroup1});
 			this.ribbonPage1.Name = "ribbonPage1";
 			this.ribbonPage1.Text = "Person";
+			// 
+			// ribbonPageGroup2
+			// 
+			this.ribbonPageGroup2.ItemLinks.Add(this.personInfo, true);
+			this.ribbonPageGroup2.ItemLinks.Add(this.infoSource, true);
+			this.ribbonPageGroup2.ItemLinks.Add(this.infoStripeId);
+			this.ribbonPageGroup2.ItemLinks.Add(this.infoYKID);
+			this.ribbonPageGroup2.Name = "ribbonPageGroup2";
+			this.ribbonPageGroup2.ShowCaptionButton = false;
+			this.ribbonPageGroup2.Text = "Info";
 			// 
 			// ribbonPageGroup1
 			// 
@@ -75,32 +148,6 @@
 			this.tabs.Size = new System.Drawing.Size(927, 230);
 			this.tabs.TabIndex = 1;
 			// 
-			// deletePerson
-			// 
-			this.deletePerson.Caption = "Delete";
-			this.deletePerson.Id = 1;
-			this.deletePerson.Name = "deletePerson";
-			// 
-			// mergePerson
-			// 
-			this.mergePerson.Caption = "Merge into other";
-			this.mergePerson.Id = 2;
-			this.mergePerson.Name = "mergePerson";
-			// 
-			// ribbonPageGroup2
-			// 
-			this.ribbonPageGroup2.ItemLinks.Add(this.personInfo);
-			this.ribbonPageGroup2.Name = "ribbonPageGroup2";
-			this.ribbonPageGroup2.ShowCaptionButton = false;
-			this.ribbonPageGroup2.Text = "Info";
-			// 
-			// personInfo
-			// 
-			this.personInfo.Caption = "personInfo";
-			this.personInfo.Id = 3;
-			this.personInfo.Name = "personInfo";
-			this.personInfo.TextAlignment = System.Drawing.StringAlignment.Near;
-			// 
 			// PersonForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -111,6 +158,7 @@
 			this.Name = "PersonForm";
 			this.Text = "PersonForm";
 			((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tabs)).EndInit();
 			this.ResumeLayout(false);
 
@@ -124,7 +172,11 @@
 		private DevExpress.XtraBars.BarButtonItem deletePerson;
 		private DevExpress.XtraBars.BarButtonItem mergePerson;
 		private DevExpress.XtraTab.XtraTabControl tabs;
-		private DevExpress.XtraBars.BarStaticItem personInfo;
 		private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
+		private DevExpress.XtraBars.BarStaticItem infoSource;
+		private DevExpress.XtraBars.BarStaticItem infoStripeId;
+		private DevExpress.XtraBars.BarStaticItem infoYKID;
+		private DevExpress.XtraBars.BarEditItem personInfo;
+		private DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit repositoryItemMemoEdit1;
 	}
 }

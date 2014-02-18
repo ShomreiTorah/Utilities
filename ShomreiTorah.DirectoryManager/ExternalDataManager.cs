@@ -17,7 +17,16 @@ namespace ShomreiTorah.DirectoryManager {
 
 				SelectSql = "SELECT * FROM "
 						  + schema.EscapeSqlIdentifier() + "." + name.EscapeSqlIdentifier()
-						  + " WHERE " + foreignKeys.Join(" OR ", c => c + " = @personId");
+						  + " WHERE " + foreignKeys.Join(" OR ", c => c.EscapeSqlIdentifier() + " = @personId");
+				DeleteSql = "DELETE FROM "
+						  + schema.EscapeSqlIdentifier() + "." + name.EscapeSqlIdentifier()
+						  + " WHERE " + foreignKeys.Join(" OR ", c => c.EscapeSqlIdentifier() + " = @Id");
+				UpdateSql = foreignKeys.Join(";\n", c =>
+								"UPDATE "
+							  + schema.EscapeSqlIdentifier() + "." + name.EscapeSqlIdentifier()
+							  + " SET " + c.EscapeSqlIdentifier() + " = @newId"
+							  + " WHERE " + c.EscapeSqlIdentifier() + " = @oldId"
+				);
 			}
 
 			public string Schema { get; private set; }
@@ -25,6 +34,8 @@ namespace ShomreiTorah.DirectoryManager {
 			public ReadOnlyCollection<string> ForeignKeys { get; private set; }
 
 			public string SelectSql { get; private set; }
+			public string UpdateSql { get; private set; }
+			public string DeleteSql { get; private set; }
 		}
 
 		readonly ReadOnlyCollection<ExternalTable> tables;
@@ -38,6 +49,18 @@ namespace ShomreiTorah.DirectoryManager {
 		}
 
 
+		public int DeletePerson(DbTransaction transaction, Person person) {
+			return transaction.ExecuteNonQuery(tables.Join(";\n", t => t.DeleteSql) + ";\n\nDELETE FROM Data.MasterDirectory WHERE Id = @Id", new { person.Id });
+		}
+		public int MergePerson(DbTransaction transaction, PersonRowData oldPerson, Person newPerson) {
+
+			return 
+				transaction.ExecuteNonQuery(
+					tables.Join(";\n\n\n", t => t.UpdateSql) 
+				  + ";\n\n\nUPDATE Data.MasterDirectory SET StripeId = @oldStripeId WHERE Id = @newId AND StripeId IS NULL"
+				  + ";\n\n\nDELETE FROM Data.MasterDirectory WHERE Id = @oldId", new { oldId = oldPerson.Person.Id, newId = newPerson.Id, oldStripeId = oldPerson.StripeId });
+		}
+
 		public PersonRowData GetPerson(Person person) {
 			using (var adapter = db.Factory.CreateDataAdapter(connection, tables.Join(";\n", t => t.SelectSql))) {
 				adapter.SelectCommand.AddParameter("personId", person.Id);
@@ -50,7 +73,7 @@ namespace ShomreiTorah.DirectoryManager {
 					else
 						t.Table.TableName = t.Schema + "." + t.Name;
 				}
-				return new PersonRowData(person, ds);
+				return new PersonRowData(this, person, ds, connection.Sql<string>("SELECT StripeId FROM Data.MasterDirectory WHERE Id = @Id").Execute(new { person.Id }));
 			}
 		}
 
@@ -86,13 +109,17 @@ WHERE ParentConstraints.TABLE_SCHEMA = @SqlSchemaName AND ParentConstraints.TABL
 	}
 
 	public class PersonRowData {
-		public PersonRowData(Person person, DataSet dataSet) {
+		public PersonRowData(ExternalDataManager owner, Person person, DataSet dataSet, string stripeId) {
+			Owner = owner;
 			Person = person;
 			DataSet = dataSet;
+			StripeId = stripeId;
 		}
 
+		public ExternalDataManager Owner { get; private set; }
 		public Person Person { get; private set; }
 		public DataSet DataSet { get; private set; }
+		public string StripeId { get; private set; }
 	}
 	static class Extensions {
 		public static string EscapeSqlIdentifier(this string identifier) {

@@ -9,17 +9,27 @@ using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraTab;
+using ShomreiTorah.WinForms;
 
 namespace ShomreiTorah.DirectoryManager {
 	public partial class PersonForm : XtraForm {
 		static readonly ISet<string> hiddenFields = new HashSet<string> { "RowVersion", "RowId", "PersonId" };
 		static PluralizationService pluralizer = PluralizationService.CreateService(CultureInfo.CurrentCulture);
 
+		readonly PersonRowData person;
+
 		public PersonForm(PersonRowData person) {
 			InitializeComponent();
 
+			this.person = person;
+
 			Text = person.Person.FullName + " - " + person.Person.Id;
-			personInfo.Caption = person.Person.ToFullString();
+			personInfo.EditValue = person.Person.ToFullString();
+			personInfo.SuperTip = Utilities.CreateSuperTip(body: person.Person.ToFullString());
+
+			infoSource.Caption += person.Person.Source;
+			infoStripeId.Caption += person.StripeId;
+			infoYKID.Caption += person.Person.YKID;
 
 			foreach (DataTable table in person.DataSet.Tables) {
 				var grid = new GridControl() {
