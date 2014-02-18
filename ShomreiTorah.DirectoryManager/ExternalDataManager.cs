@@ -40,11 +40,11 @@ namespace ShomreiTorah.DirectoryManager {
 
 		readonly ReadOnlyCollection<ExternalTable> tables;
 		readonly DBConnector db;
-		readonly DbConnection connection;
+		public DbConnection Connection { get;private set; }
 
 		public ExternalDataManager(DBConnector db, DbConnection connection = null) {
 			this.db = db;
-			this.connection = connection ?? db.OpenConnection();
+			this.Connection = connection ?? db.OpenConnection();
 			tables = GetTables();
 		}
 
@@ -62,7 +62,7 @@ namespace ShomreiTorah.DirectoryManager {
 		}
 
 		public PersonRowData GetPerson(Person person) {
-			using (var adapter = db.Factory.CreateDataAdapter(connection, tables.Join(";\n", t => t.SelectSql))) {
+			using (var adapter = db.Factory.CreateDataAdapter(Connection, tables.Join(";\n", t => t.SelectSql))) {
 				adapter.SelectCommand.AddParameter("personId", person.Id);
 				var ds = new DataSet();
 				adapter.Fill(ds);
@@ -73,12 +73,12 @@ namespace ShomreiTorah.DirectoryManager {
 					else
 						t.Table.TableName = t.Schema + "." + t.Name;
 				}
-				return new PersonRowData(this, person, ds, connection.Sql<string>("SELECT StripeId FROM Data.MasterDirectory WHERE Id = @Id").Execute(new { person.Id }));
+				return new PersonRowData(this, person, ds, Connection.Sql<string>("SELECT StripeId FROM Data.MasterDirectory WHERE Id = @Id").Execute(new { person.Id }));
 			}
 		}
 
 		private ReadOnlyCollection<ExternalTable> GetTables() {
-			using (var reader = connection.ExecuteReader(@"
+			using (var reader = Connection.ExecuteReader(@"
 SELECT
 	ChildColumns.TABLE_SCHEMA,
 	ChildColumns.TABLE_NAME,
@@ -103,7 +103,7 @@ WHERE ParentConstraints.TABLE_SCHEMA = @SqlSchemaName AND ParentConstraints.TABL
 		///<param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
 		protected virtual void Dispose(bool disposing) {
 			if (disposing) {
-				connection.Dispose();
+				Connection.Dispose();
 			}
 		}
 	}

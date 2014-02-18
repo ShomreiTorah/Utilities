@@ -23,9 +23,11 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
 			this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
 			this.deletePerson = new DevExpress.XtraBars.BarButtonItem();
-			this.mergePerson = new DevExpress.XtraBars.BarButtonItem();
 			this.infoSource = new DevExpress.XtraBars.BarStaticItem();
 			this.infoStripeId = new DevExpress.XtraBars.BarStaticItem();
 			this.infoYKID = new DevExpress.XtraBars.BarStaticItem();
@@ -35,6 +37,7 @@
 			this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.tabs = new DevExpress.XtraTab.XtraTabControl();
+			this.mergePerson = new DevExpress.XtraBars.BarListItem();
 			((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tabs)).BeginInit();
@@ -47,13 +50,13 @@
 			this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbonControl1.ExpandCollapseItem,
             this.deletePerson,
-            this.mergePerson,
             this.infoSource,
             this.infoStripeId,
             this.infoYKID,
-            this.personInfo});
+            this.personInfo,
+            this.mergePerson});
 			this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-			this.ribbonControl1.MaxItemId = 8;
+			this.ribbonControl1.MaxItemId = 10;
 			this.ribbonControl1.Name = "ribbonControl1";
 			this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
@@ -66,12 +69,7 @@
 			this.deletePerson.Caption = "Delete";
 			this.deletePerson.Id = 1;
 			this.deletePerson.Name = "deletePerson";
-			// 
-			// mergePerson
-			// 
-			this.mergePerson.Caption = "Merge into other";
-			this.mergePerson.Id = 2;
-			this.mergePerson.Name = "mergePerson";
+			this.deletePerson.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.deletePerson_ItemClick);
 			// 
 			// infoSource
 			// 
@@ -134,8 +132,8 @@
 			// 
 			// ribbonPageGroup1
 			// 
-			this.ribbonPageGroup1.ItemLinks.Add(this.mergePerson);
 			this.ribbonPageGroup1.ItemLinks.Add(this.deletePerson);
+			this.ribbonPageGroup1.ItemLinks.Add(this.mergePerson);
 			this.ribbonPageGroup1.Name = "ribbonPageGroup1";
 			this.ribbonPageGroup1.ShowCaptionButton = false;
 			this.ribbonPageGroup1.Text = "Operations";
@@ -147,6 +145,20 @@
 			this.tabs.Name = "tabs";
 			this.tabs.Size = new System.Drawing.Size(927, 230);
 			this.tabs.TabIndex = 1;
+			// 
+			// mergePerson
+			// 
+			this.mergePerson.Caption = "Merge into other";
+			this.mergePerson.Id = 8;
+			this.mergePerson.Name = "mergePerson";
+			toolTipTitleItem2.Text = "Merge into other";
+			toolTipItem2.LeftIndent = 6;
+			toolTipItem2.Text = "Moves all rows from this person to a different person, then deletes this person.";
+			superToolTip2.Items.Add(toolTipTitleItem2);
+			superToolTip2.Items.Add(toolTipItem2);
+			this.mergePerson.SuperTip = superToolTip2;
+			this.mergePerson.ListItemClick += new DevExpress.XtraBars.ListItemClickEventHandler(this.mergePerson_ListItemClick);
+			this.mergePerson.GetItemData += new System.EventHandler(this.mergePerson_GetItemData);
 			// 
 			// PersonForm
 			// 
@@ -170,7 +182,6 @@
 		private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
 		private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
 		private DevExpress.XtraBars.BarButtonItem deletePerson;
-		private DevExpress.XtraBars.BarButtonItem mergePerson;
 		private DevExpress.XtraTab.XtraTabControl tabs;
 		private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
 		private DevExpress.XtraBars.BarStaticItem infoSource;
@@ -178,5 +189,6 @@
 		private DevExpress.XtraBars.BarStaticItem infoYKID;
 		private DevExpress.XtraBars.BarEditItem personInfo;
 		private DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit repositoryItemMemoEdit1;
+		private DevExpress.XtraBars.BarListItem mergePerson;
 	}
 }
