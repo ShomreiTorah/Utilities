@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraBars.Ribbon;
+using ShomreiTorah.WinForms;
 
 namespace ShomreiTorah.DirectoryManager {
 	public partial class MainForm : RibbonForm {
@@ -8,7 +9,9 @@ namespace ShomreiTorah.DirectoryManager {
 			InitializeComponent();
 			this.data = data;
 			personSelector.Properties.Buttons.RemoveAt(1);
-		}
+			new MasterDirectoryGridForm { MdiParent = this }.Show();
+			Text = Dialog.DefaultTitle;
+        }
 
 		///<summary>Releases the unmanaged resources used by the MainForm and optionally releases the managed resources.</summary>
 		///<param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
