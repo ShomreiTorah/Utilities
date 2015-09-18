@@ -38,7 +38,9 @@ namespace ShomreiTorah.DirectoryManager {
 		}
 
 		protected override Form CreateMainForm() {
-			return new MainForm(new ExternalDataManager(DB.Default));
+			var data = new ExternalDataManager(DB.Default);
+			RegisterRowDetail<Person>(person => new PersonForm(data.GetPerson(person)) { MdiParent = MainForm }.Show());
+			return new MainForm(data);
 		}
 
 		protected override DataSyncContext CreateDataContext() {

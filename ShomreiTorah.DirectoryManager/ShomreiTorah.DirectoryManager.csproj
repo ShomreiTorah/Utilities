@@ -96,6 +96,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MasterDirectoryGridForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterDirectoryGridForm.Designer.cs">
+      <DependentUpon>MasterDirectoryGridForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PersonForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +112,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterDirectoryGridForm.resx">
+      <DependentUpon>MasterDirectoryGridForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PersonForm.resx">
       <DependentUpon>PersonForm.cs</DependentUpon>
@@ -166,6 +175,9 @@
       <Project>{0B927F97-8CDD-47CB-B775-CA1E0AB2409C}</Project>
       <Name>ShomreiTorah.WinForms</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Grid16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

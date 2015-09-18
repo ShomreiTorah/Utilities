@@ -22,8 +22,12 @@ namespace ShomreiTorah.DirectoryManager {
 
 		private void personSelector_EditValueChanged(object sender, System.EventArgs e) {
 			if (personSelector.SelectedPerson == null) return;    //eg, DBNull
-			new PersonForm(data.GetPerson(personSelector.SelectedPerson)) { MdiParent = this }.Show();
+			Program.Current.ShowDetails(personSelector.SelectedPerson);
 			personSelector.SelectedPerson = null;
+		}
+
+		private void showGridForm_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+			new MasterDirectoryGridForm { MdiParent = this }.Show();
 		}
 	}
 }

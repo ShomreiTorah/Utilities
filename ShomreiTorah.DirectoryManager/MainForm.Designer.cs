@@ -22,6 +22,7 @@
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
 			this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
+			this.showGridForm = new DevExpress.XtraBars.BarButtonItem();
 			this.xtraTabbedMdiManager1 = new DevExpress.XtraTabbedMdi.XtraTabbedMdiManager(this.components);
 			this.personSelector = new ShomreiTorah.Data.UI.Controls.PersonSelector();
 			((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
@@ -34,12 +35,23 @@
 			this.ribbonControl1.ExpandCollapseItem.Id = 0;
 			this.ribbonControl1.ExpandCollapseItem.Name = "";
 			this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
-            this.ribbonControl1.ExpandCollapseItem});
+            this.ribbonControl1.ExpandCollapseItem,
+            this.showGridForm});
 			this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-			this.ribbonControl1.MaxItemId = 1;
+			this.ribbonControl1.MaxItemId = 2;
 			this.ribbonControl1.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Always;
 			this.ribbonControl1.Name = "ribbonControl1";
+			this.ribbonControl1.PageHeaderItemLinks.Add(this.showGridForm);
 			this.ribbonControl1.Size = new System.Drawing.Size(921, 49);
+			this.ribbonControl1.Toolbar.ItemLinks.Add(this.showGridForm);
+			// 
+			// showGridForm
+			// 
+			this.showGridForm.Caption = "Show all people";
+			this.showGridForm.Glyph = global::ShomreiTorah.DirectoryManager.Properties.Resources.Grid16;
+			this.showGridForm.Id = 1;
+			this.showGridForm.Name = "showGridForm";
+			this.showGridForm.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.showGridForm_ItemClick);
 			// 
 			// xtraTabbedMdiManager1
 			// 
@@ -89,5 +101,6 @@
 		private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl1;
 		private DevExpress.XtraTabbedMdi.XtraTabbedMdiManager xtraTabbedMdiManager1;
 		private Data.UI.Controls.PersonSelector personSelector;
+		private DevExpress.XtraBars.BarButtonItem showGridForm;
 	}
 }
