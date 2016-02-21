@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using ShomreiTorah.Common;
+using ShomreiTorah.Common.Collections;
 using ShomreiTorah.Common.Updates;
 using ShomreiTorah.WinForms;
 using ShomreiTorah.WinForms.Forms;
@@ -74,30 +75,32 @@ namespace ShomreiTorah.UpdatePublisher {
 				path = Path.GetDirectoryName(path);
 			}
 		}
-		private static RSACryptoServiceProvider GetRSA() {
-			string filePath = null;
+		private static DisposableCollection<RSACryptoServiceProvider> GetRSA() {
+			IEnumerable<string> paths = null;
 
 			string rootFolder = FindRoot(typeof(Publisher).Assembly.Location) ?? FindRoot(Config.FilePath);
 			if (rootFolder != null)
-				filePath = Directory.EnumerateFiles(Path.Combine(rootFolder, "Config"), "*.private-key")
-									.OrderByDescending(Path.GetFileName)
-									.FirstOrDefault();
+				paths = Directory.EnumerateFiles(Path.Combine(rootFolder, "Config"), "*.private-key")
+								.OrderByDescending(Path.GetFileName);
 
-			if (filePath == null) {
-				Dialog.Warn("Cannot find private key in expected locations (see source).\nPlease select a private key file.");
+			if (!paths.Any()) {
+				Dialog.Warn("Cannot find private key in expected locations (see source).\nPlease select private key file(s) to sign the update.");
 				using (var dialog = new OpenFileDialog {
-					Filter = "ShomreiTorah Encrypted Private Key File (*.private-key)|*.private-key"
+					Filter = "ShomreiTorah Encrypted Private Key File (*.private-key)|*.private-key",
+					Multiselect = true
 				}) {
 					if (dialog.ShowDialog() == DialogResult.Cancel)
 						return null;
+					paths = dialog.FileNames;
 				}
 			}
-
-			using (var file = File.OpenRead(filePath))
-				return Password.ReadKey(file);
+			return new DisposableCollection<RSACryptoServiceProvider>(paths.Select(p => {
+				using (var file = File.OpenRead(p))
+					return Password.ReadKey(file);
+			}));
 		}
 
-		void GatherFiles(IProgressReporter ui, RSACryptoServiceProvider rsa) {
+		void GatherFiles(IProgressReporter ui, IEnumerable<RSACryptoServiceProvider> rsas) {
 			ui.Caption = "Processing files...";
 			ui.Maximum = -1;
 			var rootUri = new Uri(basePath + "\\", UriKind.Absolute);
@@ -113,7 +116,7 @@ namespace ShomreiTorah.UpdatePublisher {
 						//Since the file hasn't changed, we don't need to re-upload it.
 						pendingFiles.RemoveAll(p => p.Equals(absolutePath, StringComparison.OrdinalIgnoreCase));
 
-						allFiles.Add(UpdateFile.Create(basePath, oldFile.RelativePath, oldFile.RemoteUrl, rsa));	//Re-sign the file to allow for key changes.
+						allFiles.Add(UpdateFile.Create(basePath, oldFile.RelativePath, oldFile.RemoteUrl, rsas));    //Re-sign the file to allow for key changes.
 					} else
 						deleteFiles.Add(oldFile.RemoteUrl);
 				}
@@ -125,10 +128,10 @@ namespace ShomreiTorah.UpdatePublisher {
 
 				//Hide the actual extensions from the server to prevent ASP.Net from interfering
 				var remotePath = new Uri(product.ProductName + "/" + relativePath.Replace('\\', '$') + ".bin", UriKind.Relative);
-				var uf = UpdateFile.Create(basePath, relativePath, remotePath, rsa);
+				var uf = UpdateFile.Create(basePath, relativePath, remotePath, rsas);
 
 				allFiles.Add(uf);
-				newFiles.Add(uf);	//We need to upload it
+				newFiles.Add(uf);   //We need to upload it
 			}
 		}
 
