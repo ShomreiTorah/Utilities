@@ -43,9 +43,9 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
 			this.SuspendLayout();
-			// 
+			//
 			// splitContainerControl1
-			// 
+			//
 			this.splitContainerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainerControl1.Location = new System.Drawing.Point(0, 0);
 			this.splitContainerControl1.Name = "splitContainerControl1";
@@ -58,9 +58,9 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.splitContainerControl1.SplitterPosition = 244;
 			this.splitContainerControl1.TabIndex = 0;
 			this.splitContainerControl1.Text = "splitContainerControl1";
-			// 
+			//
 			// schemaTree
-			// 
+			//
 			this.schemaTree.Appearance.FocusedCell.BackColor = System.Drawing.Color.Transparent;
 			this.schemaTree.Appearance.FocusedCell.Options.UseBackColor = true;
 			this.schemaTree.Appearance.FocusedRow.BackColor = System.Drawing.SystemColors.HotTrack;
@@ -98,7 +98,7 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
             null,
             null}, -1);
 			this.schemaTree.EndUnboundLoad();
-			this.schemaTree.OptionsView.ShowFocusedFrame = false;
+			this.schemaTree.OptionsView.FocusRectStyle = DevExpress.XtraTreeList.DrawFocusRectStyle.None;
 			this.schemaTree.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.loaderEdit,
             this.loadingEdit,
@@ -109,9 +109,9 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.schemaTree.TabIndex = 0;
 			this.schemaTree.CustomNodeCellEdit += new DevExpress.XtraTreeList.GetCustomNodeCellEditEventHandler(this.schemaTree_CustomNodeCellEdit);
 			this.schemaTree.FocusedNodeChanged += new DevExpress.XtraTreeList.FocusedNodeChangedEventHandler(this.schemaTree_FocusedNodeChanged);
-			// 
+			//
 			// colName
-			// 
+			//
 			this.colName.Caption = "Schema Name";
 			this.colName.FieldName = "Schema Name";
 			this.colName.MinWidth = 56;
@@ -121,9 +121,9 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.colName.Visible = true;
 			this.colName.VisibleIndex = 0;
 			this.colName.Width = 110;
-			// 
+			//
 			// colContent
-			// 
+			//
 			this.colContent.Caption = " ";
 			this.colContent.ColumnEdit = this.loadedEdit;
 			this.colContent.FieldName = " ";
@@ -131,9 +131,9 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.colContent.Visible = true;
 			this.colContent.VisibleIndex = 1;
 			this.colContent.Width = 89;
-			// 
+			//
 			// loadedEdit
-			// 
+			//
 			this.loadedEdit.AllowFocused = false;
 			this.loadedEdit.Appearance.BackColor = System.Drawing.SystemColors.HotTrack;
 			this.loadedEdit.Appearance.Options.UseBackColor = true;
@@ -145,9 +145,9 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.loadedEdit.Name = "loadedEdit";
 			this.loadedEdit.ReadOnly = true;
 			this.loadedEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-			// 
+			//
 			// loaderEdit
-			// 
+			//
 			this.loaderEdit.AllowFocused = false;
 			this.loaderEdit.Appearance.BackColor = System.Drawing.SystemColors.HotTrack;
 			this.loaderEdit.Appearance.Options.UseBackColor = true;
@@ -162,13 +162,13 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.loaderEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
 			this.loaderEdit.UseParentBackground = true;
 			this.loaderEdit.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.loaderEdit_ButtonClick);
-			// 
+			//
 			// loadingEdit
-			// 
+			//
 			this.loadingEdit.Name = "loadingEdit";
-			// 
+			//
 			// loadAllTables
-			// 
+			//
 			this.loadAllTables.Dock = System.Windows.Forms.DockStyle.Top;
 			this.loadAllTables.Location = new System.Drawing.Point(0, 0);
 			this.loadAllTables.Name = "loadAllTables";
@@ -176,9 +176,9 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.loadAllTables.TabIndex = 1;
 			this.loadAllTables.Text = "Load All";
 			this.loadAllTables.Click += new System.EventHandler(this.loadAllTables_Click);
-			// 
+			//
 			// grid
-			// 
+			//
 			this.grid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.grid.Location = new System.Drawing.Point(0, 0);
 			this.grid.MainView = this.gridView;
@@ -187,15 +187,15 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 			this.grid.TabIndex = 0;
 			this.grid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView});
-			// 
+			//
 			// gridView
-			// 
+			//
 			this.gridView.GridControl = this.grid;
 			this.gridView.Name = "gridView";
 			this.gridView.OptionsDetail.SmartDetailExpandButtonMode = DevExpress.XtraGrid.Views.Grid.DetailExpandButtonMode.CheckAllDetails;
-			// 
+			//
 			// DataPreview
-			// 
+			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(898, 571);
