@@ -48,6 +48,12 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			Schemas.AddRange(import.Schemas);
 		}
 
+		public void RemoveImport(ImportedContext import) {
+			imports.Remove(import);
+			foreach (var schema in import.Schemas)
+				Schemas.Remove(schema);
+		}
+
 		public XDocument ToXml() {
 			return new XDocument(
 				new XElement("DataContext",

@@ -47,7 +47,8 @@ namespace ShomreiTorah.Singularity.Designer {
 		}
 
 		private void schemaTree_NodeDoubleClick(object sender, EventArgs e) {
-			new SchemaDetailForm(context, schemaTree.SelectedSchema) { MdiParent = this }.Show();
+			if (!schemaTree.SelectedSchema.IsExternal)
+				new SchemaDetailForm(context, schemaTree.SelectedSchema) { MdiParent = this }.Show();
 		}
 
 		private void addSchema_ItemClick(object sender, ItemClickEventArgs e) {
@@ -57,18 +58,32 @@ namespace ShomreiTorah.Singularity.Designer {
 		}
 
 		private void deleteSchema_ItemClick(object sender, ItemClickEventArgs e) {
+			if (schemaTree.SelectedImport != null) {
+				var localChildSchemas = schemaTree.SelectedImport.Schemas
+					.SelectMany(s => s.ChildSchemas.Where(c => !c.IsExternal));
+				if (localChildSchemas.Any()) {
+					XtraMessageBox.Show(this, "Cannot remove import because it's referenced by the following child schemas: " + localChildSchemas.Join(", ", c => c.Name),
+										"Singularity Designer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+				context.RemoveImport(schemaTree.SelectedImport);
+				return;
+			}
 			if (DialogResult.Yes == XtraMessageBox.Show("Are you sure you want to delete " + schemaTree.SelectedSchema.Name + "?",
 														"Singularity Designer", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
 				context.Schemas.Remove(schemaTree.SelectedSchema);
 		}
 
 		private void schemaTree_SelectionChanged(object sender, EventArgs e) {
-			if (schemaTree.SelectedSchema == null) {
+			if (schemaTree.SelectedImport != null) {
+				deleteSchema.Caption = "Delete " + schemaTree.SelectedImport.Name ?? schemaTree.SelectedImport.RelativePath;
+				deleteSchema.Enabled = true;
+			} else if (schemaTree.SelectedSchema != null) {
+				deleteSchema.Caption = "Delete " + schemaTree.SelectedSchema.Name;
+				deleteSchema.Enabled = !schemaTree.SelectedSchema.IsExternal;
+			} else {
 				deleteSchema.Caption = "Delete Schema";
 				deleteSchema.Enabled = false;
-			} else {
-				deleteSchema.Caption = "Delete " + schemaTree.SelectedSchema.Name;
-				deleteSchema.Enabled = true;
 			}
 		}
 
@@ -172,6 +187,8 @@ namespace ShomreiTorah.Singularity.Designer {
 		}
 
 		#endregion
+		private void importExternal_ItemClick(Object sender, ItemClickEventArgs e) {
+		}
 
 		private void diffCode_ItemClick(object sender, ItemClickEventArgs e) {
 			var path1 = Path.GetTempFileName();

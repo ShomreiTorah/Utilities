@@ -23,9 +23,12 @@ namespace ShomreiTorah.Singularity.Designer.Controls {
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			DevExpress.XtraTreeList.StyleFormatConditions.TreeListFormatRule treeListFormatRule1 = new DevExpress.XtraTreeList.StyleFormatConditions.TreeListFormatRule();
+			DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue1 = new DevExpress.XtraEditors.FormatConditionRuleValue();
 			this.tree = new DevExpress.XtraTreeList.TreeList();
 			this.colName = new DevExpress.XtraTreeList.Columns.TreeListColumn();
 			this.colSqlSchema = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+			this.colIsDisabled = new DevExpress.XtraTreeList.Columns.TreeListColumn();
 			((System.ComponentModel.ISupportInitialize)(this.tree)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -33,8 +36,17 @@ namespace ShomreiTorah.Singularity.Designer.Controls {
 			// 
 			this.tree.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
             this.colName,
-            this.colSqlSchema});
+            this.colSqlSchema,
+            this.colIsDisabled});
 			this.tree.Dock = System.Windows.Forms.DockStyle.Fill;
+			treeListFormatRule1.ApplyToRow = true;
+			treeListFormatRule1.Name = "Disabled";
+			formatConditionRuleValue1.Appearance.ForeColor = System.Drawing.SystemColors.GrayText;
+			formatConditionRuleValue1.Appearance.Options.UseForeColor = true;
+			formatConditionRuleValue1.Condition = DevExpress.XtraEditors.FormatCondition.Equal;
+			formatConditionRuleValue1.Value1 = true;
+			treeListFormatRule1.Rule = formatConditionRuleValue1;
+			this.tree.FormatRules.Add(treeListFormatRule1);
 			this.tree.Location = new System.Drawing.Point(0, 0);
 			this.tree.Name = "tree";
 			this.tree.Size = new System.Drawing.Size(418, 312);
@@ -64,6 +76,13 @@ namespace ShomreiTorah.Singularity.Designer.Controls {
 			this.colSqlSchema.Visible = true;
 			this.colSqlSchema.VisibleIndex = 1;
 			// 
+			// colIsDisabled
+			// 
+			this.colIsDisabled.Caption = "treeListColumn1";
+			this.colIsDisabled.FieldName = "IsDisabled";
+			this.colIsDisabled.Name = "colIsDisabled";
+			this.colIsDisabled.OptionsColumn.ShowInCustomizationForm = false;
+			// 
 			// SchemaTree
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -81,5 +100,6 @@ namespace ShomreiTorah.Singularity.Designer.Controls {
 		private DevExpress.XtraTreeList.TreeList tree;
 		private DevExpress.XtraTreeList.Columns.TreeListColumn colName;
 		private DevExpress.XtraTreeList.Columns.TreeListColumn colSqlSchema;
+		private DevExpress.XtraTreeList.Columns.TreeListColumn colIsDisabled;
 	}
 }

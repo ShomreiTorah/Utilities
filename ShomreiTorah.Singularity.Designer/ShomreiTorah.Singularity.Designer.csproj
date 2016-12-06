@@ -170,6 +170,7 @@
   <ItemGroup>
     <Content Include="App.ico" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <None Include="Resources\ImportFile32.png" />
     <None Include="Resources\SaveCS32.png" />
     <None Include="Resources\Save32.png" />
     <None Include="Resources\XML32.png" />

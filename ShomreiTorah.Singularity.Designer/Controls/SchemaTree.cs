@@ -9,6 +9,7 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraTreeList.Nodes;
 using DevExpress.XtraTreeList;
 using ShomreiTorah.Singularity.Designer.Model;
+using System.Linq;
 
 namespace ShomreiTorah.Singularity.Designer.Controls {
 	[DefaultEvent("SelectionChanged")]
@@ -37,14 +38,22 @@ namespace ShomreiTorah.Singularity.Designer.Controls {
 			tree.BeginUnboundLoad();
 			tree.ClearNodes();
 
-			foreach (var schema in Model.Schemas) {
+			foreach (var schema in Model.Schemas.Where(s => !s.IsExternal)) {
 				AddSchemaTree(schema, null);
+			}
+
+			foreach (var import in Model.Imports) {
+				var node = tree.AppendNode(new object[] { import.Name, import.RelativePath, true }, null, import);
+
+				foreach (var schema in import.Schemas) {
+					AddSchemaTree(schema, node);
+				}
 			}
 			tree.BestFitColumns();
 			tree.EndUnboundLoad();
 		}
 		void AddSchemaTree(SchemaModel schema, TreeListNode parentNode) {
-			var node = tree.AppendNode(new object[] { schema.Name, schema.SqlSchemaName }, parentNode, schema);
+			var node = tree.AppendNode(new object[] { schema.Name, schema.SqlSchemaName, schema.IsExternal }, parentNode, schema);
 
 			foreach (var child in schema.ChildSchemas) {
 				AddSchemaTree(child, node);
@@ -52,12 +61,10 @@ namespace ShomreiTorah.Singularity.Designer.Controls {
 		}
 
 		[Browsable(false)]
-		public SchemaModel SelectedSchema {
-			get {
-				if (tree.FocusedNode == null) return null;
-				return (SchemaModel)tree.FocusedNode.Tag;
-			}
-		}
+		public SchemaModel SelectedSchema => tree.FocusedNode?.Tag as SchemaModel;
+
+		[Browsable(false)]
+		public ImportedContext SelectedImport => tree.FocusedNode?.Tag as ImportedContext;
 
 		private void tree_FocusedNodeChanged(object sender, FocusedNodeChangedEventArgs e) {
 			OnSelectionChanged();

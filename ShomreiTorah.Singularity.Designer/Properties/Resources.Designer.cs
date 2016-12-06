@@ -133,6 +133,16 @@ namespace ShomreiTorah.Singularity.Designer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ImportFile32 {
+            get {
+                object obj = ResourceManager.GetObject("ImportFile32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap NewFile32 {
             get {
                 object obj = ResourceManager.GetObject("NewFile32", resourceCulture);

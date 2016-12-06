@@ -24,6 +24,9 @@ namespace ShomreiTorah.Singularity.Designer {
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
+			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
 			this.appMenu = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
@@ -41,6 +44,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.generateCode = new DevExpress.XtraBars.BarButtonItem();
 			this.previewCode = new DevExpress.XtraBars.BarButtonItem();
 			this.saveCode = new DevExpress.XtraBars.BarButtonItem();
+			this.importExternal = new DevExpress.XtraBars.BarButtonItem();
 			this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
 			this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -84,12 +88,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.ribbon.ApplicationButtonText = "File";
 			this.ribbon.ApplicationCaption = "Singularity Designer";
 			this.ribbon.ApplicationIcon = global::ShomreiTorah.Singularity.Designer.Properties.Resources.RibbonIcon;
-			// 
-			// 
-			// 
 			this.ribbon.ExpandCollapseItem.Id = 0;
-			this.ribbon.ExpandCollapseItem.Name = "";
-			this.ribbon.ExpandCollapseItem.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.SmallWithoutText;
 			this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbon.ExpandCollapseItem,
             this.sqlServerImport,
@@ -104,23 +103,22 @@ namespace ShomreiTorah.Singularity.Designer {
             this.viewChanges,
             this.diffXml,
             this.diffCode,
-            this.saveCode});
+            this.saveCode,
+            this.importExternal});
 			this.ribbon.Location = new System.Drawing.Point(0, 0);
-			this.ribbon.MaxItemId = 13;
+			this.ribbon.MaxItemId = 14;
 			this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Always;
 			this.ribbon.Name = "ribbon";
 			this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
+			this.ribbon.QuickToolbarItemLinks.Add(this.saveFile);
 			this.ribbon.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2010;
-			this.ribbon.SelectedPage = this.ribbonPage1;
 			this.ribbon.ShowPageHeadersMode = DevExpress.XtraBars.Ribbon.ShowPageHeadersMode.ShowOnMultiplePages;
-			this.ribbon.Size = new System.Drawing.Size(938, 148);
+			this.ribbon.Size = new System.Drawing.Size(938, 143);
 			this.ribbon.StatusBar = this.ribbonStatusBar;
-			this.ribbon.Toolbar.ItemLinks.Add(this.saveFile);
 			// 
 			// appMenu
 			// 
-			this.appMenu.BottomPaneControlContainer = null;
 			this.appMenu.ItemLinks.Add(this.newFile);
 			this.appMenu.ItemLinks.Add(this.openFile);
 			this.appMenu.ItemLinks.Add(this.saveFile);
@@ -129,7 +127,6 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.appMenu.MenuDrawMode = DevExpress.XtraBars.MenuDrawMode.LargeImagesText;
 			this.appMenu.Name = "appMenu";
 			this.appMenu.Ribbon = this.ribbon;
-			this.appMenu.RightPaneControlContainer = null;
 			this.appMenu.ShowRightPane = true;
 			// 
 			// newFile
@@ -249,6 +246,22 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.saveCode.Name = "saveCode";
 			this.saveCode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.saveCode_ItemClick);
 			// 
+			// importExternal
+			// 
+			this.importExternal.Caption = "External DataContext";
+			this.importExternal.Id = 13;
+			this.importExternal.LargeGlyph = global::ShomreiTorah.Singularity.Designer.Properties.Resources.ImportFile32;
+			this.importExternal.Name = "importExternal";
+			this.importExternal.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+			toolTipTitleItem1.Text = "Import External Context";
+			toolTipItem1.LeftIndent = 6;
+			toolTipItem1.Text = "Imports schemas from an existing Singularity Designer XML file to link against.\r\n" +
+    "\r\nThese schemas will not be compiled with this file.";
+			superToolTip1.Items.Add(toolTipTitleItem1);
+			superToolTip1.Items.Add(toolTipItem1);
+			this.importExternal.SuperTip = superToolTip1;
+			this.importExternal.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.importExternal_ItemClick);
+			// 
 			// ribbonPage1
 			// 
 			this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -270,6 +283,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			// ribbonPageGroup1
 			// 
 			this.ribbonPageGroup1.ItemLinks.Add(this.sqlServerImport);
+			this.ribbonPageGroup1.ItemLinks.Add(this.importExternal);
 			this.ribbonPageGroup1.MergeOrder = 99;
 			this.ribbonPageGroup1.Name = "ribbonPageGroup1";
 			this.ribbonPageGroup1.ShowCaptionButton = false;
@@ -286,10 +300,10 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			// ribbonStatusBar
 			// 
-			this.ribbonStatusBar.Location = new System.Drawing.Point(0, 620);
+			this.ribbonStatusBar.Location = new System.Drawing.Point(0, 612);
 			this.ribbonStatusBar.Name = "ribbonStatusBar";
 			this.ribbonStatusBar.Ribbon = this.ribbon;
-			this.ribbonStatusBar.Size = new System.Drawing.Size(938, 23);
+			this.ribbonStatusBar.Size = new System.Drawing.Size(938, 31);
 			// 
 			// dockManager
 			// 
@@ -312,10 +326,10 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.panelContainer1.Controls.Add(this.dockPanel2);
 			this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
 			this.panelContainer1.ID = new System.Guid("c8f41b99-e419-4749-99dc-0c00f0645310");
-			this.panelContainer1.Location = new System.Drawing.Point(0, 148);
+			this.panelContainer1.Location = new System.Drawing.Point(0, 143);
 			this.panelContainer1.Name = "panelContainer1";
 			this.panelContainer1.OriginalSize = new System.Drawing.Size(200, 200);
-			this.panelContainer1.Size = new System.Drawing.Size(200, 472);
+			this.panelContainer1.Size = new System.Drawing.Size(200, 469);
 			this.panelContainer1.Text = "panelContainer1";
 			// 
 			// dockPanel1
@@ -327,16 +341,16 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dockPanel1.ID = new System.Guid("cb8061cf-b73e-46cd-b8a2-1b792dd354c8");
 			this.dockPanel1.Location = new System.Drawing.Point(0, 0);
 			this.dockPanel1.Name = "dockPanel1";
-			this.dockPanel1.OriginalSize = new System.Drawing.Size(200, 200);
-			this.dockPanel1.Size = new System.Drawing.Size(200, 372);
+			this.dockPanel1.OriginalSize = new System.Drawing.Size(200, 372);
+			this.dockPanel1.Size = new System.Drawing.Size(200, 370);
 			this.dockPanel1.Text = "Schemas";
 			// 
 			// dockPanel1_Container
 			// 
 			this.dockPanel1_Container.Controls.Add(this.schemaTree);
-			this.dockPanel1_Container.Location = new System.Drawing.Point(3, 25);
+			this.dockPanel1_Container.Location = new System.Drawing.Point(4, 23);
 			this.dockPanel1_Container.Name = "dockPanel1_Container";
-			this.dockPanel1_Container.Size = new System.Drawing.Size(194, 344);
+			this.dockPanel1_Container.Size = new System.Drawing.Size(192, 343);
 			this.dockPanel1_Container.TabIndex = 0;
 			// 
 			// schemaTree
@@ -344,7 +358,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.schemaTree.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.schemaTree.Location = new System.Drawing.Point(0, 0);
 			this.schemaTree.Name = "schemaTree";
-			this.schemaTree.Size = new System.Drawing.Size(194, 344);
+			this.schemaTree.Size = new System.Drawing.Size(192, 343);
 			this.schemaTree.TabIndex = 0;
 			this.schemaTree.SelectionChanged += new System.EventHandler(this.schemaTree_SelectionChanged);
 			this.schemaTree.NodeDoubleClick += new System.EventHandler(this.schemaTree_NodeDoubleClick);
@@ -356,18 +370,18 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dockPanel2.Controls.Add(this.dockPanel2_Container);
 			this.dockPanel2.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
 			this.dockPanel2.ID = new System.Guid("a886d53e-bdc3-43b0-8182-7a3cb2f5b355");
-			this.dockPanel2.Location = new System.Drawing.Point(0, 372);
+			this.dockPanel2.Location = new System.Drawing.Point(0, 370);
 			this.dockPanel2.Name = "dockPanel2";
-			this.dockPanel2.OriginalSize = new System.Drawing.Size(200, 200);
-			this.dockPanel2.Size = new System.Drawing.Size(200, 100);
+			this.dockPanel2.OriginalSize = new System.Drawing.Size(200, 100);
+			this.dockPanel2.Size = new System.Drawing.Size(200, 99);
 			this.dockPanel2.Text = "DataContext Properties";
 			// 
 			// dockPanel2_Container
 			// 
 			this.dockPanel2_Container.Controls.Add(this.dataContextVGrid);
-			this.dockPanel2_Container.Location = new System.Drawing.Point(3, 25);
+			this.dockPanel2_Container.Location = new System.Drawing.Point(4, 23);
 			this.dockPanel2_Container.Name = "dockPanel2_Container";
-			this.dockPanel2_Container.Size = new System.Drawing.Size(194, 72);
+			this.dockPanel2_Container.Size = new System.Drawing.Size(192, 72);
 			this.dockPanel2_Container.TabIndex = 0;
 			// 
 			// dataContextVGrid
@@ -382,7 +396,7 @@ namespace ShomreiTorah.Singularity.Designer {
             this.editorRow1,
             this.editorRow3,
             this.categoryRow1});
-			this.dataContextVGrid.Size = new System.Drawing.Size(194, 72);
+			this.dataContextVGrid.Size = new System.Drawing.Size(192, 72);
 			this.dataContextVGrid.TabIndex = 0;
 			// 
 			// editorRow1
@@ -426,9 +440,9 @@ namespace ShomreiTorah.Singularity.Designer {
 			// dockPanel3_Container
 			// 
 			this.dockPanel3_Container.Controls.Add(this.elementHost1);
-			this.dockPanel3_Container.Location = new System.Drawing.Point(2, 22);
+			this.dockPanel3_Container.Location = new System.Drawing.Point(3, 22);
 			this.dockPanel3_Container.Name = "dockPanel3_Container";
-			this.dockPanel3_Container.Size = new System.Drawing.Size(612, 536);
+			this.dockPanel3_Container.Size = new System.Drawing.Size(610, 535);
 			this.dockPanel3_Container.TabIndex = 0;
 			// 
 			// elementHost1
@@ -436,7 +450,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.elementHost1.Location = new System.Drawing.Point(0, 0);
 			this.elementHost1.Name = "elementHost1";
-			this.elementHost1.Size = new System.Drawing.Size(612, 536);
+			this.elementHost1.Size = new System.Drawing.Size(610, 535);
 			this.elementHost1.TabIndex = 0;
 			this.elementHost1.Text = "elementHost1";
 			this.elementHost1.Child = this.codeEditor;
@@ -474,6 +488,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dockPanel3_Container.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.xtraTabbedMdiManager)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -517,5 +532,6 @@ namespace ShomreiTorah.Singularity.Designer {
 		private DevExpress.XtraBars.BarButtonItem diffCode;
 		private DevExpress.XtraBars.BarButtonItem saveCode;
 		private DevExpress.XtraVerticalGrid.Rows.EditorRow editorRow3;
+		private DevExpress.XtraBars.BarButtonItem importExternal;
 	}
 }
