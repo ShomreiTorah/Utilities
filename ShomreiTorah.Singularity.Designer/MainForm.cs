@@ -28,7 +28,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			previewPanel.Visibility = DockVisibility.Hidden;
 			BindToContext();
 
-			CurrentFilePath = null;	//Set menu state
+			CurrentFilePath = null; //Set menu state
 		}
 
 		void BindToContext() {
@@ -167,7 +167,7 @@ namespace ShomreiTorah.Singularity.Designer {
 					return;
 				CurrentFilePath = openDialog.FileName;
 			}
-			context = new DataContextModel(XDocument.Load(CurrentFilePath).Root);
+			context = new DataContextModel(CurrentFilePath);
 			BindToContext();
 		}
 
@@ -178,7 +178,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			var path2 = Path.GetTempFileName();
 
 			using (var writer = File.CreateText(path1))
-				new DataContextModel(XDocument.Load(CurrentFilePath).Root)
+				new DataContextModel(CurrentFilePath)
 					.WriteClasses(writer);
 			using (var writer = File.CreateText(path2))
 				context.WriteClasses(writer);

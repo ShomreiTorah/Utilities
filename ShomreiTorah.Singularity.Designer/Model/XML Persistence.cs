@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -14,15 +17,34 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 	}
 
 	sealed partial class DataContextModel {
-		public DataContextModel(XElement element)
+		///<summary>Loads a <see cref="DataContextModel"/> from an XML file, resolving relative paths to external schemas.</summary>
+		public DataContextModel(string path)
 			: this() {
+			FilePath = path;
+			var element = XElement.Load(path);
 			Name = element.Attribute("Name").Value;
 			Namespace = element.Attribute("Namespace").Value;
 
-			if (element.Attribute("CodePath") != null)	//This property was introduced later; I must accept older files
+			if (element.Attribute("CodePath") != null)  //This property was introduced later; I must accept older files
 				CodePath = element.Attribute("CodePath").Value;
 
+			foreach (var import in element.Elements("Import")) {
+				ImportContext(import.Attribute("Path").Value);
+			}
 			Schemas.AddRange(element.Elements("Schema").Select(e => new SchemaModel(this, e)));
+		}
+
+		public string FilePath { get; }
+
+		readonly ObservableCollection<string> importedFiles = new ObservableCollection<string>();
+		public ReadOnlyObservableCollection<string> ImportedFiles { get; }
+
+		public void ImportContext(string relativePath) {
+			importedFiles.Add(relativePath);
+			Schemas.AddRange(
+				XDocument.Load(Path.Combine(Path.GetDirectoryName(FilePath), relativePath))
+						 .Elements("Schema")
+						 .Select(e => new SchemaModel(this, e, isExternal: true)));
 		}
 
 		public XDocument ToXml() {
@@ -32,7 +54,9 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					new XAttribute("Namespace", this.Namespace),
 					new XAttribute("CodePath", this.CodePath ?? ""),
 
-					Schemas.SortDependencies().Select(s => s.ToXml())
+					ImportedFiles.Select(path => new XElement("Import", new XAttribute("Path", path))),
+
+					Schemas.SortDependencies().Where(s => !s.IsExternal).Select(s => s.ToXml())
 				)
 			);
 		}
@@ -54,6 +78,13 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			if (pKey != null)
 				PrimaryKey = Columns.Single(c => c.Name == pKey.Value);
 		}
+
+		public SchemaModel(DataContextModel owner, XElement element, bool isExternal) : this(owner, element) {
+			IsExternal = isExternal;
+		}
+
+		///<summary>Indicates whether this schema was imported from a different XML file.  If so, it should not be modified.</summary>
+		public bool IsExternal { get; }
 
 		public XElement ToXml() {
 			var retVal = new XElement("Schema",
@@ -81,7 +112,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			dataType = Type.GetType(element.Attribute("DataType").Value);
 
 			var def = element.Element("DefaultValue");
-			if (def.Element("Null") == null)	//If it's not <Null />
+			if (def.Element("Null") == null)    //If it's not <Null />
 				DefaultValue = def.Value;
 
 			allowNulls = (bool)element.Attribute("AllowNulls");
