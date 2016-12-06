@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using ShomreiTorah.Common;
 
@@ -28,23 +26,26 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			if (element.Attribute("CodePath") != null)  //This property was introduced later; I must accept older files
 				CodePath = element.Attribute("CodePath").Value;
 
-			foreach (var import in element.Elements("Import")) {
+			foreach (var import in element.Elements("Import"))
 				ImportContext(import.Attribute("Path").Value);
-			}
+
 			Schemas.AddRange(element.Elements("Schema").Select(e => new SchemaModel(this, e)));
 		}
 
 		public string FilePath { get; }
 
-		readonly ObservableCollection<string> importedFiles = new ObservableCollection<string>();
-		public ReadOnlyObservableCollection<string> ImportedFiles { get; }
+		readonly List<ImportedContext> imports = new List<ImportedContext>();
+		public ReadOnlyCollection<ImportedContext> Imports { get; }
 
 		public void ImportContext(string relativePath) {
-			importedFiles.Add(relativePath);
-			Schemas.AddRange(
-				XDocument.Load(Path.Combine(Path.GetDirectoryName(FilePath), relativePath))
-						 .Elements("Schema")
-						 .Select(e => new SchemaModel(this, e, isExternal: true)));
+			XElement element = XElement.Load(Path.Combine(Path.GetDirectoryName(FilePath), relativePath));
+			var import = new ImportedContext(
+				relativePath,
+				element.Attribute("Name").Value,
+				element.Elements("Schema")
+					   .Select(e => new SchemaModel(this, e, isExternal: true)));
+			imports.Add(import);
+			Schemas.AddRange(import.Schemas);
 		}
 
 		public XDocument ToXml() {
@@ -54,13 +55,27 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					new XAttribute("Namespace", this.Namespace),
 					new XAttribute("CodePath", this.CodePath ?? ""),
 
-					ImportedFiles.Select(path => new XElement("Import", new XAttribute("Path", path))),
+					Imports.Select(ic => new XElement("Import", new XAttribute("Path", ic.RelativePath))),
 
 					Schemas.SortDependencies().Where(s => !s.IsExternal).Select(s => s.ToXml())
 				)
 			);
 		}
 	}
+
+	///<summary>A group of schemas that has been imported from another file.  These should not be modified.</summary>
+	public class ImportedContext {
+		public ImportedContext(string relativePath, string name, IEnumerable<SchemaModel> schemas) {
+			RelativePath = relativePath;
+			Schemas = schemas.ReadOnlyCopy();
+			Name = name;
+		}
+
+		public string Name { get; }
+		public string RelativePath { get; }
+		public ReadOnlyCollection<SchemaModel> Schemas { get; }
+	}
+
 	sealed partial class SchemaModel {
 		public SchemaModel(DataContextModel owner, XElement element)
 			: this(owner) {
