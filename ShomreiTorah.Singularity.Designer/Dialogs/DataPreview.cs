@@ -54,11 +54,15 @@ namespace ShomreiTorah.Singularity.Designer.Dialogs {
 		readonly Dictionary<TreeListNode, LoadableTable> tableNodes = new Dictionary<TreeListNode, LoadableTable>();
 		readonly Dictionary<TableSchema, LoadableTable> schemaTables;
 		readonly DataContext context = new DataContext();
-		readonly LoadableTable[] tables;
+		readonly IReadOnlyList<LoadableTable> tables;
 		public DataPreview(SchemaMapping[] schemas) {
 			InitializeComponent();
 
-			tables = Array.ConvertAll(schemas, sm => new LoadableTable(context, sm));
+			tables = schemas
+				.SortDependencies(sm => sm.Schema)
+				.Reverse()
+				.Select(sm => new LoadableTable(context, sm))
+				.ToList();
 			schemaTables = tables.ToDictionary(t => t.Schema);
 
 			schemaTree.BeginUnboundLoad();
