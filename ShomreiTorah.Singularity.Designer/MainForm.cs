@@ -187,7 +187,23 @@ namespace ShomreiTorah.Singularity.Designer {
 		}
 
 		#endregion
-		private void importExternal_ItemClick(Object sender, ItemClickEventArgs e) {
+		private void importExternal_ItemClick(object sender, ItemClickEventArgs e) {
+			if (string.IsNullOrEmpty(CurrentFilePath)) {
+				XtraMessageBox.Show(this, "Cannot import external DataContexts until the current context has been saved (since imports use relative paths).",
+									"Singularity Designer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			using (var openDialog = new OpenFileDialog {
+				FileName = context.Name,
+				Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*",
+				Title = "Import External DataContext"
+			}) {
+				if (openDialog.ShowDialog(this) != DialogResult.OK)
+					return;
+				CurrentFilePath = openDialog.FileName;
+				context.ImportContext(
+					Uri.UnescapeDataString(new Uri(CurrentFilePath).MakeRelativeUri(new Uri(openDialog.FileName)).ToString()));
+			}
 		}
 
 		private void diffCode_ItemClick(object sender, ItemClickEventArgs e) {

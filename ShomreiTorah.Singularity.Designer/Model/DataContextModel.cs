@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace ShomreiTorah.Singularity.Designer.Model {
 	public partial class DataContextModel : INotifyPropertyChanged {
 		public DataContextModel() {
+			Imports = new ReadOnlyCollection<ImportedContext>(imports);
 			Schemas = new BindingList<SchemaModel>();
 			Schemas.ListChanged += delegate { OnTreeChanged(); };
 		}
