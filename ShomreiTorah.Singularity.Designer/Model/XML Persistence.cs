@@ -32,7 +32,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			Schemas.AddRange(element.Elements("Schema").Select(e => new SchemaModel(this, e)));
 		}
 
-		public string FilePath { get; }
+		public string FilePath { get; set; }
 
 		readonly List<ImportedContext> imports = new List<ImportedContext>();
 		public ReadOnlyCollection<ImportedContext> Imports { get; }

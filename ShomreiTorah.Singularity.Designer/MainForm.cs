@@ -103,11 +103,10 @@ namespace ShomreiTorah.Singularity.Designer {
 		}
 
 		#region File Management
-		string currentFilePath;
 		string CurrentFilePath {
-			get { return currentFilePath; }
+			get { return context.FilePath; }
 			set {
-				currentFilePath = value;
+				context.FilePath = value;
 
 				viewChanges.Enabled = !string.IsNullOrEmpty(value);
 			}
