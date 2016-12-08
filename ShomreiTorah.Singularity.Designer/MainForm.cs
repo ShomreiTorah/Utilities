@@ -155,8 +155,6 @@ namespace ShomreiTorah.Singularity.Designer {
 		bool SaveFile() {
 			if (string.IsNullOrEmpty(CurrentFilePath))
 				return DoSaveAs();
-			if (!Program.EnsureWritable(CurrentFilePath))
-				return false;
 
 			context.ToXml().Save(CurrentFilePath);
 			return true;
@@ -250,7 +248,6 @@ namespace ShomreiTorah.Singularity.Designer {
 				return;
 			}
 			var path = Path.Combine(Path.GetDirectoryName(CurrentFilePath), context.CodePath);
-			if (!Program.EnsureWritable(path)) return;
 			using (var writer = File.CreateText(path)) {
 				context.WriteClasses(writer);
 			}
