@@ -106,6 +106,7 @@ namespace ShomreiTorah.Singularity.Designer {
             this.saveCode,
             this.importExternal});
 			this.ribbon.Location = new System.Drawing.Point(0, 0);
+			this.ribbon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.ribbon.MaxItemId = 14;
 			this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Always;
 			this.ribbon.Name = "ribbon";
@@ -114,7 +115,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.ribbon.QuickToolbarItemLinks.Add(this.saveFile);
 			this.ribbon.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2010;
 			this.ribbon.ShowPageHeadersMode = DevExpress.XtraBars.Ribbon.ShowPageHeadersMode.ShowOnMultiplePages;
-			this.ribbon.Size = new System.Drawing.Size(938, 143);
+			this.ribbon.Size = new System.Drawing.Size(1407, 219);
 			this.ribbon.StatusBar = this.ribbonStatusBar;
 			// 
 			// appMenu
@@ -300,10 +301,11 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			// ribbonStatusBar
 			// 
-			this.ribbonStatusBar.Location = new System.Drawing.Point(0, 612);
+			this.ribbonStatusBar.Location = new System.Drawing.Point(0, 892);
+			this.ribbonStatusBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.ribbonStatusBar.Name = "ribbonStatusBar";
 			this.ribbonStatusBar.Ribbon = this.ribbon;
-			this.ribbonStatusBar.Size = new System.Drawing.Size(938, 31);
+			this.ribbonStatusBar.Size = new System.Drawing.Size(1407, 48);
 			// 
 			// dockManager
 			// 
@@ -326,10 +328,11 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.panelContainer1.Controls.Add(this.dockPanel2);
 			this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
 			this.panelContainer1.ID = new System.Guid("c8f41b99-e419-4749-99dc-0c00f0645310");
-			this.panelContainer1.Location = new System.Drawing.Point(0, 143);
+			this.panelContainer1.Location = new System.Drawing.Point(0, 219);
+			this.panelContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.panelContainer1.Name = "panelContainer1";
-			this.panelContainer1.OriginalSize = new System.Drawing.Size(200, 200);
-			this.panelContainer1.Size = new System.Drawing.Size(200, 469);
+			this.panelContainer1.OriginalSize = new System.Drawing.Size(405, 200);
+			this.panelContainer1.Size = new System.Drawing.Size(405, 673);
 			this.panelContainer1.Text = "panelContainer1";
 			// 
 			// dockPanel1
@@ -340,25 +343,28 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dockPanel1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
 			this.dockPanel1.ID = new System.Guid("cb8061cf-b73e-46cd-b8a2-1b792dd354c8");
 			this.dockPanel1.Location = new System.Drawing.Point(0, 0);
+			this.dockPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.dockPanel1.Name = "dockPanel1";
-			this.dockPanel1.OriginalSize = new System.Drawing.Size(200, 372);
-			this.dockPanel1.Size = new System.Drawing.Size(200, 370);
+			this.dockPanel1.OriginalSize = new System.Drawing.Size(300, 541);
+			this.dockPanel1.Size = new System.Drawing.Size(405, 526);
 			this.dockPanel1.Text = "Schemas";
 			// 
 			// dockPanel1_Container
 			// 
 			this.dockPanel1_Container.Controls.Add(this.schemaTree);
-			this.dockPanel1_Container.Location = new System.Drawing.Point(4, 23);
+			this.dockPanel1_Container.Location = new System.Drawing.Point(6, 32);
+			this.dockPanel1_Container.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.dockPanel1_Container.Name = "dockPanel1_Container";
-			this.dockPanel1_Container.Size = new System.Drawing.Size(192, 343);
+			this.dockPanel1_Container.Size = new System.Drawing.Size(393, 488);
 			this.dockPanel1_Container.TabIndex = 0;
 			// 
 			// schemaTree
 			// 
 			this.schemaTree.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.schemaTree.Location = new System.Drawing.Point(0, 0);
+			this.schemaTree.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
 			this.schemaTree.Name = "schemaTree";
-			this.schemaTree.Size = new System.Drawing.Size(192, 343);
+			this.schemaTree.Size = new System.Drawing.Size(393, 488);
 			this.schemaTree.TabIndex = 0;
 			this.schemaTree.SelectionChanged += new System.EventHandler(this.schemaTree_SelectionChanged);
 			this.schemaTree.NodeDoubleClick += new System.EventHandler(this.schemaTree_NodeDoubleClick);
@@ -370,18 +376,20 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dockPanel2.Controls.Add(this.dockPanel2_Container);
 			this.dockPanel2.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
 			this.dockPanel2.ID = new System.Guid("a886d53e-bdc3-43b0-8182-7a3cb2f5b355");
-			this.dockPanel2.Location = new System.Drawing.Point(0, 370);
+			this.dockPanel2.Location = new System.Drawing.Point(0, 526);
+			this.dockPanel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.dockPanel2.Name = "dockPanel2";
-			this.dockPanel2.OriginalSize = new System.Drawing.Size(200, 100);
-			this.dockPanel2.Size = new System.Drawing.Size(200, 99);
+			this.dockPanel2.OriginalSize = new System.Drawing.Size(300, 145);
+			this.dockPanel2.Size = new System.Drawing.Size(405, 147);
 			this.dockPanel2.Text = "DataContext Properties";
 			// 
 			// dockPanel2_Container
 			// 
 			this.dockPanel2_Container.Controls.Add(this.dataContextVGrid);
-			this.dockPanel2_Container.Location = new System.Drawing.Point(4, 23);
+			this.dockPanel2_Container.Location = new System.Drawing.Point(6, 32);
+			this.dockPanel2_Container.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.dockPanel2_Container.Name = "dockPanel2_Container";
-			this.dockPanel2_Container.Size = new System.Drawing.Size(192, 72);
+			this.dockPanel2_Container.Size = new System.Drawing.Size(393, 109);
 			this.dockPanel2_Container.TabIndex = 0;
 			// 
 			// dataContextVGrid
@@ -389,6 +397,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.dataContextVGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataContextVGrid.LayoutStyle = DevExpress.XtraVerticalGrid.LayoutViewStyle.SingleRecordView;
 			this.dataContextVGrid.Location = new System.Drawing.Point(0, 0);
+			this.dataContextVGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.dataContextVGrid.Name = "dataContextVGrid";
 			this.dataContextVGrid.RecordWidth = 80;
 			this.dataContextVGrid.RowHeaderWidth = 120;
@@ -396,7 +405,7 @@ namespace ShomreiTorah.Singularity.Designer {
             this.editorRow1,
             this.editorRow3,
             this.categoryRow1});
-			this.dataContextVGrid.Size = new System.Drawing.Size(192, 72);
+			this.dataContextVGrid.Size = new System.Drawing.Size(393, 109);
 			this.dataContextVGrid.TabIndex = 0;
 			// 
 			// editorRow1
@@ -440,9 +449,9 @@ namespace ShomreiTorah.Singularity.Designer {
 			// dockPanel3_Container
 			// 
 			this.dockPanel3_Container.Controls.Add(this.elementHost1);
-			this.dockPanel3_Container.Location = new System.Drawing.Point(3, 22);
+			this.dockPanel3_Container.Location = new System.Drawing.Point(5, 30);
 			this.dockPanel3_Container.Name = "dockPanel3_Container";
-			this.dockPanel3_Container.Size = new System.Drawing.Size(610, 535);
+			this.dockPanel3_Container.Size = new System.Drawing.Size(606, 525);
 			this.dockPanel3_Container.TabIndex = 0;
 			// 
 			// elementHost1
@@ -450,7 +459,7 @@ namespace ShomreiTorah.Singularity.Designer {
 			this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.elementHost1.Location = new System.Drawing.Point(0, 0);
 			this.elementHost1.Name = "elementHost1";
-			this.elementHost1.Size = new System.Drawing.Size(610, 535);
+			this.elementHost1.Size = new System.Drawing.Size(606, 525);
 			this.elementHost1.TabIndex = 0;
 			this.elementHost1.Text = "elementHost1";
 			this.elementHost1.Child = this.codeEditor;
@@ -462,14 +471,15 @@ namespace ShomreiTorah.Singularity.Designer {
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(938, 643);
+			this.ClientSize = new System.Drawing.Size(1407, 940);
 			this.Controls.Add(this.panelContainer1);
 			this.Controls.Add(this.ribbonStatusBar);
 			this.Controls.Add(this.ribbon);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.IsMdiContainer = true;
+			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.Name = "MainForm";
 			this.Ribbon = this.ribbon;
 			this.StatusBar = this.ribbonStatusBar;
