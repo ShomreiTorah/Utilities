@@ -18,6 +18,7 @@ using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraEditors;
 using ShomreiTorah.Common;
 using ShomreiTorah.Singularity.Designer.Model;
+using ShomreiTorah.WinForms;
 
 namespace ShomreiTorah.Singularity.Designer {
 	partial class MainForm : RibbonForm {
@@ -186,8 +187,7 @@ namespace ShomreiTorah.Singularity.Designer {
 		#endregion
 		private void importExternal_ItemClick(object sender, ItemClickEventArgs e) {
 			if (string.IsNullOrEmpty(CurrentFilePath)) {
-				XtraMessageBox.Show(this, "Cannot import external DataContexts until the current context has been saved (since imports use relative paths).",
-									"Singularity Designer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Dialog.ShowError("Cannot import external DataContexts until the current context has been saved (since imports use relative paths).");
 				return;
 			}
 			using (var openDialog = new OpenFileDialog {
@@ -197,9 +197,12 @@ namespace ShomreiTorah.Singularity.Designer {
 			}) {
 				if (openDialog.ShowDialog(this) != DialogResult.OK)
 					return;
-				CurrentFilePath = openDialog.FileName;
-				context.ImportContext(
-					Uri.UnescapeDataString(new Uri(CurrentFilePath).MakeRelativeUri(new Uri(openDialog.FileName)).ToString()));
+				string relativePath = Uri.UnescapeDataString(new Uri(CurrentFilePath).MakeRelativeUri(new Uri(openDialog.FileName)).ToString());
+				try {
+					context.ImportContext(relativePath);
+				} catch (Exception ex) {
+					Dialog.ShowError($"An error occurred while importing {relativePath}:\n\n{ex.Message}");
+				}
 			}
 		}
 
