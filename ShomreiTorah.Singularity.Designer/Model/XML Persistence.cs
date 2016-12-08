@@ -39,13 +39,17 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 
 		public void ImportContext(string relativePath) {
 			XElement element = XElement.Load(Path.Combine(Path.GetDirectoryName(FilePath), relativePath));
-			var import = new ImportedContext(
-				relativePath,
-				element.Attribute("Name").Value,
-				element.Elements("Schema")
-					   .Select(e => new SchemaModel(this, e, isExternal: true)));
-			imports.Add(import);
-			Schemas.AddRange(import.Schemas);
+
+			// The SchemaModel deserializer relies on parent schemas existing in the context.
+			// Therefore, I must immediately add them to this.Schemas as I create them.
+			var schemas = new List<SchemaModel>();
+			foreach (var schema in element.Elements("Schema")
+					   .Select(e => new SchemaModel(this, e, isExternal: true))) {
+				schemas.Add(schema);
+				Schemas.AddRange(schema);
+			}
+			imports.Add(new ImportedContext(relativePath, element.Attribute("Name").Value, schemas));
+			OnTreeChanged();
 		}
 
 		public void RemoveImport(ImportedContext import) {

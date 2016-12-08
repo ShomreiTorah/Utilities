@@ -48,7 +48,7 @@ namespace ShomreiTorah.Singularity.Designer {
 		}
 
 		private void schemaTree_NodeDoubleClick(object sender, EventArgs e) {
-			if (!schemaTree.SelectedSchema.IsExternal)
+			if (schemaTree.SelectedSchema?.IsExternal == false)
 				new SchemaDetailForm(context, schemaTree.SelectedSchema) { MdiParent = this }.Show();
 		}
 
