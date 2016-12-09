@@ -13,7 +13,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			if (value == null) return "null";
 			StringBuilder b = new StringBuilder(value.Length + 5);
 
-			b.Append("\"");	//Adapted from .Net source (Microsoft.CSharp.CSharpCodeGenerator.QuoteSnippetStringCStyle)
+			b.Append("\""); //Adapted from .Net source (Microsoft.CSharp.CSharpCodeGenerator.QuoteSnippetStringCStyle)
 
 			for (int i = 0; i < value.Length; i++) {
 				switch (value[i]) {
@@ -67,12 +67,16 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 			indentedWriter.WriteLine("using System.Linq;");
 			indentedWriter.WriteLine("using ShomreiTorah.Singularity;");
 			indentedWriter.WriteLine("using ShomreiTorah.Singularity.Sql;");
+
+			foreach (var import in model.Imports)
+				indentedWriter.WriteLine("using " + import.Namespace + ";");
+
 			indentedWriter.WriteLine();
 			indentedWriter.WriteLine("namespace " + model.Namespace + " {");
 			indentedWriter.Indent++;
 
 			bool first = true;
-			foreach (var schema in model.Schemas.OrderBy(s => s.Name)) {
+			foreach (var schema in model.Schemas.Where(s => !s.IsExternal).OrderBy(s => s.Name)) {
 				if (first)
 					first = false;
 				else
@@ -250,7 +254,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					+ ", row => " + column.Expression + ");");
 			} else if (column.ForeignSchema != null) {
 				writer.WriteLine(column.ColumnPropertyName
-					+ " = Schema.Columns.AddForeignKey(" + column.Name.Quote() + ", " + column.Owner.Owner.Namespace + "." + column.ForeignSchema.RowClassName + ".Schema, " + column.ForeignRelationName.Quote() + ");");
+					+ " = Schema.Columns.AddForeignKey(" + column.Name.Quote() + ", " + column.ForeignSchema.RowClassName + ".Schema, " + column.ForeignRelationName.Quote() + ");");
 			} else {
 				writer.WriteLine(column.ColumnPropertyName
 					+ " = Schema.Columns.AddValueColumn(" + column.Name.Quote() + ", typeof(" + column.DataType.Name + "), " + column.DefaultValueCode + ");");
@@ -322,11 +326,11 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 					return "null";
 				if (dataType == typeof(bool))
 					return DefaultValue.ToString().ToLowerInvariant();
-				if (dataType == typeof(int))	//TODO: Other numerics
+				if (dataType == typeof(int))    //TODO: Other numerics
 					return defaultValue.ToString();
 				if (DefaultValue.ToString() == @"""""")
-					return @"""""";	//Empty string - ""
-				//TODO: Improve
+					return @""""""; //Empty string - ""
+									//TODO: Improve
 				return defaultValue.ToString().Quote();
 			}
 		}

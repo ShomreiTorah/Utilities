@@ -155,12 +155,17 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 		public string ForeignRelationName {
 			get { return foreignRelationName; }
 			set {
-				if (ForeignRelationPropertyName == ForeignRelationName)
-					ForeignRelationPropertyName = value;
+				// If the foreign key is in an external schema, it won't get any codegen.
+				if (ForeignSchema?.IsExternal == true)
+					ForeignRelationPropertyName = ForeignRelationPropertyDescription = null;
+				else {
+					if (ForeignRelationPropertyName == ForeignRelationName)
+						ForeignRelationPropertyName = value;
 
-				if (String.IsNullOrEmpty(ForeignRelationPropertyDescription)
-				 || ForeignRelationPropertyDescription == String.Format(CultureInfo.InvariantCulture, DefaultFrpDescriptionFormat, ForeignRelationName.SplitWords(), Owner.RowClassName.SplitWords()))
-					ForeignRelationPropertyDescription = String.Format(CultureInfo.InvariantCulture, DefaultFrpDescriptionFormat, value.SplitWords(), ForeignSchema.RowClassName.SplitWords());
+					if (String.IsNullOrEmpty(ForeignRelationPropertyDescription)
+					 || ForeignRelationPropertyDescription == String.Format(CultureInfo.InvariantCulture, DefaultFrpDescriptionFormat, ForeignRelationName.SplitWords(), Owner.RowClassName.SplitWords()))
+						ForeignRelationPropertyDescription = String.Format(CultureInfo.InvariantCulture, DefaultFrpDescriptionFormat, value.SplitWords(), ForeignSchema.RowClassName.SplitWords());
+				}
 
 				foreignRelationName = value;
 				OnPropertyChanged("ForeignRelationName");

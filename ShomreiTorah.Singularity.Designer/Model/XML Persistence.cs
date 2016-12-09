@@ -48,7 +48,7 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 				schemas.Add(schema);
 				Schemas.AddRange(schema);
 			}
-			imports.Add(new ImportedContext(relativePath, element.Attribute("Name").Value, schemas));
+			imports.Add(new ImportedContext(relativePath, element.Attribute("Name").Value, element.Attribute("Namespace").Value, schemas));
 			OnTreeChanged();
 		}
 
@@ -75,14 +75,16 @@ namespace ShomreiTorah.Singularity.Designer.Model {
 
 	///<summary>A group of schemas that has been imported from another file.  These should not be modified.</summary>
 	public class ImportedContext {
-		public ImportedContext(string relativePath, string name, IEnumerable<SchemaModel> schemas) {
+		public ImportedContext(string relativePath, string name, string @namespace, IEnumerable<SchemaModel> schemas) {
 			RelativePath = relativePath;
 			Schemas = schemas.ReadOnlyCopy();
 			Name = name;
+			Namespace = @namespace;
 		}
 
 		public string Name { get; }
 		public string RelativePath { get; }
+		public string Namespace { get; }
 		public ReadOnlyCollection<SchemaModel> Schemas { get; }
 	}
 

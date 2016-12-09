@@ -136,6 +136,9 @@ namespace ShomreiTorah.Singularity.Designer {
 			}
 			ClearForeignSchemaButton.Enabled = FocusedColumn != null && FocusedColumn.ForeignSchema != null;
 			rowForeignRelationPropertyDescription.Enabled = rowForeignRelationName.Enabled = rowForeignRelationPropertyName.Enabled = FocusedColumn == null || FocusedColumn.ForeignSchema != null;
+			// If the foreign key is in an external schema, it won't get any codegen.
+			if (FocusedColumn?.ForeignSchema?.IsExternal == true)
+				rowForeignRelationPropertyDescription.Enabled = rowForeignRelationPropertyName.Enabled = false;
 		}
 		void UpdateColumnSqlNameEdit() {
 			rowColumnSqlName.Enabled = FocusedColumn == null || FocusedColumn.GenerateSqlMapping;
