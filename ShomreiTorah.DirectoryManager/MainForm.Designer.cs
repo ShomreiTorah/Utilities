@@ -32,8 +32,8 @@
 			// 
 			// ribbonControl1
 			// 
+			this.ribbonControl1.AutoSizeItems = true;
 			this.ribbonControl1.ExpandCollapseItem.Id = 0;
-			this.ribbonControl1.ExpandCollapseItem.Name = "";
 			this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbonControl1.ExpandCollapseItem,
             this.showGridForm});
@@ -42,14 +42,16 @@
 			this.ribbonControl1.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Always;
 			this.ribbonControl1.Name = "ribbonControl1";
 			this.ribbonControl1.PageHeaderItemLinks.Add(this.showGridForm);
+			this.ribbonControl1.QuickToolbarItemLinks.Add(this.showGridForm);
+			this.ribbonControl1.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2013;
+			this.ribbonControl1.ShowApplicationButton = DevExpress.Utils.DefaultBoolean.False;
 			this.ribbonControl1.Size = new System.Drawing.Size(921, 49);
-			this.ribbonControl1.Toolbar.ItemLinks.Add(this.showGridForm);
 			// 
 			// showGridForm
 			// 
 			this.showGridForm.Caption = "Show all people";
-			this.showGridForm.Glyph = global::ShomreiTorah.DirectoryManager.Properties.Resources.Grid16;
 			this.showGridForm.Id = 1;
+			this.showGridForm.ImageOptions.Image = global::ShomreiTorah.DirectoryManager.Properties.Resources.Grid16;
 			this.showGridForm.Name = "showGridForm";
 			this.showGridForm.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.showGridForm_ItemClick);
 			// 
@@ -73,6 +75,7 @@
 			this.personSelector.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, superToolTip1, true),
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "New person...", 90, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleLeft, ((System.Drawing.Image)(resources.GetObject("personSelector.Properties.Buttons"))), new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject2, "", null, superToolTip2, true)});
+			this.personSelector.Properties.NewPersonTemplate = null;
 			this.personSelector.Size = new System.Drawing.Size(921, 20);
 			this.personSelector.TabIndex = 2;
 			this.personSelector.EditValueChanged += new System.EventHandler(this.personSelector_EditValueChanged);
@@ -85,6 +88,7 @@
 			this.ClientSize = new System.Drawing.Size(921, 589);
 			this.Controls.Add(this.personSelector);
 			this.Controls.Add(this.ribbonControl1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.IsMdiContainer = true;
 			this.Name = "MainForm";
 			this.Ribbon = this.ribbonControl1;
@@ -93,6 +97,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.xtraTabbedMdiManager1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.personSelector.Properties)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
