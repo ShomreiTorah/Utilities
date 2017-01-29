@@ -23,9 +23,9 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
 			this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
 			this.deletePerson = new DevExpress.XtraBars.BarButtonItem();
 			this.infoSource = new DevExpress.XtraBars.BarStaticItem();
@@ -33,11 +33,11 @@
 			this.infoYKID = new DevExpress.XtraBars.BarStaticItem();
 			this.personInfo = new DevExpress.XtraBars.BarEditItem();
 			this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
+			this.mergePerson = new DevExpress.XtraBars.BarListItem();
 			this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
 			this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.tabs = new DevExpress.XtraTab.XtraTabControl();
-			this.mergePerson = new DevExpress.XtraBars.BarListItem();
 			((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tabs)).BeginInit();
@@ -46,7 +46,6 @@
 			// ribbonControl1
 			// 
 			this.ribbonControl1.ExpandCollapseItem.Id = 0;
-			this.ribbonControl1.ExpandCollapseItem.Name = "";
 			this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbonControl1.ExpandCollapseItem,
             this.deletePerson,
@@ -62,7 +61,7 @@
             this.ribbonPage1});
 			this.ribbonControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemMemoEdit1});
-			this.ribbonControl1.Size = new System.Drawing.Size(927, 142);
+			this.ribbonControl1.Size = new System.Drawing.Size(927, 141);
 			// 
 			// deletePerson
 			// 
@@ -97,11 +96,11 @@
 			this.personInfo.CanOpenEdit = false;
 			this.personInfo.Edit = this.repositoryItemMemoEdit1;
 			this.personInfo.EditHeight = 60;
+			this.personInfo.EditWidth = 160;
 			this.personInfo.Id = 7;
 			this.personInfo.ItemAppearance.Normal.BackColor = System.Drawing.Color.Transparent;
 			this.personInfo.ItemAppearance.Normal.Options.UseBackColor = true;
 			this.personInfo.Name = "personInfo";
-			this.personInfo.Width = 160;
 			// 
 			// repositoryItemMemoEdit1
 			// 
@@ -111,6 +110,24 @@
 			this.repositoryItemMemoEdit1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
 			this.repositoryItemMemoEdit1.Name = "repositoryItemMemoEdit1";
 			this.repositoryItemMemoEdit1.ReadOnly = true;
+			// 
+			// mergePerson
+			// 
+			this.mergePerson.Caption = "Merge into other";
+			this.mergePerson.Id = 8;
+			this.mergePerson.MenuAppearance.AppearanceMenu.Normal.Options.UseTextOptions = true;
+			this.mergePerson.MenuAppearance.AppearanceMenu.Normal.TextOptions.HotkeyPrefix = DevExpress.Utils.HKeyPrefix.None;
+			this.mergePerson.MenuAppearance.HeaderItemAppearance.Options.UseTextOptions = true;
+			this.mergePerson.MenuAppearance.HeaderItemAppearance.TextOptions.HotkeyPrefix = DevExpress.Utils.HKeyPrefix.None;
+			this.mergePerson.Name = "mergePerson";
+			toolTipTitleItem1.Text = "Merge into other";
+			toolTipItem1.LeftIndent = 6;
+			toolTipItem1.Text = "Moves all rows from this person to a different person, then deletes this person.";
+			superToolTip1.Items.Add(toolTipTitleItem1);
+			superToolTip1.Items.Add(toolTipItem1);
+			this.mergePerson.SuperTip = superToolTip1;
+			this.mergePerson.ListItemClick += new DevExpress.XtraBars.ListItemClickEventHandler(this.mergePerson_ListItemClick);
+			this.mergePerson.GetItemData += new System.EventHandler(this.mergePerson_GetItemData);
 			// 
 			// ribbonPage1
 			// 
@@ -141,24 +158,10 @@
 			// tabs
 			// 
 			this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabs.Location = new System.Drawing.Point(0, 142);
+			this.tabs.Location = new System.Drawing.Point(0, 141);
 			this.tabs.Name = "tabs";
-			this.tabs.Size = new System.Drawing.Size(927, 230);
+			this.tabs.Size = new System.Drawing.Size(927, 231);
 			this.tabs.TabIndex = 1;
-			// 
-			// mergePerson
-			// 
-			this.mergePerson.Caption = "Merge into other";
-			this.mergePerson.Id = 8;
-			this.mergePerson.Name = "mergePerson";
-			toolTipTitleItem2.Text = "Merge into other";
-			toolTipItem2.LeftIndent = 6;
-			toolTipItem2.Text = "Moves all rows from this person to a different person, then deletes this person.";
-			superToolTip2.Items.Add(toolTipTitleItem2);
-			superToolTip2.Items.Add(toolTipItem2);
-			this.mergePerson.SuperTip = superToolTip2;
-			this.mergePerson.ListItemClick += new DevExpress.XtraBars.ListItemClickEventHandler(this.mergePerson_ListItemClick);
-			this.mergePerson.GetItemData += new System.EventHandler(this.mergePerson_GetItemData);
 			// 
 			// PersonForm
 			// 
@@ -173,6 +176,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tabs)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 

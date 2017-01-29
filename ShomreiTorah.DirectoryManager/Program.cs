@@ -55,7 +55,11 @@ namespace ShomreiTorah.DirectoryManager {
 				Person.Schema.Columns.AddCalculatedColumn<decimal>("BalanceDue", person => person.Field<decimal>("TotalPledged") - person.Field<decimal>("TotalPaid"));
 
 				Payment.Schema.Columns.RemoveColumn(Payment.DepositColumn);
+
+				ValueColumn uiidColumn = Person.Schema.Columns.AddValueColumn(nameof(Extensions.UIId), typeof(int?), null);
+				Person.SchemaMapping.Columns.RemoveMapping(uiidColumn);
 			}
+
 
 			context.Tables.AddTable(Pledge.CreateTable());
 			context.Tables.AddTable(Payment.CreateTable());
@@ -65,6 +69,13 @@ namespace ShomreiTorah.DirectoryManager {
 			var dsc = new DataSyncContext(context, new SqlServerSqlProvider(DB.Default));
 			dsc.Tables.AddPrimaryMappings();
 			return dsc;
+		}
+	}
+
+	static partial class Extensions {
+		static int nextId = 0;
+		public static int UIId(this Person person) {
+			return person.Field<int?>(nameof(UIId)) ?? (int)(person[nameof(UIId)] = ++nextId);
 		}
 	}
 }

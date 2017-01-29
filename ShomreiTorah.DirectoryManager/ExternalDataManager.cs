@@ -121,7 +121,7 @@ WHERE ParentConstraints.TABLE_SCHEMA = @SqlSchemaName AND ParentConstraints.TABL
 		public DataSet DataSet { get; private set; }
 		public string StripeId { get; private set; }
 	}
-	static class Extensions {
+	static partial class Extensions {
 		public static string EscapeSqlIdentifier(this string identifier) {
 			return "[" + identifier.Replace("]", "]]") + "]";
 		}

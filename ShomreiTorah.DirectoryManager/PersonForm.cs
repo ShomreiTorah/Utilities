@@ -27,13 +27,14 @@ namespace ShomreiTorah.DirectoryManager {
 
 			this.person = person;
 
-			Text = person.Person.FullName + " - " + person.Person.Id;
+			Text = person.Person.FullName + " - " + person.Person.UIId();
 			personInfo.EditValue = person.Person.ToFullString();
 			personInfo.SuperTip = Utilities.CreateSuperTip(body: person.Person.ToFullString());
 
 			infoSource.Caption += person.Person.Source;
 			infoStripeId.Caption += person.StripeId;
 			infoYKID.Caption += person.Person.YKID;
+			infoYKID.SuperTip = Utilities.CreateSuperTip("Row ID", person.Person.Id.ToString());
 
 			foreach (DataTable table in person.DataSet.Tables) {
 				var grid = new GridControl() {
