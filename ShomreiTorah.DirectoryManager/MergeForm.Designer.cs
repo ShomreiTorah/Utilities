@@ -49,16 +49,14 @@
 			// 
 			this.gridView.GridControl = this.gridControl1;
 			this.gridView.Name = "gridView";
-			this.gridView.OptionsDetail.SmartDetailExpandButtonMode = DevExpress.XtraGrid.Views.Grid.DetailExpandButtonMode.AlwaysEnabled;
+			this.gridView.OptionsView.AllowCellMerge = true;
+			this.gridView.OptionsBehavior.AllowPixelScrolling = DevExpress.Utils.DefaultBoolean.False;
+			this.gridView.OptionsDetail.EnableDetailToolTip = true;
 			this.gridView.OptionsView.ShowGroupPanel = false;
 			this.gridView.RowStyle += new DevExpress.XtraGrid.Views.Grid.RowStyleEventHandler(this.gridView_RowStyle);
-			this.gridView.MasterRowEmpty += new DevExpress.XtraGrid.Views.Grid.MasterRowEmptyEventHandler(this.gridView_MasterRowEmpty);
-			this.gridView.MasterRowGetChildList += new DevExpress.XtraGrid.Views.Grid.MasterRowGetChildListEventHandler(this.gridView_MasterRowGetChildList);
-			this.gridView.MasterRowGetRelationName += new DevExpress.XtraGrid.Views.Grid.MasterRowGetRelationNameEventHandler(this.gridView_MasterRowGetRelationName);
-			this.gridView.MasterRowGetRelationDisplayCaption += new DevExpress.XtraGrid.Views.Grid.MasterRowGetRelationNameEventHandler(this.gridView_MasterRowGetRelationDisplayCaption);
-			this.gridView.MasterRowGetRelationCount += new DevExpress.XtraGrid.Views.Grid.MasterRowGetRelationCountEventHandler(this.gridView_MasterRowGetRelationCount);
 			this.gridView.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gridView_ShowingEditor);
 			this.gridView.DoubleClick += new System.EventHandler(this.gridView_DoubleClick);
+			this.gridView.CellMerge += new  DevExpress.XtraGrid.Views.Grid.CellMergeEventHandler(this.gridView_CellMerge);
 			// 
 			// cancel
 			// 

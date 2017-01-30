@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
@@ -9,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DevExpress.Data;
 using DevExpress.Utils;
 using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Grid;
@@ -19,25 +22,19 @@ using ShomreiTorah.WinForms;
 
 namespace ShomreiTorah.DirectoryManager {
 	public partial class MergeForm : XtraForm {
-		readonly IReadOnlyList<PersonRowData> sources;
-		readonly List<Person> gridSource;
+		readonly GridList gridSource;
 		readonly PersonRowData target;
-		readonly Person targetEditor;
 
-		///<summary>Columns with conflicting source data that the user must manually resolve.</summary>
-		readonly List<Column> requiredColumns = new List<Column>();
 		public MergeForm(IEnumerable<PersonRowData> sources, string caption) {
 			InitializeComponent();
 
-			sources = this.sources = sources.ToList();
-			target = this.sources.Last();
+			gridSource = new GridList(sources);
+
+			target = gridSource.Sources.Last();
 
 			label.Text = caption;
-			Text = $"Merge {this.sources.Count} people";
+			Text = $"Merge {gridSource.Sources.Count} people";
 
-			targetEditor = InitializeTargetEditor();
-			gridSource = this.sources.Select(s => s.Person).ToList();
-			gridSource.Add(targetEditor);
 			gridControl1.DataSource = gridSource;
 			// Remove grid columns from detail views or other non-data properties
 			foreach (var gridColumn in gridView.Columns.ToList()) {
@@ -54,15 +51,15 @@ namespace ShomreiTorah.DirectoryManager {
 		}
 
 		private void merge_Click(object sender, EventArgs e) {
-			var remainingConflicts = requiredColumns
-				.Where(c => Equals(targetEditor[c], c.DefaultValue))
+			var remainingConflicts = gridSource.RequiredColumns
+				.Where(c => Equals(gridSource.TargetEditor[c], c.DefaultValue))
 				.ToList();
 			if (remainingConflicts.Any()
 			&& !Dialog.Warn("The following columns had conflicting values and are still blank.  "
 						  + "Are you sure you want to drop them from the merge?\n\n" + remainingConflicts.Join(", ", c => c.Name)))
 				return;
 
-			target.Person.AssignFrom(targetEditor);
+			target.Person.AssignFrom(gridSource.TargetEditor);
 			DialogResult = DialogResult.OK;
 		}
 
@@ -72,88 +69,101 @@ namespace ShomreiTorah.DirectoryManager {
 				rowCount = PerformMerge(transaction);
 				transaction.Rollback();
 			}
-
-			BeginInvoke(new Action(delegate {
-				label.Text = $"Are you sure you want to merge {sources.Count} people?  "
-						   + $"This will affect {rowCount} rows.  Update the merged person at the bottom of this grid.";
-			}));
+			var text = $"Are you sure you want to merge {gridSource.Sources.Count} people?  "
+					 + $"This will affect {rowCount} rows.  Update the merged person at the bottom of this grid.";
+			if (IsHandleCreated)
+				BeginInvoke(new Action(() => label.Text = text));
+			else
+				Text = text;
 		}
 
 		int PerformMerge(DbTransaction transaction) {
-			return sources.Where(s => s != target).Sum(s => s.Owner.MergePerson(transaction, s, target.Person));
+			return gridSource.Sources.Where(s => s != target).Sum(s => s.Owner.MergePerson(transaction, s, target.Person));
 		}
 
 		private void gridView_RowStyle(object sender, RowStyleEventArgs e) {
-			if (gridView.GetRow(e.RowHandle) == targetEditor)
+			if (gridView.GetRow(e.RowHandle) == gridSource.TargetEditor)
 				e.Appearance.FontStyleDelta = FontStyle.Bold;
 			else
 				e.Appearance.BackColor = SystemColors.Control;
 		}
 
 		private void gridView_ShowingEditor(object sender, CancelEventArgs e) {
-			e.Cancel = gridView.GetFocusedRow() != targetEditor;
+			e.Cancel = gridView.GetFocusedRow() != gridSource.TargetEditor;
 		}
 
-		Person InitializeTargetEditor() {
-			var retVal = new Person();
 
-			foreach (var column in Person.Schema.Columns.Where(c => !c.ReadOnly && c.Name != nameof(Extensions.UIId))) {
-				var values = sources
-					.Select(r => r.Person[column])
-					.Where(v => !Equals(v, column.DefaultValue))
-					.Distinct()
-					.ToList();
-				switch (values.Count) {
-					case 0: break;  // If none of the source rows have data, we don't are about this column.
-					case 1:         // If all of the source rows agree, use their value as-is.
-						retVal[column] = values[0];
-						break;
-					default:        // If the source rows have conflicting values, force the user to choose.
-						requiredColumns.Add(column);
-						break;
-				}
+		class GridList : Collection<Person>, IRelationListEx {
+			public IReadOnlyList<PersonRowData> Sources { get; }
+			public Person TargetEditor { get; }
+			///<summary>Columns with conflicting source data that the user must manually resolve.</summary>
+			public List<Column> RequiredColumns { get; } = new List<Column>();
+
+			public GridList(IEnumerable<PersonRowData> sources) {
+				Sources = sources.ToList();
+				TargetEditor = InitializeTargetEditor();
+				this.AddRange(Sources.Select(s => s.Person));
+				this.Add(TargetEditor);
 			}
-			retVal[nameof(Extensions.UIId)] = target.Person.UIId();
-			return retVal;
+			Person InitializeTargetEditor() {
+				var retVal = new Person();
+
+				foreach (var column in Person.Schema.Columns.Where(c => !c.ReadOnly && c.Name != nameof(Extensions.UIId))) {
+					var values = Sources
+						.Select(r => r.Person[column])
+						.Where(v => !Equals(v, column.DefaultValue))
+						.Distinct()
+						.ToList();
+					switch (values.Count) {
+						case 0: break;  // If none of the source rows have data, we don't are about this column.
+						case 1:         // If all of the source rows agree, use their value as-is.
+							retVal[column] = values[0];
+							break;
+						default:        // If the source rows have conflicting values, force the user to choose.
+							RequiredColumns.Add(column);
+							break;
+					}
+				}
+				retVal[nameof(Extensions.UIId)] = Sources.Last().Person.UIId();
+				return retVal;
+			}
+
+			public int RelationCount => Sources.Max(prd => prd.DataSet.Tables.Count);
+
+			public IList GetDetailList(int index, int relationIndex) {
+				if (index < 0 || index == Count - 1)
+					return null;
+				return ((IListSource)Sources[index].DataSet.Tables[relationIndex]).GetList();
+			}
+
+			public int GetRelationCount(int index) {
+				if (index < 0)
+					return RelationCount;
+				if (index == Count - 1)
+					return 0;
+				return Sources[index].DataSet.Tables.Count;
+			}
+
+			public string GetRelationDisplayName(int index, int relationIndex) {
+				if (index < 0 || index == Count - 1)
+					return null;
+				return Sources[index].DataSet.Tables[relationIndex].TableName;
+			}
+
+			public string GetRelationName(int index, int relationIndex) {
+				if (index < 0 || index == Count - 1)
+					return null;
+				return Sources[index].DataSet.Tables[relationIndex].TableName;
+			}
+
+			public bool IsMasterRowEmpty(int index, int relationIndex) {
+				return index == Count - 1;
+			}
 		}
-
-		#region Master-detail
-		private void gridView_MasterRowGetChildList(object sender, MasterRowGetChildListEventArgs e) {
-			if (gridView.GetRow(e.RowHandle) == targetEditor)
-				return;
-
-			var rowData = sources[gridView.GetDataSourceRowIndex(e.RowHandle)];
-			e.ChildList = ((IListSource)rowData.DataSet.Tables[e.RelationIndex]).GetList();
-		}
-
-		private void gridView_MasterRowGetRelationCount(object sender, MasterRowGetRelationCountEventArgs e) {
-			if (gridView.GetRow(e.RowHandle) == targetEditor)
-				return;
-
-			var rowData = sources[gridView.GetDataSourceRowIndex(e.RowHandle)];
-			e.RelationCount = rowData.DataSet.Tables.Count;
-		}
-
-		private void gridView_MasterRowGetRelationDisplayCaption(object sender, MasterRowGetRelationNameEventArgs e) {
-		}
-		private void gridView_MasterRowGetRelationName(object sender, MasterRowGetRelationNameEventArgs e) {
-			if (gridView.GetRow(e.RowHandle) == targetEditor)
-				return;
-
-			var rowData = sources[gridView.GetDataSourceRowIndex(e.RowHandle)];
-			e.RelationName = rowData.DataSet.Tables[e.RelationName].TableName;
-		}
-
-		private void gridView_MasterRowEmpty(object sender, MasterRowEmptyEventArgs e) {
-			if (gridView.GetRow(e.RowHandle) == targetEditor)
-				return;
-			e.IsEmpty = false;
-		}
-		#endregion
 
 		private void gridView_CellMerge(object sender, CellMergeEventArgs e) {
-			if (gridView.GetRow(e.RowHandle1) == targetEditor
-			 || gridView.GetRow(e.RowHandle2) == targetEditor) {
+			if (gridView.GetRow(e.RowHandle1) == gridSource.TargetEditor
+			 || gridView.GetRow(e.RowHandle2) == gridSource.TargetEditor) {
 				e.Handled = true;
 				e.Merge = false;
 			}
@@ -162,7 +172,7 @@ namespace ShomreiTorah.DirectoryManager {
 		private void gridView_DoubleClick(object sender, EventArgs e) {
 			var info = gridView.CalcHitInfo(gridView.GridControl.PointToClient(MousePosition));
 
-			if (!info.InRow || gridView.GetRow(info.RowHandle) == targetEditor)
+			if (!info.InRowCell || gridView.GetRow(info.RowHandle) == gridSource.TargetEditor)
 				return;
 			if (e is DXMouseEventArgs dx) dx.Handled = true;
 
