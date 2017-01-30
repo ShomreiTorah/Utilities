@@ -37,10 +37,12 @@ namespace ShomreiTorah.DirectoryManager {
 			});
 		}
 
+		public static ExternalDataManager DataManager { get; private set; }
+
 		protected override Form CreateMainForm() {
-			var data = new ExternalDataManager(DB.Default);
-			RegisterRowDetail<Person>(person => new PersonForm(data.GetPerson(person)) { MdiParent = MainForm }.Show());
-			return new MainForm(data);
+			DataManager = new ExternalDataManager(DB.Default);
+			RegisterRowDetail<Person>(person => new PersonForm(DataManager.GetPerson(person)) { MdiParent = MainForm }.Show());
+			return new MainForm(DataManager);
 		}
 
 		protected override DataSyncContext CreateDataContext() {

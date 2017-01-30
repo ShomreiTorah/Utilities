@@ -24,9 +24,9 @@ namespace ShomreiTorah.DirectoryManager {
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
-			DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
-			DevExpress.XtraGrid.GridLevelNode gridLevelNode3 = new DevExpress.XtraGrid.GridLevelNode();
+			DevExpress.XtraGrid.GridLevelNode gridLevelNode4 = new DevExpress.XtraGrid.GridLevelNode();
+			DevExpress.XtraGrid.GridLevelNode gridLevelNode5 = new DevExpress.XtraGrid.GridLevelNode();
+			DevExpress.XtraGrid.GridLevelNode gridLevelNode6 = new DevExpress.XtraGrid.GridLevelNode();
 			this.paymentsView = new ShomreiTorah.Data.UI.Grid.SmartGridView();
 			this.colDate = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colMethod = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
@@ -55,6 +55,7 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colAccount1 = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colModified1 = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colModifier1 = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
+			this.colUnlinkedAmount = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.emailView = new ShomreiTorah.Data.UI.Grid.SmartGridView();
 			this.colID1 = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colName = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
@@ -82,7 +83,10 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colTotalPaid = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colBalanceDue = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colSalutation = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
-			this.colUnlinkedAmount = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
+			this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
+			this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
+			this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+			this.mergeSelected = new DevExpress.XtraBars.BarButtonItem();
 			((System.ComponentModel.ISupportInitialize)(this.paymentsView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.paymentMethodEdit)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.checkNumberEdit)).BeginInit();
@@ -95,6 +99,7 @@ namespace ShomreiTorah.DirectoryManager {
 			((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stateEdit)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.personSourceEdit)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// paymentsView
@@ -251,22 +256,22 @@ namespace ShomreiTorah.DirectoryManager {
 			// 
 			this.grid.DataMember = "MasterDirectory";
 			this.grid.Dock = System.Windows.Forms.DockStyle.Fill;
-			gridLevelNode1.LevelTemplate = this.paymentsView;
-			gridLevelNode1.RelationName = "Payments";
-			gridLevelNode2.LevelTemplate = this.pledgesView;
-			gridLevelNode2.RelationName = "Pledges";
-			gridLevelNode3.LevelTemplate = this.emailView;
-			gridLevelNode3.RelationName = "EmailAddresses";
+			gridLevelNode4.LevelTemplate = this.paymentsView;
+			gridLevelNode4.RelationName = "Payments";
+			gridLevelNode5.LevelTemplate = this.pledgesView;
+			gridLevelNode5.RelationName = "Pledges";
+			gridLevelNode6.LevelTemplate = this.emailView;
+			gridLevelNode6.RelationName = "EmailAddresses";
 			this.grid.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
-            gridLevelNode1,
-            gridLevelNode2,
-            gridLevelNode3});
-			this.grid.Location = new System.Drawing.Point(0, 115);
+            gridLevelNode4,
+            gridLevelNode5,
+            gridLevelNode6});
+			this.grid.Location = new System.Drawing.Point(0, 141);
 			this.grid.MainView = this.gridView;
 			this.grid.Name = "grid";
 			this.grid.RegistrationCount = 53;
 			this.grid.ShowOnlyPredefinedDetails = true;
-			this.grid.Size = new System.Drawing.Size(1067, 426);
+			this.grid.Size = new System.Drawing.Size(1067, 400);
 			this.grid.TabIndex = 0;
 			this.grid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.pledgesView,
@@ -340,12 +345,16 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colAmount1.Visible = true;
 			this.colAmount1.VisibleIndex = 4;
 			// 
+			// colNote
+			// 
+			this.colNote.Name = "colNote";
+			// 
 			// colComments1
 			// 
 			this.colComments1.FieldName = "Comments";
 			this.colComments1.Name = "colComments1";
 			this.colComments1.Visible = true;
-			this.colComments1.VisibleIndex = 7;
+			this.colComments1.VisibleIndex = 6;
 			// 
 			// colAccount1
 			// 
@@ -372,6 +381,18 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colModifier1.OptionsColumn.AllowEdit = false;
 			this.colModifier1.OptionsColumn.AllowFocus = false;
 			this.colModifier1.OptionsColumn.ReadOnly = true;
+			// 
+			// colUnlinkedAmount
+			// 
+			this.colUnlinkedAmount.DisplayFormat.FormatString = "c";
+			this.colUnlinkedAmount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+			this.colUnlinkedAmount.FieldName = "UnlinkedAmount";
+			this.colUnlinkedAmount.MaxWidth = 85;
+			this.colUnlinkedAmount.Name = "colUnlinkedAmount";
+			this.colUnlinkedAmount.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "UnlinkedAmount", "{0:c} Total Unpaid-for")});
+			this.colUnlinkedAmount.Visible = true;
+			this.colUnlinkedAmount.VisibleIndex = 5;
 			// 
 			// emailView
 			// 
@@ -468,10 +489,11 @@ namespace ShomreiTorah.DirectoryManager {
 			this.gridView.OptionsDetail.SmartDetailExpandButtonMode = DevExpress.XtraGrid.Views.Grid.DetailExpandButtonMode.AlwaysEnabled;
 			this.gridView.OptionsFilter.UseNewCustomFilterDialog = true;
 			this.gridView.OptionsSelection.MultiSelect = true;
-			this.gridView.OptionsView.ShowFooter = true;
 			this.gridView.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowOnlyInEditor;
+			this.gridView.OptionsView.ShowFooter = true;
 			this.gridView.SortInfo.AddRange(new DevExpress.XtraGrid.Columns.GridColumnSortInfo[] {
             new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.colLastName, DevExpress.Data.ColumnSortOrder.Ascending)});
+			this.gridView.SelectionChanged += new DevExpress.Data.SelectionChangedEventHandler(this.gridView_SelectionChanged);
 			// 
 			// colId
 			// 
@@ -493,7 +515,7 @@ namespace ShomreiTorah.DirectoryManager {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "LastName", "{0} People")});
 			this.colLastName.Visible = true;
 			this.colLastName.VisibleIndex = 0;
-			this.colLastName.Width = 82;
+			this.colLastName.Width = 83;
 			// 
 			// colHisName
 			// 
@@ -501,7 +523,7 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colHisName.Name = "colHisName";
 			this.colHisName.Visible = true;
 			this.colHisName.VisibleIndex = 2;
-			this.colHisName.Width = 63;
+			this.colHisName.Width = 64;
 			// 
 			// colHerName
 			// 
@@ -509,7 +531,7 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colHerName.Name = "colHerName";
 			this.colHerName.Visible = true;
 			this.colHerName.VisibleIndex = 1;
-			this.colHerName.Width = 66;
+			this.colHerName.Width = 67;
 			// 
 			// colFullName
 			// 
@@ -518,7 +540,7 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colFullName.SortMode = DevExpress.XtraGrid.ColumnSortMode.Custom;
 			this.colFullName.Visible = true;
 			this.colFullName.VisibleIndex = 3;
-			this.colFullName.Width = 65;
+			this.colFullName.Width = 66;
 			// 
 			// colAddress
 			// 
@@ -526,7 +548,7 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colAddress.Name = "colAddress";
 			this.colAddress.Visible = true;
 			this.colAddress.VisibleIndex = 5;
-			this.colAddress.Width = 58;
+			this.colAddress.Width = 59;
 			// 
 			// colCity
 			// 
@@ -534,7 +556,7 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colCity.Name = "colCity";
 			this.colCity.Visible = true;
 			this.colCity.VisibleIndex = 6;
-			this.colCity.Width = 38;
+			this.colCity.Width = 39;
 			// 
 			// colState
 			// 
@@ -544,7 +566,7 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colState.Name = "colState";
 			this.colState.Visible = true;
 			this.colState.VisibleIndex = 7;
-			this.colState.Width = 45;
+			this.colState.Width = 46;
 			// 
 			// stateEdit
 			// 
@@ -614,7 +636,7 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colZip.Name = "colZip";
 			this.colZip.Visible = true;
 			this.colZip.VisibleIndex = 8;
-			this.colZip.Width = 34;
+			this.colZip.Width = 36;
 			// 
 			// colPhone
 			// 
@@ -623,7 +645,7 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colPhone.Name = "colPhone";
 			this.colPhone.Visible = true;
 			this.colPhone.VisibleIndex = 9;
-			this.colPhone.Width = 49;
+			this.colPhone.Width = 50;
 			// 
 			// colSource
 			// 
@@ -632,7 +654,7 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colSource.Name = "colSource";
 			this.colSource.Visible = true;
 			this.colSource.VisibleIndex = 10;
-			this.colSource.Width = 52;
+			this.colSource.Width = 53;
 			// 
 			// personSourceEdit
 			// 
@@ -658,7 +680,7 @@ namespace ShomreiTorah.DirectoryManager {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "TotalPledged", "All Pledges: {0:c}")});
 			this.colTotalPledged.Visible = true;
 			this.colTotalPledged.VisibleIndex = 11;
-			this.colTotalPledged.Width = 133;
+			this.colTotalPledged.Width = 129;
 			// 
 			// colTotalPaid
 			// 
@@ -673,7 +695,7 @@ namespace ShomreiTorah.DirectoryManager {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "TotalPaid", "Total Paid: {0:c}")});
 			this.colTotalPaid.Visible = true;
 			this.colTotalPaid.VisibleIndex = 12;
-			this.colTotalPaid.Width = 129;
+			this.colTotalPaid.Width = 125;
 			// 
 			// colBalanceDue
 			// 
@@ -688,7 +710,7 @@ namespace ShomreiTorah.DirectoryManager {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "BalanceDue", "Total Dues: {0:c}")});
 			this.colBalanceDue.Visible = true;
 			this.colBalanceDue.VisibleIndex = 13;
-			this.colBalanceDue.Width = 127;
+			this.colBalanceDue.Width = 131;
 			// 
 			// colSalutation
 			// 
@@ -696,19 +718,42 @@ namespace ShomreiTorah.DirectoryManager {
 			this.colSalutation.Name = "colSalutation";
 			this.colSalutation.Visible = true;
 			this.colSalutation.VisibleIndex = 4;
-			this.colSalutation.Width = 67;
+			this.colSalutation.Width = 68;
 			// 
-			// colUnlinkedAmount
+			// ribbonControl1
 			// 
-			this.colUnlinkedAmount.DisplayFormat.FormatString = "c";
-			this.colUnlinkedAmount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-			this.colUnlinkedAmount.FieldName = "UnlinkedAmount";
-			this.colUnlinkedAmount.MaxWidth = 85;
-			this.colUnlinkedAmount.Name = "colUnlinkedAmount";
-			this.colUnlinkedAmount.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "UnlinkedAmount", "{0:c} Total Unpaid-for")});
-			this.colUnlinkedAmount.Visible = true;
-			this.colUnlinkedAmount.VisibleIndex = 5;
+			this.ribbonControl1.ExpandCollapseItem.Id = 0;
+			this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.ribbonControl1.ExpandCollapseItem,
+            this.mergeSelected});
+			this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
+			this.ribbonControl1.MaxItemId = 2;
+			this.ribbonControl1.Name = "ribbonControl1";
+			this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
+            this.ribbonPage1});
+			this.ribbonControl1.Size = new System.Drawing.Size(1067, 141);
+			// 
+			// ribbonPage1
+			// 
+			this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.ribbonPageGroup1});
+			this.ribbonPage1.Name = "ribbonPage1";
+			this.ribbonPage1.Text = "People";
+			// 
+			// ribbonPageGroup1
+			// 
+			this.ribbonPageGroup1.ItemLinks.Add(this.mergeSelected);
+			this.ribbonPageGroup1.Name = "ribbonPageGroup1";
+			this.ribbonPageGroup1.ShowCaptionButton = false;
+			this.ribbonPageGroup1.Text = "Selection";
+			// 
+			// mergeSelected
+			// 
+			this.mergeSelected.Caption = "Merge Selected People";
+			this.mergeSelected.Enabled = false;
+			this.mergeSelected.Id = 1;
+			this.mergeSelected.Name = "mergeSelected";
+			this.mergeSelected.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mergeSelected_ItemClick);
 			// 
 			// MasterDirectoryGridForm
 			// 
@@ -716,9 +761,9 @@ namespace ShomreiTorah.DirectoryManager {
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1067, 541);
 			this.Controls.Add(this.grid);
+			this.Controls.Add(this.ribbonControl1);
 			this.Name = "MasterDirectoryGridForm";
 			this.Text = "All People";
-			this.Controls.SetChildIndex(this.grid, 0);
 			((System.ComponentModel.ISupportInitialize)(this.paymentsView)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.paymentMethodEdit)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.checkNumberEdit)).EndInit();
@@ -731,7 +776,9 @@ namespace ShomreiTorah.DirectoryManager {
 			((System.ComponentModel.ISupportInitialize)(this.gridView)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.stateEdit)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.personSourceEdit)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -793,5 +840,9 @@ namespace ShomreiTorah.DirectoryManager {
 		private Data.UI.Controls.RepositoryItemCheckNumberEdit checkNumberEdit;
 		private Data.UI.Grid.SmartGridColumn colSalutation;
 		private Data.UI.Grid.SmartGridColumn colUnlinkedAmount;
+		private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl1;
+		private DevExpress.XtraBars.BarButtonItem mergeSelected;
+		private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
+		private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
 	}
 }
