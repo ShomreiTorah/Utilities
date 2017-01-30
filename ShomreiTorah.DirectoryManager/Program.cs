@@ -77,5 +77,13 @@ namespace ShomreiTorah.DirectoryManager {
 		public static int UIId(this Person person) {
 			return person.Field<int?>(nameof(UIId)) ?? (int)(person[nameof(UIId)] = ++nextId);
 		}
+
+		public static TRow AssignFrom<TRow>(this TRow target, TRow source) where TRow : Row {
+			foreach (var column in source.Schema.Columns) {
+				if (!column.ReadOnly)
+					target[column] = source[column];
+			}
+			return target;
+		}
 	}
 }

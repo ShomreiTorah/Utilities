@@ -60,18 +60,10 @@
   <ItemGroup>
     <Reference Include="DevExpress.Charts.v16.2.Core" />
     <Reference Include="DevExpress.Data.v16.2" />
-    <Reference Include="DevExpress.PivotGrid.v16.2.Core" />
-    <Reference Include="DevExpress.Pdf.v16.2.Core" />
-    <Reference Include="DevExpress.Printing.v16.2.Core" />
     <Reference Include="DevExpress.Utils.v16.2" />
     <Reference Include="DevExpress.XtraBars.v16.2, Version=16.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraCharts.v16.2.Wizard" />
-    <Reference Include="DevExpress.XtraCharts.v16.2" />
-    <Reference Include="DevExpress.XtraCharts.v16.2.UI" />
     <Reference Include="DevExpress.XtraEditors.v16.2" />
     <Reference Include="DevExpress.XtraGrid.v16.2, Version=16.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraPivotGrid.v16.2" />
-    <Reference Include="DevExpress.XtraPrinting.v16.2" />
     <Reference Include="Microsoft.WindowsAPICodePack">
       <HintPath>..\packages\Windows7APICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -109,6 +101,12 @@
     <Compile Include="MasterDirectoryGridForm.Designer.cs">
       <DependentUpon>MasterDirectoryGridForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MergeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MergeForm.Designer.cs">
+      <DependentUpon>MergeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PersonForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MasterDirectoryGridForm.resx">
       <DependentUpon>MasterDirectoryGridForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MergeForm.resx">
+      <DependentUpon>MergeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PersonForm.resx">
       <DependentUpon>PersonForm.cs</DependentUpon>

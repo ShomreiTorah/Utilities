@@ -90,11 +90,12 @@ namespace ShomreiTorah.DirectoryManager {
 
 			using (var transaction = person.Owner.Connection.BeginTransaction()) {
 				int rowCount = person.Owner.MergePerson(transaction, person, target.person.Person);
-				ConfirmOperation(
-					transaction,
-					"Are you sure you want to commit merging " + Text + " into " + target.Text + "?\n"
-				  + "This will affect " + rowCount + " rows, and will delete the row for " + Text
-				);
+				transaction.Rollback();
+				new MergeForm(
+					new[] {person, target.person}, 
+					$"Are you sure you want to commit merging {Text} into {target.Text}?\n"
+				  + $"This will affect {rowCount} rows, and will delete the row for {Text}"
+				).ShowDialog(this);
 			}
 		}
 
