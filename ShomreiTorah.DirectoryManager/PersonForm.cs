@@ -49,18 +49,22 @@ namespace ShomreiTorah.DirectoryManager {
 
 				var view = new GridView();
 				grid.MainView = view;
-				view.PopulateColumns();
-
-				view.OptionsBehavior.Editable = false;
-
-				foreach (GridColumn column in view.Columns) {
-					if (hiddenFields.Contains(column.FieldName)
-					 || column.FieldName == pluralizer.Singularize(Path.GetExtension(table.TableName).TrimStart('.')) + "Id")
-						column.Visible = false;
-				}
-
-				view.BestFitColumns();
+				CustomizeDetailView(table, view);
 			}
+		}
+
+		public static void CustomizeDetailView(DataTable table, GridView view) {
+			view.PopulateColumns();
+
+			view.OptionsBehavior.Editable = false;
+
+			foreach (GridColumn column in view.Columns) {
+				if (hiddenFields.Contains(column.FieldName)
+				 || column.FieldName == pluralizer.Singularize(Path.GetExtension(table.TableName).TrimStart('.')) + "Id")
+					column.Visible = false;
+			}
+
+			view.BestFitColumns();
 		}
 
 		PersonForm[] otherForms;
@@ -92,7 +96,7 @@ namespace ShomreiTorah.DirectoryManager {
 				int rowCount = person.Owner.MergePerson(transaction, person, target.person.Person);
 				transaction.Rollback();
 				new MergeForm(
-					new[] {person, target.person}, 
+					new[] { person, target.person },
 					$"Are you sure you want to commit merging {Text} into {target.Text}?\n"
 				  + $"This will affect {rowCount} rows, and will delete the row for {Text}"
 				).ShowDialog(this);

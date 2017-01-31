@@ -183,5 +183,13 @@ namespace ShomreiTorah.DirectoryManager {
 			);
 		}
 
+		private void gridView_MasterRowGetLevelDefaultView(object sender, MasterRowGetLevelDefaultViewEventArgs e) {
+			var rowData = gridSource.Sources[gridView.GetDataSourceRowIndex(e.RowHandle)];
+			e.DefaultView = new GridView(gridControl1);
+			e.DefaultView.DataSourceChanged += (senderClone, _) => {
+				// senderClone is the clone for this expansion; e.DefaultView is the pattern view.
+				PersonForm.CustomizeDetailView(rowData.DataSet.Tables[e.RelationIndex], (GridView)senderClone);
+			};
+		}
 	}
 }

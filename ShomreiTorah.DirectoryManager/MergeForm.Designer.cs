@@ -49,14 +49,15 @@
 			// 
 			this.gridView.GridControl = this.gridControl1;
 			this.gridView.Name = "gridView";
-			this.gridView.OptionsView.AllowCellMerge = true;
 			this.gridView.OptionsBehavior.AllowPixelScrolling = DevExpress.Utils.DefaultBoolean.False;
 			this.gridView.OptionsDetail.EnableDetailToolTip = true;
+			this.gridView.OptionsView.AllowCellMerge = true;
 			this.gridView.OptionsView.ShowGroupPanel = false;
+			this.gridView.CellMerge += new DevExpress.XtraGrid.Views.Grid.CellMergeEventHandler(this.gridView_CellMerge);
 			this.gridView.RowStyle += new DevExpress.XtraGrid.Views.Grid.RowStyleEventHandler(this.gridView_RowStyle);
+			this.gridView.MasterRowGetLevelDefaultView += new DevExpress.XtraGrid.Views.Grid.MasterRowGetLevelDefaultViewEventHandler(this.gridView_MasterRowGetLevelDefaultView);
 			this.gridView.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gridView_ShowingEditor);
 			this.gridView.DoubleClick += new System.EventHandler(this.gridView_DoubleClick);
-			this.gridView.CellMerge += new  DevExpress.XtraGrid.Views.Grid.CellMergeEventHandler(this.gridView_CellMerge);
 			// 
 			// cancel
 			// 
