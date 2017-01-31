@@ -37,10 +37,10 @@
 			this.gridControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridControl1.Location = new System.Drawing.Point(12, 45);
+			this.gridControl1.Location = new System.Drawing.Point(12, 79);
 			this.gridControl1.MainView = this.gridView;
 			this.gridControl1.Name = "gridControl1";
-			this.gridControl1.Size = new System.Drawing.Size(487, 242);
+			this.gridControl1.Size = new System.Drawing.Size(706, 292);
 			this.gridControl1.TabIndex = 0;
 			this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView});
@@ -63,7 +63,7 @@
 			// 
 			this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancel.Location = new System.Drawing.Point(424, 293);
+			this.cancel.Location = new System.Drawing.Point(643, 377);
 			this.cancel.Name = "cancel";
 			this.cancel.Size = new System.Drawing.Size(75, 23);
 			this.cancel.TabIndex = 1;
@@ -72,7 +72,7 @@
 			// merge
 			// 
 			this.merge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.merge.Location = new System.Drawing.Point(343, 293);
+			this.merge.Location = new System.Drawing.Point(562, 377);
 			this.merge.Name = "merge";
 			this.merge.Size = new System.Drawing.Size(75, 23);
 			this.merge.TabIndex = 2;
@@ -83,11 +83,13 @@
 			// 
 			this.label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.label.Appearance.Options.UseTextOptions = true;
+			this.label.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
 			this.label.AutoEllipsis = true;
 			this.label.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
 			this.label.Location = new System.Drawing.Point(12, 12);
 			this.label.Name = "label";
-			this.label.Size = new System.Drawing.Size(487, 27);
+			this.label.Size = new System.Drawing.Size(706, 49);
 			this.label.TabIndex = 3;
 			this.label.Text = "labelControl1\r\nLine 2";
 			this.label.UseMnemonic = false;
@@ -96,7 +98,7 @@
 			// 
 			this.AcceptButton = this.merge;
 			this.CancelButton = this.cancel;
-			this.ClientSize = new System.Drawing.Size(511, 328);
+			this.ClientSize = new System.Drawing.Size(730, 412);
 			this.Controls.Add(this.label);
 			this.Controls.Add(this.merge);
 			this.Controls.Add(this.cancel);

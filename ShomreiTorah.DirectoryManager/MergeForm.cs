@@ -60,6 +60,13 @@ namespace ShomreiTorah.DirectoryManager {
 				return;
 
 			target.Person.AssignFrom(gridSource.TargetEditor);
+			Program.Current.SaveDatabase();
+			using (var transaction = target.Owner.Connection.BeginTransaction()) {
+				PerformMerge(transaction);
+				transaction.Commit();
+			}
+			Program.Current.RefreshDatabase();
+
 			DialogResult = DialogResult.OK;
 		}
 
@@ -111,7 +118,7 @@ namespace ShomreiTorah.DirectoryManager {
 				foreach (var column in Person.Schema.Columns.Where(c => !c.ReadOnly && c.Name != nameof(Extensions.UIId))) {
 					var values = Sources
 						.Select(r => r.Person[column])
-						.Where(v => !Equals(v, column.DefaultValue))
+						.Where(v => !Equals(v, column.DefaultValue) && v != null && !v.Equals(""))
 						.Distinct()
 						.ToList();
 					switch (values.Count) {
@@ -124,6 +131,7 @@ namespace ShomreiTorah.DirectoryManager {
 							break;
 					}
 				}
+				retVal.Id = Sources.Last().Person.Id;
 				retVal[nameof(Extensions.UIId)] = Sources.Last().Person.UIId();
 				return retVal;
 			}
