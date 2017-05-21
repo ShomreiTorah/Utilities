@@ -60,6 +60,9 @@ namespace ShomreiTorah.DirectoryManager {
 				return;
 
 			target.Person.AssignFrom(gridSource.TargetEditor);
+			// Prevent errors from non-nullable columns.
+			target.Person.Phone = target.Person.Phone ?? "";
+			target.Person.Salutation = target.Person.Salutation ?? "";
 			Program.Current.SaveDatabase();
 			using (var transaction = target.Owner.Connection.BeginTransaction()) {
 				PerformMerge(transaction);
